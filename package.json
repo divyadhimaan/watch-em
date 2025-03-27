@@ -25,6 +25,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@csstools/postcss-global-data": "^2.1.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "20.17.23",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.2",

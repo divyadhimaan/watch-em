@@ -30,6 +30,9 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 
+import { PiHouseDuotone, PiFilmSlateLight, PiFilmReelLight } from "react-icons/pi";
+
+
 import { RiVisaLine } from "react-icons/ri";
 
 import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa6";
@@ -57,15 +60,18 @@ export const iconLibrary: Record<string, IconType> = {
   close: HiMiniXMark,
   openLink: HiOutlineLink,
   discord: FaDiscord,
+  home: PiHouseDuotone,
   google: FaGoogle,
   github: FaGithub,
   arrowUpRight: HiArrowUpRight,
   minus: HiMiniMinus,
+  movies: PiFilmSlateLight,
   plus: HiMiniPlus,
   calendar: HiCalendar,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,
   search: HiOutlineMagnifyingGlass,
+  series: PiFilmReelLight,
   visa: RiVisaLine,
   security: HiOutlineShieldCheck,
   sparkle: HiOutlineSparkles,

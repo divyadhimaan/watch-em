@@ -1,5 +1,12 @@
 const baseURL = "demo.once-ui.com";
 
+const routes = {
+  "/": true,
+  "/movies": true,
+  "/series": true,
+  "/search": true,
+};
+
 // default customization applied to the HTML in the main layout.tsx
 const style = {
   theme: "dark", // dark | light
@@ -16,9 +23,9 @@ const style = {
 
 // default metadata
 const meta = {
-  title: "Once UI - Your Personalized Design System for Next.js",
+  title: "Watch'em",
   description:
-    "An open-source design system and component library for Next.js that emphasizes easy styling and accessibility in UI development.",
+    "A full-stack movie recommendation and playlist management web app that allows users to discover, organize, and share their favorite movies effortlessly.",
 };
 
 // default open graph data
@@ -45,4 +52,4 @@ const social = {
   discord: "https://discord.com/invite/5EyAQ4eNdS",
 };
 
-export { baseURL, style, meta, og, schema, social };
+export { baseURL, routes, style, meta, og, schema, social };
