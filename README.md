@@ -16,7 +16,7 @@ Watch'em is a full-stack movie recommendation and playlist management web app th
 
 ## Tech Stack
 
-- Frontend: ReactJs, NextJs, [Once UI](#once-ui)
+- Frontend: ReactJs, NextJs, Once UI
 
 - Backend: Java + Spring Boot (REST APIs), MongoDB, JWT Authentication.
 - APIs: TMDb, JustWatch/Reelgood, OMDB for movie data and streaming availability.
@@ -24,15 +24,4 @@ Watch'em is a full-stack movie recommendation and playlist management web app th
 
 ###  Once UI
 
-Start building your Next.js app in minutes with: 
-* **A robust token and style system** that simplifies customization and ensures consistency. 
-* **A copy-and-paste component library** that integrates seamlessly into your project.
-* **Interactive documentation** to apply your branding and set component properties.
-
-    ### Demo
-    [demo.once-ui.com](https://demo.once-ui.com)
-
-    ![Once UI](public/images/demo.png)
-
-    ### Documentation
-    [once-ui.com/docs](https://once-ui.com/docs)
+[once-ui.com/docs](https://once-ui.com/docs)
