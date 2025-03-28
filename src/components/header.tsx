@@ -17,6 +17,12 @@ export const Header = () => {
     const [searchText, setSearchText] = useState("");
     const searchRef = useRef<HTMLInputElement | null>(null);
 
+    useEffect(() => {
+        if (searchExpanded) {
+            searchRef.current?.focus();
+        }
+    }, [searchExpanded]);
+
     return (
         <>
             <Row position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
@@ -101,8 +107,9 @@ export const Header = () => {
                                             autoFocus
                                             placeholder="Type to search..."
                                             value={searchText}
+                                            ref={searchRef}
                                             onChange={(e) => setSearchText(e.target.value)}
-                                            onBlur={() => setSearchExpanded(false)}
+                                            onBlur={() => setTimeout(() => setSearchExpanded(false), 150)}
                                             style={{
                                                 width: "100%",
                                                 minWidth: "150px",
@@ -117,6 +124,25 @@ export const Header = () => {
 
 
                     <Row gap="12" hide="s">
+                        <Flex
+                            background="surface"
+                            border="neutral-medium"
+                            radius="m-4"
+                            shadow="l"
+                            padding="4"
+                            horizontal="center"
+                        >
+                            <ToggleButton prefixIcon="notification" onClick={() => alert("Notifications clicked")} selected={false} />
+                        </Flex><Flex
+                            background="surface"
+                            border="neutral-medium"
+                            radius="m-4"
+                            shadow="l"
+                            padding="4"
+                            horizontal="center"
+                        >
+                            <ToggleButton prefixIcon="person" onClick={() => alert("Notifications clicked")} selected={false} />
+                        </Flex>
                         <Row position="fixed" top="20" right="20">
                             <StyleOverlay position="fixed" top="8" right="8" style={{ height: "calc(100vh - var(--static-space-16))" }} />
                         </Row>

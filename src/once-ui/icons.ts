@@ -32,6 +32,7 @@ import {
 
 import { PiHouseDuotone, PiFilmSlateLight, PiFilmReelLight } from "react-icons/pi";
 
+import { IoNotifications } from "react-icons/io5";
 
 import { RiVisaLine } from "react-icons/ri";
 
@@ -66,6 +67,7 @@ export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
   minus: HiMiniMinus,
   movies: PiFilmSlateLight,
+  notification: IoNotifications, 
   plus: HiMiniPlus,
   calendar: HiCalendar,
   eye: HiOutlineEye,
