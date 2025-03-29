@@ -5,6 +5,7 @@ const routes = {
   "/movies": true,
   "/series": true,
   "/search": true,
+  "/login": true,
 };
 
 // default customization applied to the HTML in the main layout.tsx

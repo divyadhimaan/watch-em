@@ -133,6 +133,7 @@ export const Header = () => {
                             horizontal="center"
                         >
                             <ToggleButton prefixIcon="notification" onClick={() => alert("Notifications clicked")} selected={false} />
+                        
                         </Flex><Flex
                             background="surface"
                             border="neutral-medium"
@@ -141,7 +142,7 @@ export const Header = () => {
                             padding="4"
                             horizontal="center"
                         >
-                            <ToggleButton prefixIcon="person" onClick={() => alert("Notifications clicked")} selected={false} />
+                            <ToggleButton prefixIcon="person"  href="/login" selected={false} />
                         </Flex>
                         <Row position="fixed" top="20" right="20">
                             <StyleOverlay position="fixed" top="8" right="8" style={{ height: "calc(100vh - var(--static-space-16))" }} />

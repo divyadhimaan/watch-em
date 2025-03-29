@@ -5,6 +5,8 @@ import classNames from "classnames";
 import { headers } from "next/headers";
 import { Metadata } from "next";
 
+// import { RouteGuard } from "@/components/RouteGuard";
+
 import { baseURL, style, meta, og, schema, social } from "@/once-ui/resources/config";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
