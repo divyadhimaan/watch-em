@@ -29,6 +29,8 @@ const page = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isFirstDialogOpen, setIsFirstDialogOpen] = useState(false);
+
 
     const validateLogin = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -140,6 +142,15 @@ const page = () => {
                                 });
                             }}
                         />
+
+                        <Button
+                            className="mt-32"
+                            prefixIcon="security"
+                            variant="secondary"
+                            onClick={() => setIsFirstDialogOpen(true)}
+                        >
+                            Password and security
+                        </Button>
                     </Column>
                 </Row>
             </Column>
