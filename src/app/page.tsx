@@ -33,6 +33,7 @@ import {
 } from "@/once-ui/components";
 import { CodeBlock, MediaUpload } from "@/once-ui/modules";
 import { Header } from "@/components/header";
+import { CarouselCards } from "@/components/carouselCards";
 
 export default function Home() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -172,6 +173,7 @@ export default function Home() {
               colorEnd: "static-transparent",
             }}
           />
+          <CarouselCards />
           <Column fillWidth horizontal="center" gap="32" padding="32" position="relative">
             <InlineCode radius="xl" shadow="m" fit paddingX="16" paddingY="8">
               Start by editing
