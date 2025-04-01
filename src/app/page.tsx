@@ -105,6 +105,7 @@ export default function Home() {
         blur={0.25}
       />
       <Header />
+      <CarouselCards />
       <Column
         overflow="hidden"
         as="main"
@@ -115,6 +116,7 @@ export default function Home() {
         border="neutral-alpha-weak"
         fillWidth
       >
+        <CarouselCards />
         <Column
           fillWidth
           horizontal="center"
@@ -123,6 +125,7 @@ export default function Home() {
           paddingTop="80"
           position="relative"
         >
+          
           <Background
             mask={{
               x: 0,

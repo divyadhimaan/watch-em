@@ -1,8 +1,8 @@
 import React from 'react'
 import {
-    Carousel,
     ToggleButton,
 } from "@/once-ui/components";
+import { Carousel } from "@/components/carousel";
 
 import styles from "@/components/carouselCards.module.scss";
 
@@ -31,7 +31,7 @@ export const CarouselCards = () => {
             <div className={styles.overlay}>
               <h2 className={styles.title}>{item.title}</h2>
               <button className={styles.playButton}>
-              <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} /> Let’s Play Movie
+              <ToggleButton prefixIcon="home" href="/" selected={false} /> Let’s Play Movie
               </button>
             </div>
           ),
@@ -40,4 +40,3 @@ export const CarouselCards = () => {
       />
     );
   };
-
