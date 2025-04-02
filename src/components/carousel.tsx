@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Flex, RevealFx, Scroller, SmartImage } from "@/once-ui/components";
-// import { SpacingToken } from "@/once-ui/styles";
+import { Flex, RevealFx, Scroller, SmartImage, Fade } from "@/once-ui/components";
 
 interface Image {
   src: string;
@@ -14,7 +13,7 @@ interface CarouselProps extends React.ComponentProps<typeof Flex> {
   sizes?: string;
   revealedByDefault?: boolean;
   autoSlideInterval?: number;
-  height?: number | string;
+  height?: number;
 }
 
 const Carousel: React.FC<CarouselProps> = ({
@@ -43,13 +42,13 @@ const Carousel: React.FC<CarouselProps> = ({
   const handleControlClick = (nextIndex: number) => {
     if (nextIndex !== activeIndex && !transitionTimeoutRef.current) {
       preloadNextImage(nextIndex);
-  
-      setIsTransitioning(false); // Start fade-out
-  
+
+      setIsTransitioning(false);
+
       setTimeout(() => {
-        setActiveIndex(nextIndex); // Change image
-        setIsTransitioning(true);  // Start fade-in
-      }, 200); // Reduced delay for a smooth transition
+        setActiveIndex(nextIndex);
+        setIsTransitioning(true);
+      }, 200);
     }
   };
 
@@ -57,14 +56,14 @@ const Carousel: React.FC<CarouselProps> = ({
   useEffect(() => {
     if (images.length > 1 && autoSlideInterval > 0) {
       autoSlideTimeoutRef.current = setInterval(() => {
-        setIsTransitioning(false); 
+        setIsTransitioning(false);
         setTimeout(() => {
           setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
-          setIsTransitioning(true); 
+          setIsTransitioning(true);
         }, 200);
       }, autoSlideInterval);
     }
-  
+
     return () => clearInterval(autoSlideTimeoutRef.current);
   }, [images.length, autoSlideInterval]);
 
@@ -82,6 +81,20 @@ const Carousel: React.FC<CarouselProps> = ({
         speed="fast"
       >
         <div style={{ position: "relative", width: "100%", height: height }}>
+          <Fade
+            zIndex={3}
+            pattern={{
+              display: true,
+              size: "4",
+            }}
+            position="fixed"
+            top="0"
+            left="0"
+            to="bottom"
+            height={5}
+            fillWidth
+            blur={0.25}
+          />
           {images.map((image, index) => (
             <SmartImage
               key={index}
@@ -93,7 +106,7 @@ const Carousel: React.FC<CarouselProps> = ({
               aspectRatio={aspectRatio}
               src={image.src}
               style={{
-                cursor: images.length > 1 ? "pointer" : "default",
+                // cursor: images.length > 1 ? "pointer" : "default",
                 position: "absolute",
                 top: 0,
                 left: 0,

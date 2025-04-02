@@ -33,6 +33,7 @@ import {
 } from "@/once-ui/components";
 import { CodeBlock, MediaUpload } from "@/once-ui/modules";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { CarouselCards } from "@/components/carouselCards";
 
 export default function Home() {
@@ -109,15 +110,14 @@ export default function Home() {
       <Column
         overflow="hidden"
         as="main"
-        maxWidth="l"
+        maxWidth="xl"
         position="relative"
         radius="xl"
         horizontal="center"
         border="neutral-alpha-weak"
         fillWidth
       >
-        <CarouselCards />
-        <Column
+        {/* <Column
           fillWidth
           horizontal="center"
           gap="48"
@@ -176,7 +176,6 @@ export default function Home() {
               colorEnd: "static-transparent",
             }}
           />
-          <CarouselCards />
           <Column fillWidth horizontal="center" gap="32" padding="32" position="relative">
             <InlineCode radius="xl" shadow="m" fit paddingX="16" paddingY="8">
               Start by editing
@@ -258,11 +257,11 @@ export default function Home() {
             </Text>
 
           </Column>
-        </Column>
+        </Column> */}
 
 
         {/* PROFILE */}
-        <Row
+        {/* <Row
           horizontal="center"
           paddingX="32"
           paddingY="64"
@@ -463,10 +462,10 @@ export default function Home() {
               </Column>
             </Column>
           </Column>
-        </Row>
+        </Row> */}
 
         {/* CODE PREVIEW */}
-        <TiltFx fillWidth paddingX="32" paddingTop="64">
+        {/* <TiltFx fillWidth paddingX="32" paddingTop="64">
           <Column
             border="neutral-alpha-weak"
             paddingX="32"
@@ -531,9 +530,9 @@ export default function Home() {
               />
             </Column>
           </Column>
-        </TiltFx>
+        </TiltFx> */}
 
-        <Row
+        {/* <Row
           position="relative"
           fillWidth
           paddingX="32"
@@ -589,49 +588,13 @@ export default function Home() {
             ))}
           </Row>
           <Row maxWidth="32" borderTop="neutral-alpha-weak" borderBottom="neutral-medium"></Row>
-        </Row>
-        <Row
-          position="relative"
-          as="footer"
-          fillWidth
-          paddingX="l"
-          paddingTop="128"
-          paddingBottom="80"
-        >
-          <Background
-            borderTop="brand-alpha-strong"
-            mask={{
-              x: 50,
-              y: 0,
-            }}
-            position="absolute"
-            grid={{
-              display: true,
-              width: "0.25rem",
-              color: "brand-alpha-strong",
-              height: "0.25rem",
-            }}
-          />
-          <Column
-            position="relative"
-            textVariant="body-default-xs"
-            onBackground="neutral-medium"
-            horizontal="center"
-            align="center"
-            fillWidth
-            gap="16"
-          >
-            <Logo wordmark={false} size="s" />
-            <Text size="m">
-              <Text onBackground="neutral-weak">2025 /</Text> Watch'em
-              
-            </Text>
-            <Text onBackground="neutral-weak">Made with ♥ by Divya </Text>
-          </Column>
-        </Row>
+        </Row> */}
+
+        <Footer />
+
       </Column>
 
-      <Dialog
+      {/* <Dialog
         isOpen={isFirstDialogOpen}
         onClose={() => setIsFirstDialogOpen(false)}
         title="Account details"
@@ -674,7 +637,7 @@ export default function Home() {
         }
       >
         <PasswordInput id="resetPassword" label="New password" />
-      </Dialog>
+      </Dialog> */}
     </Column>
   );
 }
