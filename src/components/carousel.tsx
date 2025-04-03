@@ -83,17 +83,14 @@ const Carousel: React.FC<CarouselProps> = ({
         <div style={{ position: "relative", width: "100%", height: height }}>
           <Fade
             zIndex={3}
-            pattern={{
-              display: true,
-              size: "4",
-            }}
             position="fixed"
             top="0"
+            base="overlay"
             left="0"
             to="bottom"
-            height={5}
+            height={8}
             fillWidth
-            blur={0.25}
+            blur={0.45}
           />
           {images.map((image, index) => (
             <SmartImage

@@ -29,7 +29,7 @@ export const Header = () => {
                 <Row
                     data-border="rounded"
                     horizontal="space-between"
-                    maxWidth="l"
+                    maxWidth="xl"
                     paddingRight="64"
                     paddingLeft="32"
                     paddingY="20"
