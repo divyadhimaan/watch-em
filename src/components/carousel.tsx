@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Flex, RevealFx, Scroller, SmartImage, Fade } from "@/once-ui/components";
+import { Flex, RevealFx, Scroller, SmartImage, Fade, ToggleButton } from "@/once-ui/components";
 
 interface Image {
   src: string;
@@ -92,28 +92,76 @@ const Carousel: React.FC<CarouselProps> = ({
             fillHeight
             blur={0.5}
           />
-          {images.map((image, index) => (
-            <SmartImage
-              key={index}
-              sizes={sizes}
-              priority
-              radius="l"
-              border="neutral-alpha-weak"
-              alt={image.alt}
-              aspectRatio={aspectRatio}
-              src={image.src}
+          <div style={{ position: "relative", width: "100%", height: "100%" }}>
+            {images.map((image, index) => (
+              <SmartImage
+                key={index}
+                sizes={sizes}
+                priority
+                radius="l"
+                border="neutral-alpha-weak"
+                alt={image.alt}
+                aspectRatio={aspectRatio}
+                src={image.src}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: activeIndex === index ? 1 : 0,
+                  transition: "opacity 0.5s ease-in-out",
+                }}
+              />
+            ))}
+
+            <div
               style={{
-                // cursor: images.length > 1 ? "pointer" : "default",
                 position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                opacity: activeIndex === index ? 1 : 0,
-                transition: "opacity 0.5s ease-in-out",
+                top: "50%",
+                // left: "10%", 
+                transform: "translateY(-50%)",
+                color: "white",
+                textAlign: "left",
+                textShadow: "3px 3px 6px rgba(0, 0, 0, 0.8)",
+                zIndex: 100,
+                width: "40%",
+                padding: "20px",
+                borderRadius: "12px",
               }}
-            />
-          ))}
+            >
+              {/* Movie title */}
+              <div
+                style={{
+                  fontSize: "2.8rem", // Slightly bigger for impact
+                  fontWeight: "900", // Extra bold for a strong look
+                  fontFamily: "'Montserrat', sans-serif", // Clean, modern, premium feel
+                  letterSpacing: "1.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                {/* {images[activeIndex]?.alt} */}
+                {images[activeIndex]?.catchPhrase}
+              </div>
+              <div
+                style={{
+                  fontSize: "1.3rem",
+                  fontWeight: "500",
+                  fontFamily: "'Cinzel', serif",
+                  marginTop: "12px",
+                  lineHeight: "1.5",
+                  opacity: 0.9,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "3px",
+                }}
+              >
+                {/* Movie Phrase */}
+                <ToggleButton size="l" prefixIcon="arrowRight" label="Stalk now!" selected={false} />
+                {/* <span>Stalk now!</span> */}
+              </div>
+            </div>
+          </div>
         </div>
       </RevealFx>
       {/* {images.length > 1 && (

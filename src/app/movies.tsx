@@ -6,38 +6,38 @@ export const walls = [
         "title": "Dilwale Dulhania Le Jayenge",
         "image": "/images/movies/movie-wall-4.jpg",
         "description": "When Raj meets Simran in Europe, it isn't love at first sight but when Simran moves to India for an arranged marriage, love makes its presence felt.",
-        "catch": "A love story that defies distance, destiny, and tradition!",
+        "catch": "Some love stories are meant to be... no matter the distance!",
     },
     {
         "id": randomUUID,
         "title": "Moana 2",
         "image": "/images/movies/movie-wall-1.jpg",
         "description": "After receiving an unexpected call from her wayfinding ancestors, Moana journeys alongside Maui and a new crew to the far seas of Oceania and into dangerous, long-lost waters for an adventure unlike anything she's ever faced.",
-        "catch": "Beyond the horizon lies an adventure like never before!",
+        "catch": "New oceans. New dangers. A destiny beyond the horizon!",
     },
     {
         "id": randomUUID,
-        "title": "Mufasa - the Lion King",
+        "title": "Mufasa - The Lion King",
         "image": "/images/movies/movie-wall-2.jpg",
         "description": "Mufasa, a cub lost and alone, meets a sympathetic lion named Taka, the heir to a royal bloodline. The chance meeting sets in motion an expansive journey of a group of misfits searching for their destiny.",
-        "catch": "Before the legend, there was the journey!",
+        "catch": "Before the king, there was the cub. The legend begins here!",
     },
     {
         "id": randomUUID,
         "title": "Captain America: Brave New World",
         "image": "/images/movies/movie-wall-3.jpg",
         "description": "Sam Wilson, the new Captain America, finds himself in the middle of an international incident and must discover the motive behind a nefarious global plan.",
-        "catch": "A hero's duty knows no borders!",
+        "catch": "A new shield. A new fight. A hero reborn!",
     },
     {
         "id": randomUUID,
         "title": "365 Days: This Day",
         "image": "/images/movies/movie-wall-5.jpg",
         "description": "Laura and Massimo are back and stronger than ever. But Massimo's family ties and a mysterious man bidding for Laura's heart complicate the lovers' lives.",
-        "catch": "Love, danger, and desire—can passion survive?",
+        "catch": "A love that burns. A secret that kills. Who will she choose?",
     },
-    
 ]
+
 
 export const movies = [
     {

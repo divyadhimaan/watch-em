@@ -30,6 +30,9 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 
+import { FaRegPlayCircle, FaArrowAltCircleRight } from "react-icons/fa";
+
+
 import { PiHouseDuotone, PiFilmSlateLight, PiFilmReelLight } from "react-icons/pi";
 
 import { IoNotifications } from "react-icons/io5";
@@ -41,6 +44,7 @@ import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa6";
 import { LuChevronsLeftRight } from "react-icons/lu";
 
 export const iconLibrary: Record<string, IconType> = {
+  arrowRight: FaArrowAltCircleRight,
   chevronUp: HiChevronUp,
   chevronDown: HiChevronDown,
   chevronRight: HiChevronRight,
@@ -68,6 +72,7 @@ export const iconLibrary: Record<string, IconType> = {
   minus: HiMiniMinus,
   movies: PiFilmSlateLight,
   notification: IoNotifications, 
+  play: FaRegPlayCircle,
   plus: HiMiniPlus,
   calendar: HiCalendar,
   eye: HiOutlineEye,
