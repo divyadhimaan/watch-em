@@ -87,10 +87,10 @@ const Carousel: React.FC<CarouselProps> = ({
             top="0"
             base="overlay"
             left="0"
-            to="bottom"
-            height={8}
-            fillWidth
-            blur={0.45}
+            to="right"
+            width={80}
+            fillHeight
+            blur={0.5}
           />
           {images.map((image, index) => (
             <SmartImage
