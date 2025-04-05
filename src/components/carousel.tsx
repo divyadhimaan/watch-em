@@ -77,7 +77,7 @@ const Carousel: React.FC<CarouselProps> = ({
         fillWidth
         trigger={isTransitioning}
         translateY="16"
-        aspectRatio={aspectRatio}
+        // aspectRatio={aspectRatio}
         speed="fast"
       >
         <div style={{ position: "relative", width: "100%", height: height }}>
@@ -133,14 +133,13 @@ const Carousel: React.FC<CarouselProps> = ({
               {/* Movie title */}
               <div
                 style={{
-                  fontSize: "2.8rem", // Slightly bigger for impact
-                  fontWeight: "900", // Extra bold for a strong look
-                  fontFamily: "'Montserrat', sans-serif", // Clean, modern, premium feel
+                  fontSize: "2.8rem",
+                  fontWeight: "900",
+                  fontFamily: "'Montserrat', sans-serif",
                   letterSpacing: "1.5px",
                   textTransform: "uppercase",
                 }}
               >
-                {/* {images[activeIndex]?.alt} */}
                 {images[activeIndex]?.catchPhrase}
               </div>
               <div
