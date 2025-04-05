@@ -30,16 +30,19 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 
-import { FaRegPlayCircle, FaArrowAltCircleRight } from "react-icons/fa";
+import { FaRegPlayCircle, FaArrowAltCircleRight, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel } from "react-icons/fa";
 
+import { MdFamilyRestroom } from "react-icons/md";
 
-import { PiHouseDuotone, PiFilmSlateLight, PiFilmReelLight } from "react-icons/pi";
+import { LuSwords } from "react-icons/lu";
 
-import { IoNotifications } from "react-icons/io5";
+import { PiHouseDuotone, PiFilmSlateLight, PiFilmReelLight, PiBookOpenTextFill } from "react-icons/pi";
+
+import { IoNotifications, IoSparkles } from "react-icons/io5";
 
 import { RiVisaLine } from "react-icons/ri";
 
-import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaGoogle, FaFireFlameCurved, FaFilm, FaGhost, FaMasksTheater } from "react-icons/fa6";
 
 import { LuChevronsLeftRight } from "react-icons/lu";
 
@@ -82,4 +85,18 @@ export const iconLibrary: Record<string, IconType> = {
   visa: RiVisaLine,
   security: HiOutlineShieldCheck,
   sparkle: HiOutlineSparkles,
+  fire: FaFireFlameCurved,
+  laugh: FaLaughSquint,
+  family: MdFamilyRestroom,
+  rocket: FaRocket,
+  swords: LuSwords,
+  compass: FaCompass,
+  sparkles: IoSparkles,
+  film: FaFilm,
+  ghost: FaGhost,
+  thumbsup: FaThumbsUp,
+  heart: FaHeart,
+  govel: FaGavel,
+  theatre: FaMasksTheater,
+  biography: PiBookOpenTextFill,
 };

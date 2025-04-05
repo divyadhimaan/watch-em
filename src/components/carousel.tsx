@@ -4,6 +4,7 @@ import { Flex, RevealFx, Scroller, SmartImage, Fade, ToggleButton } from "@/once
 interface Image {
   src: string;
   alt: string;
+  catchPhrase: string;
 }
 
 interface CarouselProps extends React.ComponentProps<typeof Flex> {

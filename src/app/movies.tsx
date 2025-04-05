@@ -135,7 +135,7 @@ export const movies = [
         "description": "Celebrates the birth of show business and tells of a visionary who rose from nothing to create a spectacle that became a worldwide sensation.",
         "catch": "A dream, a spectacle, and a show like no other!",
         "rating": 7.5,
-        "genre": ["Musical", "Comedy", "Biography"],
+        "genre": [ "Comedy", "Biography"],
         "streaming": ["Prime Video"],
         "release-year": 2017,
     },
