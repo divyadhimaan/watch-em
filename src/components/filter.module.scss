@@ -1,0 +1,38 @@
+.scrollWrapper {
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-right: 40px; // space for the button
+    scrollbar-width: none; // Firefox
+  }
+  
+  .scrollWrapper::-webkit-scrollbar {
+    display: none; // Chrome/Safari
+  }
+  
+  .blockAlign {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  
+  .swipeRight {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+  
+  .swipeRight:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  

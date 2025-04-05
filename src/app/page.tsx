@@ -35,6 +35,7 @@ import { CodeBlock, MediaUpload } from "@/once-ui/modules";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CarouselCards } from "@/components/carouselCards";
+import { Filter } from "@/components/filter"
 
 export default function Home() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -119,6 +120,8 @@ export default function Home() {
         fillWidth
       >
         <CarouselCards />
+        <Filter />
+        
         {/* <Column
           fillWidth
           horizontal="center"

@@ -6,7 +6,7 @@ import { Carousel } from "@/components/carousel";
 
 import styles from "@/components/carouselCards.module.scss";
 
-import { walls } from "@/app/movies"
+import { walls } from "@/resources/movies"
 
 // import { Icon } from "@/components/Icon"; 
 
