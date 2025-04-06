@@ -1,23 +1,32 @@
-.wrapper {
+
+  .wrapper {
     display: flex;
     align-items: center;
-    position: relative;
+    width: 100%;
+    overflow: hidden; /* prevents content from pushing scroll buttons off-screen */
+    gap: 8px;
+    padding: 1rem 0;
   }
   
   .scrollContainer {
     display: flex;
     overflow-x: auto;
+    width: 100%;
     scroll-behavior: smooth;
+    gap: 8px;
+    flex: 1;
     padding: 0 8px;
+  
+    // Optional: Hide scrollbar for cleaner look
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
   }
   
   .scrollContainer::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome, Safari */
   }
   
   .scrollButton {
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 9999px;
-    z-index: 10;
+    flex-shrink: 0;
   }
   
