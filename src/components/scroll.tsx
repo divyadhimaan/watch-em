@@ -2,7 +2,7 @@ import { MovieScroll } from "@/components/movieScroll";
 import { movies } from "@/resources/movies";
 
 export default function Scroll() {
-  const recommended = movies.slice(0, 8);
+  const recommended = movies.slice(0, 7);
   const hindi = movies.slice(13, 19);
   const watchAgain = movies.slice(8,15);
 

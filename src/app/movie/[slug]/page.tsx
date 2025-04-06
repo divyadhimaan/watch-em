@@ -118,6 +118,10 @@ const MoviePage = async ({ params }: Props) => {
 
 
                     </Grid>
+
+                    <Text as="h3" size="xl" weight="strong" align="start">
+                        Streaming
+                    </Text>
                     {movie.streaming && (
                         <Flex gap="12" wrap align="center">
                             {movie.streaming.map((platform) => {
@@ -125,7 +129,7 @@ const MoviePage = async ({ params }: Props) => {
                                 console.log("imgSrc", imgSrc);
                                 return imgSrc ? (
                                     <>
-                                        
+
                                         <SmartImage
                                             src={imgSrc}
                                             alt={platform}
@@ -134,7 +138,7 @@ const MoviePage = async ({ params }: Props) => {
                                             style={{
                                                 borderRadius: "0.75rem",
                                                 overflow: "hidden",
-                                                width: "200px",
+                                                width: "160px",
                                                 height: "80px",
                                             }}
                                         />
@@ -144,13 +148,7 @@ const MoviePage = async ({ params }: Props) => {
                                         {platform}
                                     </Text>
                                 );
-                                <Text key={platform} size="s" color="neutral-medium">
-                                    {platform}
-                                </Text>
                             })}
-                            {/* {movie.streaming.map((platform) => {
-                                const imgSrc = streamingImageMap[platform];
-                            } */}
                         </Flex>
                     )}
 
