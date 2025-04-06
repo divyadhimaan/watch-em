@@ -82,6 +82,7 @@ export const MovieScroll: React.FC<MovieScrollProps> = ({ title, movies }) => {
             {movies.map((movie) => (
               <Card
                 key={movie.id}
+                href={`/movie/${movie.id}`}
                 direction="column"
                 radius="l"
                 style={{

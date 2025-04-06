@@ -35,6 +35,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CarouselCards } from "@/components/carouselCards";
 import { Filter } from "@/components/filter"
+import { MovieScroll } from "@/components/movieScroll";
 import Scroll from "@/components/scroll";
 
 export default function Home() {

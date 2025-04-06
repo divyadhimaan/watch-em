@@ -5,6 +5,7 @@ interface Image {
   src: string;
   alt: string;
   catchPhrase: string;
+  id: string;
 }
 
 interface CarouselProps extends React.ComponentProps<typeof Flex> {
@@ -157,7 +158,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 }}
               >
                 {/* Movie Phrase */}
-                <ToggleButton size="l" prefixIcon="arrowRight" label="Stalk now!" selected={false} />
+                <ToggleButton size="l" prefixIcon="arrowRight" label="Stalk now!" selected={false} href={`/movie/${images[activeIndex].id}`}/>
                 {/* <span>Stalk now!</span> */}
               </div>
             </div>

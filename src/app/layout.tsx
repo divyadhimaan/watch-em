@@ -12,6 +12,8 @@ import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
 
 import { Inter } from "next/font/google";
 import { Roboto_Mono } from "next/font/google";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const primary = Inter({
   variable: "--font-primary",

@@ -46,6 +46,9 @@ import { FaDiscord, FaGithub, FaGoogle, FaFireFlameCurved, FaFilm, FaGhost, FaMa
 
 import { LuChevronsLeftRight } from "react-icons/lu";
 
+import { CiStar } from "react-icons/ci";
+
+
 export const iconLibrary: Record<string, IconType> = {
   arrowRight: FaArrowAltCircleRight,
   arrowRight2: FaArrowRight,
@@ -93,6 +96,7 @@ export const iconLibrary: Record<string, IconType> = {
   rocket: FaRocket,
   sword: LuSwords,
   star: FaStar,
+  hollowStar: CiStar,
   compass: FaCompass,
   sparkles: IoSparkles,
   film: FaFilm,
