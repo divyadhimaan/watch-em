@@ -153,5 +153,65 @@ export const movies = [
       streaming: ["Prime Video"],
       "release-year": 2017,
     },
+    {
+      id: "oppenheimer",
+      title: "Oppenheimer",
+      image: "/images/movies/movie-10.jpg",
+      description:
+        "The story of J. Robert Oppenheimer and the development of the atomic bomb during World War II.",
+      catch: "The man who changed the world—forever.",
+      rating: 8.5,
+      genre: ["Biography", "Drama", "History"],
+      streaming: ["Prime Video"],
+      "release-year": 2023,
+    },
+    {
+      id: "barbie",
+      title: "Barbie",
+      image: "/images/movies/movie-11.jpg",
+      description:
+        "Barbie and Ken embark on a journey of self-discovery after leaving the perfect world of Barbie Land.",
+      catch: "She's everything. He's just Ken.",
+      rating: 7.2,
+      genre: ["Comedy", "Fantasy", "Adventure"],
+      streaming: ["Jiostar"],
+      "release-year": 2023,
+    },
+    {
+      id: "dune-part-two",
+      title: "Dune: Part Two",
+      image: "/images/movies/movie-12.jpg",
+      description:
+        "Paul Atreides unites with the Fremen to seek revenge against those who destroyed his family.",
+      catch: "Destiny unfolds on the sands of Arrakis.",
+      rating: 8.8,
+      genre: ["Sci Fi", "Adventure", "Drama"],
+      streaming: ["Theatres"],
+      "release-year": 2024,
+    },
+    {
+      id: "frozen-3",
+      title: "Frozen 3",
+      image: "/images/movies/movie-13.jpg",
+      description:
+        "Elsa and Anna face a new magical threat from the North, testing the limits of sisterhood and bravery.",
+      catch: "The magic continues in an icy new adventure!",
+      rating: 6.9,
+      genre: ["Animation", "Adventure", "Fantasy"],
+      streaming: ["Jiostar"],
+      "release-year": 2025,
+    },
+    {
+      id: "rocky",
+      title: "Rocky",
+      image: "/images/movies/movie-14.jpg",
+      description:
+        "A small-time boxer gets a supremely rare chance to fight a heavy-weight champion in a bout in which he strives to go the distance.",
+      catch: "His whole life was a million-to-one shot.",
+      rating: 8.1,
+      genre: ["Drama", "Sport"],
+      streaming: ["Prime Video"],
+      "release-year": 1976,
+    },
   ]
   
