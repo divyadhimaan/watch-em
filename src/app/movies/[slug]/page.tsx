@@ -36,7 +36,6 @@ export default function FilteredMoviesPage({ params }: Props) {
       movie["release-year"].toString() === slug
   );
 
-  console.log("Filtered Movies (client):", filteredMovies);
   return (
     <>
       <Header />
