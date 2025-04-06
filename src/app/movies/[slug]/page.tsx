@@ -1,10 +1,9 @@
-import { GetStaticPaths, GetStaticProps } from "next";
 import { movies } from "@/resources/movies";
 import Image from "next/image";
 import { Card } from "@/once-ui/components";
 import Link from "next/link";
 
-export const getStaticPaths: GetStaticPaths = async () => {
+  export async function generateStaticParams() {
     const genres = new Set<string>();
     const platforms = new Set<string>();
     const years = new Set<string>();
@@ -15,33 +14,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
       years.add(movie["release-year"].toString());
     });
   
-    const paths = [...genres, ...platforms, ...years].map((tag) => ({
-      params: { slug: tag },
-    }));
+    const tags = [...genres, ...platforms, ...years];
   
-    return {
-      paths,
-      fallback: false, // set to true if you want to support more dynamic tags later
-    };
-  };
-
-const getStaticProps: GetStaticProps = async (context) => {
-    const slug = context.params?.slug?.toString().toLowerCase() || "";
-
-    const filteredMovies = movies.filter(
-        (movie) =>
-            movie.genre.map((g) => g.toLowerCase()).includes(slug) ||
-            movie.streaming.map((s) => s.toLowerCase()).includes(slug) ||
-            movie["release-year"].toString() === slug
-    );
-
-    return {
-        props: {
-            slug,
-            filteredMovies: filteredMovies || [],
-        },
-    };
-};
+    return tags.map((tag) => ({ slug: tag }));
+  }
 
 type Props = {
     slug: string;
@@ -49,7 +25,17 @@ type Props = {
   };
 
 
-export default function FilteredMoviesPage({ slug, filteredMovies }: Props) {
+export default function FilteredMoviesPage({ params }: Props) {
+    const slug = params.slug.toLowerCase();
+
+    const filteredMovies = movies.filter(
+        (movie) =>
+          movie.genre.map((g) => g.toLowerCase()).includes(slug) ||
+          movie.streaming.map((s) => s.toLowerCase()).includes(slug) ||
+          movie["release-year"].toString() === slug
+      );
+    
+    console.log("Filtered Movies (client):", filteredMovies);
     return (
         <div className="px-6 py-10 max-w-6xl mx-auto">
             {slug && (
@@ -60,20 +46,23 @@ export default function FilteredMoviesPage({ slug, filteredMovies }: Props) {
             {Array.isArray(filteredMovies) && filteredMovies.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {filteredMovies.map((movie) => (
-                        <Card key={movie.id} className="p-0 overflow-hidden">
-                            <div className="relative w-full h-64">
-                                <Image
-                                    src={movie.image}
-                                    alt={movie.title}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-4">
-                                <h3 className="text-xl font-semibold mb-1">{movie.title}</h3>
-                                <p className="text-sm text-muted-foreground">{movie.catch}</p>
-                            </div>
-                        </Card>
+                        <Card
+                        key={movie.id}
+                        className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+                      >
+                        <div className="relative w-full aspect-[2/3] group">
+                          <Image
+                            src={movie.image}
+                            alt={movie.title}
+                            width={300}
+                            height={400}
+                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                      
+
+                        </div>
+                      </Card>
+                      
                     ))}
                 </div>
             ) : (

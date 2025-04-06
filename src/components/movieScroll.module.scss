@@ -1,0 +1,23 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .scrollContainer {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 8px;
+  }
+  
+  .scrollContainer::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollButton {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 9999px;
+    z-index: 10;
+  }
+  

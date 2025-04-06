@@ -28,28 +28,16 @@ import {
   HiCheckCircle,
   HiOutlineShieldCheck,
   HiOutlineSparkles,
+  HiOutlineComputerDesktop,
 } from "react-icons/hi2";
-
-import { FaRegPlayCircle, FaArrowAltCircleRight, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel, FaArrowRight, FaArrowLeft, FaStar } from "react-icons/fa";
-
-import { MdFamilyRestroom } from "react-icons/md";
-
-import { LuSwords } from "react-icons/lu";
-
-import { PiHouseDuotone, PiFilmSlateLight, PiFilmReelLight, PiBookOpenTextFill } from "react-icons/pi";
-
-import { IoNotifications, IoSparkles } from "react-icons/io5";
 
 import { RiVisaLine } from "react-icons/ri";
 
-import { FaDiscord, FaGithub, FaGoogle, FaFireFlameCurved, FaFilm, FaGhost, FaMasksTheater } from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa6";
 
 import { LuChevronsLeftRight } from "react-icons/lu";
 
 export const iconLibrary: Record<string, IconType> = {
-  arrowRight: FaArrowAltCircleRight,
-  arrowRight2: FaArrowRight,
-  arrowLeft2: FaArrowLeft,
   chevronUp: HiChevronUp,
   chevronDown: HiChevronDown,
   chevronRight: HiChevronRight,
@@ -70,36 +58,20 @@ export const iconLibrary: Record<string, IconType> = {
   close: HiMiniXMark,
   openLink: HiOutlineLink,
   discord: FaDiscord,
-  home: PiHouseDuotone,
   google: FaGoogle,
   github: FaGithub,
   arrowUpRight: HiArrowUpRight,
   minus: HiMiniMinus,
-  movies: PiFilmSlateLight,
-  notification: IoNotifications, 
-  play: FaRegPlayCircle,
   plus: HiMiniPlus,
   calendar: HiCalendar,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,
   search: HiOutlineMagnifyingGlass,
-  series: PiFilmReelLight,
   visa: RiVisaLine,
   security: HiOutlineShieldCheck,
   sparkle: HiOutlineSparkles,
-  fire: FaFireFlameCurved,
-  laugh: FaLaughSquint,
-  family: MdFamilyRestroom,
-  rocket: FaRocket,
-  sword: LuSwords,
-  star: FaStar,
-  compass: FaCompass,
-  sparkles: IoSparkles,
-  film: FaFilm,
-  ghost: FaGhost,
-  thumbsup: FaThumbsUp,
-  heart: FaHeart,
-  gavel: FaGavel,
-  theatre: FaMasksTheater,
-  biography: PiBookOpenTextFill,
+  computer: HiOutlineComputerDesktop
 };
+
+export type IconLibrary = typeof iconLibrary;
+export type IconName = keyof IconLibrary;
