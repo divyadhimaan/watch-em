@@ -25,7 +25,6 @@ import {
   Card,
   Fade,
   StatusIndicator,
-  TiltFx,
   TagInput,
   Switch,
   Column,
@@ -36,6 +35,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CarouselCards } from "@/components/carouselCards";
 import { Filter } from "@/components/filter"
+import { MovieSroll } from "@/components/movieSroll";
 
 export default function Home() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -121,6 +121,7 @@ export default function Home() {
       >
         <CarouselCards />
         <Filter />
+        <MovieSroll />
         
         {/* <Column
           fillWidth

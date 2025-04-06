@@ -30,7 +30,7 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 
-import { FaRegPlayCircle, FaArrowAltCircleRight, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel, FaArrowRight } from "react-icons/fa";
+import { FaRegPlayCircle, FaArrowAltCircleRight, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
 import { MdFamilyRestroom } from "react-icons/md";
 
@@ -49,6 +49,7 @@ import { LuChevronsLeftRight } from "react-icons/lu";
 export const iconLibrary: Record<string, IconType> = {
   arrowRight: FaArrowAltCircleRight,
   arrowRight2: FaArrowRight,
+  arrowLeft2: FaArrowLeft,
   chevronUp: HiChevronUp,
   chevronDown: HiChevronDown,
   chevronRight: HiChevronRight,
