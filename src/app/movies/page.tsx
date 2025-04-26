@@ -14,7 +14,7 @@ export default function AllMoviesPage() {
           {movies.map((movie) => (
             <Card
               key={movie.id}
-              href={`/movie/${movie.id}`}
+              href={`/content/${movie.id}`}
               className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div className="relative w-full aspect-[2/3] group">

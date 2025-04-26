@@ -11,16 +11,16 @@ export default function AllSeriesPage() {
       <h1 className="text-3xl font-bold capitalize mb-6">All Series</h1>
       {Array.isArray(series) && series.length > 0 ? (
         <Grid columns={6} gap="8">
-          {series.map((movie) => (
+          {series.map((serie) => (
             <Card
-              key={movie.id}
-              href={`/movie/${movie.id}`}
+              key={serie.id}
+              href={`/content/${serie.id}`}
               className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div className="relative w-full aspect-[2/3] group">
                 <SmartImage
-                  src={movie.image}
-                  alt={movie.title}
+                  src={serie.image}
+                  alt={serie.title}
                   aspectRatio="3/4"
                   enlarge
                   radius="l"

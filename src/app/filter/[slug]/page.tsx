@@ -1,18 +1,19 @@
-import { movies } from "@/resources/movies";
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { allContent } from "@/resources/allContent";
+
 
 export async function generateStaticParams() {
   const genres = new Set<string>();
   const platforms = new Set<string>();
   const years = new Set<string>();
 
-  movies.forEach((movie) => {
-    movie.genre.forEach((g) => genres.add(g.toLowerCase()));
-    movie.streaming.forEach((s) => platforms.add(s.toLowerCase()));
-    years.add(movie["release-year"].toString());
+  allContent.forEach((item) => {
+    item.genre.forEach((g) => genres.add(g.toLowerCase()));
+    item.streaming.forEach((s) => platforms.add(s.toLowerCase()));
+    years.add(item["release-year"].toString());
   });
 
   const tags = [...genres, ...platforms, ...years];
@@ -26,15 +27,26 @@ type Props = {
   };
 };
 
-export default function FilteredMoviesPage({ params }: Props) {
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
+export default function FilteredContentPage({ params }: Props) {
   const slug = params.slug.toLowerCase();
 
-  const filteredMovies = movies.filter(
-    (movie) =>
-      movie.genre.map((g) => g.toLowerCase()).includes(slug) ||
-      movie.streaming.map((s) => s.toLowerCase()).includes(slug) ||
-      movie["release-year"].toString() === slug
+  const filteredContent = allContent.filter(
+    (item) =>
+      item.genre.map((g) => g.toLowerCase()).includes(slug) ||
+      item.streaming.map((s) => s.toLowerCase()).includes(slug) ||
+      item["release-year"].toString() === slug
   );
+
+  const shuffledContent = shuffleArray(filteredContent);
 
   return (
     <>
@@ -45,17 +57,17 @@ export default function FilteredMoviesPage({ params }: Props) {
             Movies for: {slug.replace(/-/g, " ")}
           </h1>
         )}
-        {Array.isArray(movies) && movies.length > 0 ? (
+        {Array.isArray(allContent) && allContent.length > 0 ? (
           <Grid columns={6} gap="12">
-            {filteredMovies.map((movie) => (
+            {shuffledContent.map((item) => (
               <Card
-                key={movie.id}
+                key={item.id}
                 className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
               >
                 <div className="relative w-full aspect-[2/3] group">
                   <SmartImage
-                    src={movie.image}
-                    alt={movie.title}
+                    src={item.image}
+                    alt={item.title}
                     aspectRatio="3/4"
                     enlarge
                     radius="l"
@@ -70,7 +82,7 @@ export default function FilteredMoviesPage({ params }: Props) {
             ))}
           </Grid>
         ) : (
-          <p>No movies found for this tag.</p>
+          <p>No items found for this tag.</p>
         )}
 
       </Flex>

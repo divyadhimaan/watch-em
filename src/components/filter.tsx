@@ -71,7 +71,7 @@ export const Filter = () => {
                                 (item) =>
                                     item.link && (
                                         <React.Fragment key={item.label}>
-                                            <Link href={`/movies/${item.value}` || slugify(item.label)}>
+                                            <Link href={`/filter/${item.value}` || slugify(item.label)}>
                                             <Button
                                                 className="s-flex-hide"
                                                 key={item.label}
@@ -81,7 +81,7 @@ export const Filter = () => {
                                                 variant="secondary"
                                             />
                                             </Link>
-                                            <Link href={`/movies/${item.value}` || slugify(item.label)}>
+                                            <Link href={`/filter/${item.value}` || slugify(item.label)}>
                                             <IconButton
                                                 className="s-flex-show"
                                                 size="l"
