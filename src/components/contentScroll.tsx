@@ -2,10 +2,10 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Card, IconButton, Flex, Text, Icon, SmartImage, Line } from "@/once-ui/components";
-import styles from "@/components/movieScroll.module.scss";
+import styles from "@/components/ContentScroll.module.scss";
 
 
-type Movie = {
+type Item = {
   id: string;
   title: string;
   image: string;
@@ -17,13 +17,13 @@ type Movie = {
   "release-year": number;
 };
 
-type MovieScrollProps = {
+type ContentScrollProps = {
   title: string;
-  movies: Movie[];
+  items: Item[];
 };
 
 
-export const MovieScroll: React.FC<MovieScrollProps> = ({ title, movies }) => {
+export const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) => {
 
 
   return (
@@ -34,10 +34,10 @@ export const MovieScroll: React.FC<MovieScrollProps> = ({ title, movies }) => {
 
       {/* <div style={{ overflowX: "auto", display: "flex", gap: "12px", padding: "0 8px" }}> */}
         <Flex horizontal="start" gap="12" paddingX="l" style={{ display: "flex", gap: "12px", padding: "0 8px" }}>
-          {movies.map((movie) => (
+          {items.map((item) => (
             <Card
-              key={movie.id}
-              href={`/movie/${movie.id}`}
+              key={item.id}
+              href={`/content/${item.id}`}
               direction="column"
               radius="l"
               style={{
@@ -58,8 +58,8 @@ export const MovieScroll: React.FC<MovieScrollProps> = ({ title, movies }) => {
               }
             >
               <SmartImage
-                src={movie.image}
-                alt={movie.title}
+                src={item.image}
+                alt={item.title}
                 aspectRatio="2/3"
                 enlarge
                 radius="l"
@@ -79,19 +79,19 @@ export const MovieScroll: React.FC<MovieScrollProps> = ({ title, movies }) => {
                   color="onBackground"
                   className="truncate"
                 >
-                  {movie.title}
+                  {item.title}
                 </Text>
 
                 <Flex gap="8" align="center">
                   <Flex gap="4" align="center" paddingTop="8"  >
                     <Icon name="star" size="xs" color="warning" />
                     <Text size="l" color="onBackground" gap="4">
-                      {movie.rating}
+                      {item.rating}
                     </Text>
                     <Line vert maxHeight="24" />
 
                     <Text size="m" color="onBackground">
-                      {movie["release-year"]}
+                      {item["release-year"]}
                     </Text>
                   </Flex>
                 </Flex>
