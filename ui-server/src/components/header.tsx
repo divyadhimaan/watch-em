@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
+import axios from 'axios';
+
 
 
 import { Fade, Flex, Logo, Row, Line, StyleOverlay, ToggleButton, Input } from "@/once-ui/components";
@@ -22,6 +24,14 @@ export const Header = () => {
             searchRef.current?.focus();
         }
     }, [searchExpanded]);
+
+
+    const checkNodeServer = () => {
+        console.log("Checking Node Server...");
+        axios.get('/api/hello')
+        .then(response => console.log(response.data))
+        .catch(error => console.error(error));
+    };
 
     return (
         <>
@@ -132,7 +142,7 @@ export const Header = () => {
                             padding="4"
                             horizontal="center"
                         >
-                            <ToggleButton prefixIcon="notification" onClick={() => alert("Notifications clicked")} selected={false} />
+                            <ToggleButton prefixIcon="notification" onClick={checkNodeServer} selected={false} />
                         
                         </Flex><Flex
                             background="surface"

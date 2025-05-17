@@ -1,6 +1,7 @@
 {
   "name": "@once-ui-system/nextjs-starter",
   "version": "0.5",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "dev": "next dev --turbopack",
     "export": "next export",
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.1",
+    "axios": "^1.9.0",
     "classnames": "^2.5.1",
     "compressorjs": "^1.2.1",
     "next": "15.1.4",
