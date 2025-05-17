@@ -5,6 +5,7 @@ export interface Tag {
     icon: string;
     category: string;
     link: string;
+    id?: number;
 }const social = [
     // Links are automatically displayed.
     // Import new icons in /once-ui/icons.ts
@@ -30,30 +31,31 @@ export interface Tag {
     },
   ];
 
-export const TAGS: Tag[] = [
+  export const TAGS: Tag[] = [
     // Category: Featured
     { label: "Trending", value: "trending", icon: "fire", category: "Featured", link: "/" },
-    { label: "Recommended", value: "recommended", icon: "thumbsup", category: "Featured", link: "/"  },
-
+    { label: "Recommended", value: "recommended", icon: "thumbsup", category: "Featured", link: "/" },
+  
     // Category: Genre
-    { label: "Action", value: "action", icon: "sword", category: "Genre", link: "/"  },
-    { label: "Adventure", value: "adventure", icon: "compass", category: "Genre", link: "/"  },
-    { label: "Animation", value: "animation", icon: "film", category: "Genre", link: "/"  },
-    { label: "Comedy", value: "comedy", icon: "laugh", category: "Genre", link: "/"  },
-    { label: "Crime", value: "crime", icon: "gavel", category: "Genre", link: "/"  },
-    { label: "Drama", value: "drama", icon: "theatre", category: "Genre", link: "/"  },
-    { label: "Documentary", value: "documentary", icon: "book", category: "Genre", link: "/" },
-    { label: "Fantasy", value: "fantasy", icon: "sparkles", category: "Genre", link: "/"  },
-    { label: "History", value: "history", icon: "scroll", category: "Genre", link: "/" },
-    { label: "Horror", value: "horror", icon: "ghost", category: "Genre", link: "/" },
-    { label: "Music", value: "music", icon: "music", category: "Genre", link: "/" },
-    { label: "Mystery", value: "mystery", icon: "search", category: "Genre", link: "/" },
-    { label: "Romance", value: "romance", icon: "heart", category: "Genre", link: "/"  },
-    { label: "Sci Fi", value: "sci-fi", icon: "rocket", category: "Genre", link: "/"  },
-    { label: "TV Movie", value: "tv-movie", icon: "tv", category: "Genre", link: "/" },
-    { label: "Thriller", value: "thriller", icon: "alert-triangle", category: "Genre", link: "/" },
-    { label: "War", value: "war", icon: "shield", category: "Genre", link: "/" },
- 
+    { label: "Action", value: "action", icon: "sword", category: "Genre", link: "/", id: 28 },
+    { label: "Adventure", value: "adventure", icon: "compass", category: "Genre", link: "/", id: 12 },
+    { label: "Animation", value: "animation", icon: "film", category: "Genre", link: "/", id: 16 },
+    { label: "Comedy", value: "comedy", icon: "laugh", category: "Genre", link: "/", id: 35 },
+    { label: "Crime", value: "crime", icon: "gavel", category: "Genre", link: "/", id: 80 },
+    { label: "Drama", value: "drama", icon: "theatre", category: "Genre", link: "/", id: 18 },
+    { label: "Documentary", value: "documentary", icon: "book", category: "Genre", link: "/", id: 99 },
+    { label: "Fantasy", value: "fantasy", icon: "sparkles", category: "Genre", link: "/", id: 14 },
+    { label: "History", value: "history", icon: "scroll", category: "Genre", link: "/", id: 36 },
+    { label: "Horror", value: "horror", icon: "ghost", category: "Genre", link: "/", id: 27 },
+    { label: "Music", value: "music", icon: "music", category: "Genre", link: "/", id: 10402 },
+    { label: "Mystery", value: "mystery", icon: "search", category: "Genre", link: "/", id: 9648 },
+    { label: "Romance", value: "romance", icon: "heart", category: "Genre", link: "/", id: 10749 },
+    { label: "Sci Fi", value: "sci-fi", icon: "rocket", category: "Genre", link: "/", id: 878 },
+    { label: "TV Movie", value: "tv-movie", icon: "tv", category: "Genre", link: "/", id: 10770 },
+    { label: "Thriller", value: "thriller", icon: "alert-triangle", category: "Genre", link: "/", id: 53 },
+    { label: "War", value: "war", icon: "shield", category: "Genre", link: "/", id: 10752 },
+    
     // Category: Audience
-    { label: "Family", value: "family", icon: "family", category: "Audience", link: "/"  },
-];
+    { label: "Family", value: "family", icon: "family", category: "Audience", link: "/", id: 10751 }
+  ];
+  

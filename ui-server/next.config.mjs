@@ -4,6 +4,9 @@ const nextConfig = {
     compiler: "modern",
     silenceDeprecations: ["legacy-js-api"],
   },
+  images: {
+    domains: ['image.tmdb.org'],
+  },
   async rewrites() {
     return [
       {

@@ -8,13 +8,13 @@ import styles from "@/components/ContentScroll.module.scss";
 type Item = {
   id: string;
   title: string;
-  image: string;
   description: string;
   catch: string;
-  rating: number;
   genre: string[];
+  poster_path: string;
   streaming: string[];
-  "release-year": number;
+  vote_average: number;
+  "release_date": string;
 };
 
 type ContentScrollProps = {
@@ -58,7 +58,7 @@ export const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) =>
               }
             >
               <SmartImage
-                src={item.image}
+                src={`http://image.tmdb.org/t/p/w500${item.poster_path}`}
                 alt={item.title}
                 aspectRatio="2/3"
                 enlarge
@@ -86,12 +86,12 @@ export const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) =>
                   <Flex gap="4" align="center" paddingTop="8"  >
                     <Icon name="star" size="xs" color="warning" />
                     <Text size="l" color="onBackground" gap="4">
-                      {item.rating}
+                    {item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
                     </Text>
                     <Line vert maxHeight="24" />
 
                     <Text size="m" color="onBackground">
-                      {item["release-year"]}
+                      {item.release_date ? new Date(item.release_date).getFullYear() : 'N/A'}
                     </Text>
                   </Flex>
                 </Flex>
