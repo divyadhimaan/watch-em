@@ -119,7 +119,7 @@ export default function Home() {
         fillWidth
       >
         <CarouselCards />
-        {/* <Filter /> */}
+        <Filter />
         <Scroll />
         
         {/* <Column

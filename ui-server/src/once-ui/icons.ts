@@ -29,8 +29,9 @@ import {
   HiOutlineShieldCheck,
   HiOutlineSparkles,
 } from "react-icons/hi2";
+import { GiScrollUnfurled } from "react-icons/gi";
 
-import { FaRegPlayCircle, FaArrowAltCircleRight, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel, FaArrowRight, FaArrowLeft, FaStar } from "react-icons/fa";
+import { FaTv, FaShieldAlt, FaRegPlayCircle, FaMusic, FaArrowAltCircleRight, FaBookOpen, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel, FaArrowRight, FaArrowLeft, FaStar } from "react-icons/fa";
 
 import { MdFamilyRestroom } from "react-icons/md";
 
@@ -48,11 +49,15 @@ import { LuChevronsLeftRight } from "react-icons/lu";
 
 import { CiStar } from "react-icons/ci";
 
+import { GoAlertFill } from "react-icons/go";
+
+
 
 export const iconLibrary: Record<string, IconType> = {
   arrowRight: FaArrowAltCircleRight,
   arrowRight2: FaArrowRight,
   arrowLeft2: FaArrowLeft,
+  alert: GoAlertFill,
   chevronUp: HiChevronUp,
   chevronDown: HiChevronDown,
   chevronRight: HiChevronRight,
@@ -87,6 +92,7 @@ export const iconLibrary: Record<string, IconType> = {
   eyeOff: HiOutlineEyeSlash,
   search: HiOutlineMagnifyingGlass,
   series: PiFilmReelLight,
+  shield: FaShieldAlt,
   visa: RiVisaLine,
   security: HiOutlineShieldCheck,
   sparkle: HiOutlineSparkles,
@@ -106,4 +112,8 @@ export const iconLibrary: Record<string, IconType> = {
   gavel: FaGavel,
   theatre: FaMasksTheater,
   biography: PiBookOpenTextFill,
+  book: FaBookOpen,
+  scroll: GiScrollUnfurled,
+  music: FaMusic,
+  tv: FaTv,
 };
