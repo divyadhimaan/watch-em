@@ -3,7 +3,7 @@
 Watch'em is a full-stack movie recommendation and playlist management web app that allows users to discover, organize, and share their favorite movies effortlessly. With user authentication, personalized movie playlists, ratings, and streaming availability, Watch'em enhances the movie-watching experience.
 
 
-![Alt text](/public/images/demo.png)
+![Alt text](/ui-server/public/images/demo.png)
 
 ## Features 🚀
 

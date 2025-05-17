@@ -251,5 +251,4 @@ export const streamingImageMap: Record<string, string> = {
   "Jiostar": "/images/streaming/jiohotstar.png",
   "Netflix": "/images/streaming/netflix.jpg",
   "Prime Video": "/images/streaming/prime.png",
-  // Add more platforms here if needed
 };
