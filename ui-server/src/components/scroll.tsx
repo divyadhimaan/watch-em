@@ -10,6 +10,10 @@ export default function Scroll() {
   const [trended, setTrended] = useState([]);
 
 
+
+
+  
+
   const fetchPopularMovies = async () => {
     console.log("Fetching popular movies...");
         axios.get('/api/movies/popular')
