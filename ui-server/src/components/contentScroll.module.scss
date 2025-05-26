@@ -6,25 +6,34 @@
     overflow: hidden; /* prevents content from pushing scroll buttons off-screen */
     gap: 8px;
     padding: 1rem 0;
+    padding-inline: 8px; 
+    overflow-x: hidden;
   }
-  .scroll-container {
+  
+  .scrollContainer {
     overflow-x: auto;
     display: flex;
     gap: 12px;
     padding: 0 8px;
     scroll-behavior: smooth;
-  
+
+    width: 100%;          // ensure container spans full width
+    min-width: 0;         // prevent shrinking
+    flex-grow: 1;                // allow the container to grow
+    align-items: stretch;
+    
     &::-webkit-scrollbar {
       display: none;
     }
   }
   
   
-  // .scrollContainer::-webkit-scrollbar {
-  //   display: none; /* Chrome, Safari */
-  // }
+  .scrollContainer::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
   
-  // .scrollButton {
-  //   flex-shrink: 0;
-  // }
+  
+  .scrollButton {
+    flex-shrink: 0;
+  }
   

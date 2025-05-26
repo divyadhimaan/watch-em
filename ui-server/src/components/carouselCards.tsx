@@ -1,4 +1,6 @@
 import React from 'react'
+import { useState, useEffect } from "react";
+import axios
 import {
   ToggleButton,
 } from "@/once-ui/components";
@@ -8,10 +10,24 @@ import styles from "@/components/carouselCards.module.scss";
 
 import { movies } from "@/resources/movies"
 
-// import { Icon } from "@/components/Icon"; 
-
 
 export const CarouselCards = () => {
+  const [trended, setTrended] = useState([]);
+
+
+  const fetchPopularMovies = async () => {
+    console.log("Fetching popular movies...");
+        axios.get('/api/movies/popular')
+        .then(
+          response => {
+            const data = response.data;
+            console.log(data);
+            setTrended(data);
+          }
+          )
+        .catch(error => console.error(error));
+  }
+
   return (
     <Carousel
       aspectRatio="16/9"

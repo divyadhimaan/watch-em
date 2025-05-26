@@ -36,7 +36,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-export default function FilteredContentPage({ params }: Props) {
+const FilteredContentPage = async ({ params }: Props) => {
   const slug = params.slug.toLowerCase();
 
   const filteredContent = allContent.filter(
@@ -90,3 +90,5 @@ export default function FilteredContentPage({ params }: Props) {
     </>
   );
 }
+
+export default FilteredContentPage;
