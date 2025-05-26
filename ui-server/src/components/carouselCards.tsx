@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import axios
+import axios from 'axios';
 import {
   ToggleButton,
 } from "@/once-ui/components";
