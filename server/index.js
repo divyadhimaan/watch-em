@@ -49,6 +49,7 @@ const fetchTopRatedMovies = async () => {
 app.get('/api/movies/popular', (req, res) => {
   console.log('Popular Movies fetched.');
   res.json(popularMovies);
+  // console.log(popularMovies[0]);
 });
 
 app.get('/api/movies/top-rated', (req, res) => {

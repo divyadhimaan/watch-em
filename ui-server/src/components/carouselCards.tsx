@@ -8,8 +8,18 @@ import { Carousel } from "@/components/carousel";
 
 import styles from "@/components/carouselCards.module.scss";
 
-import { movies } from "@/resources/movies"
 
+type Item = {
+  id: string;
+  title: string;
+  description: string;
+  catch: string;
+  genre: string[];
+  poster_path: string;
+  streaming: string[];
+  vote_average: number;
+  "release_date": string;
+};
 
 export const CarouselCards = () => {
   const [trended, setTrended] = useState([]);
@@ -21,25 +31,28 @@ export const CarouselCards = () => {
         .then(
           response => {
             const data = response.data;
-            console.log(data);
             setTrended(data);
           }
           )
         .catch(error => console.error(error));
   }
 
+  useEffect(() => {
+    fetchPopularMovies();
+  }, []);
+
+
   return (
     <Carousel
       aspectRatio="16/9"
       indicator="line"
-      images={movies
-        .filter((movie) => movie.wallImage)
+      images={trended
         .map((item) => ({
-          src: item.wallImage!,
+          src: `http://image.tmdb.org/t/p/w500${item.poster_path}`,
           alt: item.title,
           id: item.id,
-          desc: item.description,
-          catchPhrase: item.catch,
+          desc: item.overview,
+          catchPhrase: item.overview,
           children: (
             <div className={styles.overlay}>
               <h2 className={styles.title}>{item.title}</h2>
