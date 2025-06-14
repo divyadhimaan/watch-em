@@ -12,9 +12,9 @@ import styles from "@/components/carouselCards.module.scss";
 type Item = {
   id: string;
   title: string;
-  description: string;
-  catch: string;
+  overview: string;
   genre: string[];
+  backdrop_path: string;
   poster_path: string;
   streaming: string[];
   vote_average: number;
@@ -22,11 +22,11 @@ type Item = {
 };
 
 export const CarouselCards = () => {
-  const [trended, setTrended] = useState([]);
+  const [trended, setTrended] = useState<Item[]>([]);
 
 
   const fetchPopularMovies = async () => {
-    console.log("Fetching popular movies...");
+    console.log("Fetching popular movies for carousel...");
         axios.get('/api/movies/popular')
         .then(
           response => {
@@ -48,11 +48,11 @@ export const CarouselCards = () => {
       indicator="line"
       images={trended
         .map((item) => ({
-          src: `http://image.tmdb.org/t/p/w500${item.poster_path}`,
+          src: `http://image.tmdb.org/t/p/w1280${item.backdrop_path}`,
           alt: item.title,
           id: item.id,
           desc: item.overview,
-          catchPhrase: item.overview,
+          title: item.title,
           children: (
             <div className={styles.overlay}>
               <h2 className={styles.title}>{item.title}</h2>

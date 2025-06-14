@@ -4,7 +4,7 @@ import { Flex, RevealFx, Scroller, SmartImage, Fade, ToggleButton } from "@/once
 interface Image {
   src: string;
   alt: string;
-  catchPhrase: string;
+  title: string;
   id: string;
 }
 
@@ -142,7 +142,7 @@ const Carousel: React.FC<CarouselProps> = ({
                   textTransform: "uppercase",
                 }}
               >
-                {images[activeIndex]?.catchPhrase}
+                {images[activeIndex]?.title}
               </div>
               <div
                 style={{
