@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { Metadata } from "next";
 
 // import { RouteGuard } from "@/components/RouteGuard";
+import ReactQueryProvider from '@/components/ReactQueryProvider';
 
 import { baseURL, style, meta, og, schema, social } from "@/once-ui/resources/config";
 import { Background, Column, Flex, ToastProvider } from "@/once-ui/components";
@@ -156,7 +157,9 @@ export default function RootLayout({
               height: "0.25rem",
             }}
           />
-          {children}
+          <ReactQueryProvider>
+            {children}
+          </ReactQueryProvider>
         </Column>
       </ToastProvider>
     </Flex>

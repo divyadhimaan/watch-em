@@ -1,52 +1,24 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import {
   ToggleButton,
 } from "@/once-ui/components";
 import { Carousel } from "@/components/carousel";
 
 import styles from "@/components/carouselCards.module.scss";
+import { usePopularMovies } from '@/hooks/usePopularMovies';
 
 
-type Item = {
-  id: string;
-  title: string;
-  overview: string;
-  genre: string[];
-  backdrop_path: string;
-  poster_path: string;
-  streaming: string[];
-  vote_average: number;
-  "release_date": string;
-};
 
 export const CarouselCards = () => {
-  const [trended, setTrended] = useState<Item[]>([]);
 
-
-  const fetchPopularMovies = async () => {
-    console.log("Fetching popular movies for carousel...");
-        axios.get('/api/movies/popular')
-        .then(
-          response => {
-            const data = response.data;
-            setTrended(data);
-          }
-          )
-        .catch(error => console.error(error));
-  }
-
-  useEffect(() => {
-    fetchPopularMovies();
-  }, []);
-
+  const { data: trending = [] } = usePopularMovies();
 
   return (
     <Carousel
       aspectRatio="16/9"
       indicator="line"
-      images={trended
+      images={trending
         .map((item) => ({
           src: `http://image.tmdb.org/t/p/w1280${item.backdrop_path}`,
           alt: item.title,

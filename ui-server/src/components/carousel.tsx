@@ -25,7 +25,7 @@ const Carousel: React.FC<CarouselProps> = ({
   sizes,
   revealedByDefault = false,
   autoSlideInterval = 5000,
-  height = "400px",
+  height = "500px",
   ...rest
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -158,7 +158,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 }}
               >
                 {/* Movie Phrase */}
-                <ToggleButton size="l" prefixIcon="arrowRight" label="Stalk now!" selected={false} href={`/movie/${images[activeIndex].id}`}/>
+                <ToggleButton size="l" prefixIcon="arrowRight" label="Stalk now!" selected={false} href={`/content/${images[activeIndex].id}`}/>
                 {/* <span>Stalk now!</span> */}
               </div>
             </div>

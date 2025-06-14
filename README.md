@@ -24,6 +24,7 @@ Watch'em is a full-stack movie recommendation and playlist management web app th
 - Backend: Java + Spring Boot (REST APIs), MongoDB, JWT Authentication.
 - APIs: TMDb, JustWatch/Reelgood, OMDB for movie data and streaming availability.
 - Deployment: React (Vercel/Netlify), Spring Boot (AWS/Heroku), MongoDB Atlas.
+- Data Caching: React Query (now called TanStack Query) or SWR are both powerful for frontend data fetching with caching — especially in Next.js apps.
 
 ###  Once UI
 

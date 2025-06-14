@@ -3,19 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Card, IconButton, Flex, Text, Icon, SmartImage, Line } from "@/once-ui/components";
 import styles from "@/components/contentScroll.module.scss";
-
-
-type Item = {
-  id: string;
-  title: string;
-  description: string;
-  catch: string;
-  genre: string[];
-  poster_path: string;
-  streaming: string[];
-  vote_average: number;
-  "release_date": string;
-};
+import { Item } from '@/types/item';
 
 type ContentScrollProps = {
   title: string;

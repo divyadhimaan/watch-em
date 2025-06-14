@@ -1,3 +1,6 @@
+'use client';
+
+
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { streamingImageMap } from "@/resources/movies";
@@ -5,6 +8,10 @@ import { Flex, Text, SmartImage, Line, Badge, ToggleButton, Row, Column, Grid } 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { allContent } from "@/resources/allContent";
+import { Item } from '@/types/item';
+import { useMovieById } from '@/hooks/useMovieById';
+import { useParams } from "next/navigation";
+
 
 
 
@@ -14,20 +21,16 @@ interface Props {
     };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const item = allContent.find((m) => m.id === params.slug);
-    return {
-        title: item?.title ?? "Movie not found",
-        description: item?.description ?? "",
-    };
-}
+const ContentPage = () => {
+    const params = useParams();
+    const slug = typeof params.slug === 'string' ? params.slug : Array.isArray(params.slug) ? params.slug[0] : '';
 
-const ContentPage = async ({ params }: Props) => {
-    const item = allContent.find((m) => m.id === params.slug);
+    const { movie, isLoading } = useMovieById(slug);
 
-    if (!item) {
-        notFound();
-    }
+    if (isLoading) return <div>Loading...</div>;
+    if (!movie) return notFound();
+
+
 
     return (
         <>
@@ -37,8 +40,8 @@ const ContentPage = async ({ params }: Props) => {
 
                     <Grid columns={2} style={{ gridTemplateColumns: "30% 70%" }}>
                         <SmartImage
-                            src={item.image}
-                            alt={item.title}
+                            src={movie.poster_path}
+                            alt={movie.title}
                             aspectRatio="3/4"
                             enlarge
                             radius="l"
@@ -53,10 +56,10 @@ const ContentPage = async ({ params }: Props) => {
                             <Flex horizontal="space-between" align="center" >
                                 <Flex horizontal="start" direction="column" gap="1">
                                     <Text as="h1" size="xl" weight="strong" align="start">
-                                        {item.title}
+                                        {movie.title}
                                     </Text>
                                     <Text size="l" color="neutral-medium" weight="strong" paddingY="s">
-                                        {item["release-year"]}
+                                    {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
                                     </Text>
                                 </Flex>
                                 <Flex gap="l" >
@@ -75,7 +78,7 @@ const ContentPage = async ({ params }: Props) => {
                                         <Text size="l" weight="strong" color="neutral-medium">
                                             IMDb Rating
                                         </Text>
-                                        <ToggleButton size="l" prefixIcon="star" label={`${item.rating}/10`} selected={false} />
+                                        <ToggleButton size="l" prefixIcon="star" label={movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'} selected={false} />
                                     </Flex>
                                     <Flex
                                         background="overlay"
@@ -99,7 +102,7 @@ const ContentPage = async ({ params }: Props) => {
 
                             </Flex>
                             <Flex wrap gap="8" >
-                                {item.genre?.map((genre) => (
+                                {movie.genre?.map((genre) => (
                                     <Badge
                                         key={genre}
                                         title={genre}
@@ -113,7 +116,7 @@ const ContentPage = async ({ params }: Props) => {
                                 ))}
                             </Flex>
                             <Flex paddingY="l" color="neutral-strong" align="start" >
-                                {item.description}
+                                {movie.overview}
                             </Flex>
                         </div>
 
@@ -123,9 +126,9 @@ const ContentPage = async ({ params }: Props) => {
                     <Text as="h3" size="xl" weight="strong" align="start">
                         Streaming
                     </Text>
-                    {item.streaming && (
+                    {movie.streaming && (
                         <Flex gap="12" wrap align="center">
-                            {item.streaming.map((platform) => {
+                            {movie.streaming.map((platform) => {
                                 const imgSrc = streamingImageMap[platform];
                                 console.log("imgSrc", imgSrc);
                                 return imgSrc ? (
