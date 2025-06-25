@@ -1,10 +1,17 @@
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import Link from "next/link";
 import { Header } from "@/components/header";
+import type { Metadata } from 'next';
 import { Footer } from "@/components/footer";
 import { allContent } from "@/resources/allContent";
 
-
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const tag = params.slug.replace(/-/g, " ");
+  return {
+    title: `Movies for: ${tag}`,
+    description: `Explore movies and shows related to ${tag}.`,
+  };
+}
 export async function generateStaticParams() {
   const genres = new Set<string>();
   const platforms = new Set<string>();
@@ -36,7 +43,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-const FilteredContentPage = async ({ params }: Props) => {
+const FilteredContentPage = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug.toLowerCase();
 
   const filteredContent = allContent.filter(
@@ -57,7 +64,7 @@ const FilteredContentPage = async ({ params }: Props) => {
             Movies for: {slug.replace(/-/g, " ")}
           </h1>
         )}
-        {Array.isArray(allContent) && allContent.length > 0 ? (
+        {shuffledContent.length > 0 ? (
           <Grid columns={6} gap="12">
             {shuffledContent.map((item) => (
               <Card
