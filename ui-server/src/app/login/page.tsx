@@ -21,9 +21,7 @@ import {
 import { Header } from "@/components/header";
 
 
-
-
-const page = () => {
+export default function LoginPage() {
 
     const { addToast } = useToast();
 
@@ -87,7 +85,7 @@ const page = () => {
                         />
                         <Logo wordmark={false} size="l" />
                         <Heading as="h3" variant="display-default-s" align="center">
-                            Welcome to Watch'em
+                            Welcome to Watch&apos;em
                         </Heading>
                         <Text onBackground="neutral-medium" marginBottom="24">
                             Log in or
@@ -138,7 +136,7 @@ const page = () => {
                             onClick={() => {
                                 addToast({
                                     variant: "success",
-                                    message: "Wohoo! You are logged in` a!",
+                                    message: "Wohoo! You are logged in!",
                                 });
                             }}
                         />
@@ -158,4 +156,3 @@ const page = () => {
     )
 }
 
-export default page

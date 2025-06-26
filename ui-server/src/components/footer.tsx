@@ -42,7 +42,7 @@ export const Footer = () => {
           >
             <Logo wordmark={false} size="s" />
             <Text size="m">
-              <Text onBackground="neutral-weak">2025 /</Text> Watch'em
+              <Text onBackground="neutral-weak">2025 /</Text> Watch&apos;em
               
             </Text>
             <Text onBackground="neutral-weak">Made with ♥ by Divya </Text>

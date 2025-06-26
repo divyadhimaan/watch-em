@@ -47,14 +47,24 @@ const fetchTopRatedMovies = async () => {
 };
 
 app.get('/api/movies/popular', (req, res) => {
-  console.log('Popular Movies fetched.');
-  res.json(popularMovies);
-  // console.log(popularMovies[0]);
+
+  if(popularMovies.length === 0) {
+    console.log('Top Rated Movies not cached, fetching from API...');
+    fetchPopularMovies();
+  }else{
+    console.log('Popular Movies fetched.');
+    res.json(popularMovies);
+  }
 });
 
 app.get('/api/movies/top-rated', (req, res) => {
-  console.log('Top Rated Movies fetched.');
-  res.json(topRatedMovies);
+  if(topRatedMovies.length === 0) {
+    console.log('Top Rated Movies not cached, fetching from API...');
+    fetchTopRatedMovies();
+  }else{
+    console.log('Top Rated Movies fetched.');
+    res.json(topRatedMovies);
+  }
 });
 
 // Start server

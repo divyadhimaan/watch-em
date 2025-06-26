@@ -7,19 +7,10 @@ import { streamingImageMap } from "@/resources/movies";
 import { Flex, Text, SmartImage, Line, Badge, ToggleButton, Row, Column, Grid } from "@/once-ui/components";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { allContent } from "@/resources/allContent";
-import { Item } from '@/types/item';
 import { useMovieById } from '@/hooks/useMovieById';
 import { useParams } from "next/navigation";
 
 
-
-
-interface Props {
-    params: {
-        slug: string;
-    };
-}
 
 const ContentPage = () => {
     const params = useParams();

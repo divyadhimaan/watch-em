@@ -5,7 +5,16 @@ const nextConfig = {
     silenceDeprecations: ["legacy-js-api"],
   },
   images: {
-    domains: ['image.tmdb.org'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'image.tmdb.org',
+      },
+      {
+        protocol: 'http',
+        hostname: 'image.tmdb.org',
+      },
+    ],
   },
   async rewrites() {
     return [

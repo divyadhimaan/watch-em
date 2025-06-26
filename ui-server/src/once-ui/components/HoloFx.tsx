@@ -12,7 +12,7 @@ interface MaskOptions {
 
 interface HoloFxProps extends React.ComponentProps<typeof Flex> {
   children: React.ReactNode;
-  light?: {
+  lightFx?: {
     opacity?: number;
     filter?: string;
     blending?: CSSProperties["mixBlendMode"];
@@ -44,15 +44,15 @@ const getMaskStyle = (mask?: MaskOptions): string => {
   return mask?.maskPosition ? formatMask(mask.maskPosition) : formatMask();
 };
 
-const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest }) => {
+const HoloFx: React.FC<HoloFxProps> = ({ children, lightFx, burn, texture, ...rest }) => {
   const ref = useRef<HTMLDivElement>(null);
-  let lastCall = 0;
+  const lastCall = useRef(0);
 
   const lightDefaults = {
     opacity: 30,
     blending: "color-dodge" as CSSProperties["mixBlendMode"],
-    mask: getMaskStyle(light?.mask),
-    ...light,
+    mask: getMaskStyle(lightFx?.mask),
+    ...lightFx,
   };
 
   const burnDefaults = {
@@ -74,8 +74,8 @@ const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       const now = Date.now();
-      if (now - lastCall < 16) return;
-      lastCall = now;
+      if (now - lastCall.current < 16) return;
+      lastCall.current = now;
 
       const element = ref.current;
       if (!element) return;
@@ -126,7 +126,7 @@ const HoloFx: React.FC<HoloFxProps> = ({ children, light, burn, texture, ...rest
         position="absolute"
         fill
         pointerEvents="none"
-        className={classNames(styles.overlay, styles.light)}
+        className={classNames(styles.overlay, styles.lightFx)}
         style={{
           ["--light-opacity" as any]: lightDefaults.opacity + "%",
           filter: lightDefaults.filter,

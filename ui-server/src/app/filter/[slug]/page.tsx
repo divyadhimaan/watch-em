@@ -1,17 +1,11 @@
+
+
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
-import Link from "next/link";
 import { Header } from "@/components/header";
-import type { Metadata } from 'next';
 import { Footer } from "@/components/footer";
 import { allContent } from "@/resources/allContent";
+import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const tag = params.slug.replace(/-/g, " ");
-  return {
-    title: `Movies for: ${tag}`,
-    description: `Explore movies and shows related to ${tag}.`,
-  };
-}
 export async function generateStaticParams() {
   const genres = new Set<string>();
   const platforms = new Set<string>();
@@ -24,15 +18,8 @@ export async function generateStaticParams() {
   });
 
   const tags = [...genres, ...platforms, ...years];
-
   return tags.map((tag) => ({ slug: tag }));
 }
-
-type Props = {
-  params: {
-    slug: string;
-  };
-};
 
 function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array];
@@ -42,9 +29,12 @@ function shuffleArray<T>(array: T[]): T[] {
   }
   return newArray;
 }
-
-const FilteredContentPage = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug.toLowerCase();
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+const FilteredContentPage = async ({ params }: PageProps) => {
+  const { slug: rawSlug } = await params;
+  const slug = rawSlug.toLowerCase();
 
   const filteredContent = allContent.filter(
     (item) =>
@@ -53,49 +43,52 @@ const FilteredContentPage = async ({ params }: { params: { slug: string } }) => 
       item["release-year"].toString() === slug
   );
 
+  if (filteredContent.length === 0) {
+    notFound();
+  }
+
   const shuffledContent = shuffleArray(filteredContent);
 
   return (
     <>
       <Header />
-      <Flex direction="column" className="px-6 py-10 max-w-6xl mx-auto" gap="m" paddingY="xl" paddingX="l">
-        {slug && (
-          <h1 className="text-3xl font-bold capitalize mb-6">
-            Movies for: {slug.replace(/-/g, " ")}
-          </h1>
-        )}
-        {shuffledContent.length > 0 ? (
-          <Grid columns={6} gap="12">
-            {shuffledContent.map((item) => (
-              <Card
-                key={item.id}
-                className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-              >
-                <div className="relative w-full aspect-[2/3] group">
-                  <SmartImage
-                    src={item.image}
-                    alt={item.title}
-                    aspectRatio="3/4"
-                    enlarge
-                    radius="l"
-                    style={{
-                      overflow: "hidden",
-                      width: "200px",
-                      height: "300px",
-                    }}
-                  />
-                </div>
-              </Card>
-            ))}
-          </Grid>
-        ) : (
-          <p>No items found for this tag.</p>
-        )}
-
+      <Flex
+        direction="column"
+        className="px-6 py-10 max-w-6xl mx-auto"
+        gap="m"
+        paddingY="xl"
+        paddingX="l"
+      >
+        <h1 className="text-3xl font-bold capitalize mb-6">
+          Movies for: {slug.replace(/-/g, " ")}
+        </h1>
+        <Grid columns={6} gap="12">
+          {shuffledContent.map((item) => (
+            <Card
+              key={item.id}
+              className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              <div className="relative w-full aspect-[2/3] group">
+                <SmartImage
+                  src={item.image}
+                  alt={item.title}
+                  aspectRatio="3/4"
+                  enlarge
+                  radius="l"
+                  style={{
+                    overflow: "hidden",
+                    width: "200px",
+                    height: "300px",
+                  }}
+                />
+              </div>
+            </Card>
+          ))}
+        </Grid>
       </Flex>
       <Footer />
     </>
   );
-}
+};
 
 export default FilteredContentPage;
