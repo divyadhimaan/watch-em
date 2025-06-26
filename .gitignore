@@ -9,7 +9,7 @@
 .idea
 
 /server/node_modules
-
+/server/.env
 # testing
 
 /coverage
@@ -41,5 +41,4 @@ yarn-error.log*
 ui-server/next-env.d.ts
 ui-server/.next
 ui-server/.env.local
-
 

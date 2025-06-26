@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const axios = require('axios');
 
-
+dotenv.config();
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
+backendURL = process.env.JAVA_API_BASE_URL || 'http://localhost:8080';
 
 // Middleware
 app.use(cors());
@@ -24,7 +26,7 @@ app.get('/', (req, res) => {
 
 const fetchPopularMovies = async () => {
   try {
-    const res = await axios.get('http://localhost:8080/movies/popular');
+    const res = await axios.get(`${process.env.JAVA_API_BASE_URL}/movies/popular`);
     popularMovies = res.data.results;
 
     console.log('Popular Movies fetched and cached at startup');
@@ -36,7 +38,7 @@ const fetchPopularMovies = async () => {
 
 const fetchTopRatedMovies = async () => {
   try {
-    const res = await axios.get('http://localhost:8080/movies/top-rated');
+    const res = await axios.get(`${process.env.JAVA_API_BASE_URL}/movies/top-rated`);
     topRatedMovies = res.data.results;
 
     console.log('Top Rated Movies fetched and cached at startup');
@@ -70,6 +72,7 @@ app.get('/api/movies/top-rated', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
+  console.log(`Connected to Java backend at ${backendURL}`);
   fetchPopularMovies();
   fetchTopRatedMovies();
 });
