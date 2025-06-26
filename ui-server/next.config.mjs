@@ -20,7 +20,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',        // Match all /api/* routes
-        destination: process.env.NEXT_PUBLIC_API_BASE + '/api/:path*', // Proxy to backend
+        destination: `${process.env.NEXT_PUBLIC_API_BASE}/api/:path*`, // Proxy to backend
       },
     ];
   },
