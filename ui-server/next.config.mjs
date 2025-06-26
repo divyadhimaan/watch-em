@@ -17,10 +17,17 @@ const nextConfig = {
     ],
   },
   async rewrites() {
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
+    
+    if (!apiBase) {
+      console.warn('NEXT_PUBLIC_API_BASE is not defined, skipping API rewrites');
+      return [];
+    }
+    
     return [
       {
-        source: '/api/:path*',        // Match all /api/* routes
-        destination: `${process.env.NEXT_PUBLIC_API_BASE}/api/:path*`, // Proxy to backend
+        source: '/api/:path*',
+        destination: `${apiBase}/api/:path*`,
       },
     ];
   },

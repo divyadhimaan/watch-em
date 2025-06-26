@@ -48,21 +48,21 @@ const fetchTopRatedMovies = async () => {
   }
 };
 
-app.get('/api/movies/popular', (req, res) => {
+app.get('/api/movies/popular', async (req, res) => {
 
   if(popularMovies.length === 0) {
     console.log('Top Rated Movies not cached, fetching from API...');
-    fetchPopularMovies();
+    await fetchPopularMovies();
   }else{
     console.log('Popular Movies fetched.');
     res.json(popularMovies);
   }
 });
 
-app.get('/api/movies/top-rated', (req, res) => {
+app.get('/api/movies/top-rated', async (req, res) => {
   if(topRatedMovies.length === 0) {
     console.log('Top Rated Movies not cached, fetching from API...');
-    fetchTopRatedMovies();
+    await fetchTopRatedMovies();
   }else{
     console.log('Top Rated Movies fetched.');
     res.json(topRatedMovies);
