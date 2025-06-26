@@ -5,8 +5,10 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+/node_modules
 .idea
+
+/server/node_modules
 
 # testing
 
@@ -37,8 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 ui-server/next-env.d.ts
+ui-server/.next
+ui-server/.env.local
 
 
-node-server/node_modules
-
-node_modules

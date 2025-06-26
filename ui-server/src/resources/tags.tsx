@@ -52,7 +52,7 @@ export interface Tag {
     { label: "Romance", value: "romance", icon: "heart", category: "Genre", link: "/", id: 10749 },
     { label: "Sci Fi", value: "sci-fi", icon: "rocket", category: "Genre", link: "/", id: 878 },
     { label: "TV Movie", value: "tv-movie", icon: "tv", category: "Genre", link: "/", id: 10770 },
-    { label: "Thriller", value: "thriller", icon: "alert-triangle", category: "Genre", link: "/", id: 53 },
+    { label: "Thriller", value: "thriller", icon: "alert", category: "Genre", link: "/", id: 53 },
     { label: "War", value: "war", icon: "shield", category: "Genre", link: "/", id: 10752 },
     
     // Category: Audience

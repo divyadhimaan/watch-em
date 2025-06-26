@@ -28,7 +28,8 @@ export const Header = () => {
 
     const checkNodeServer = () => {
         console.log("Checking Node Server...");
-        axios.get('/api/hello')
+        axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/hello`)
+        
         .then(response => console.log(response.data))
         .catch(error => console.error(error));
     };

@@ -9,20 +9,19 @@ import { Item } from '@/types/item';
 
 
 export default function Scroll() {
-  const [topRated, setTopRated] = useState([]);
+  const [topRated, setTopRated] = useState<Item[]>([]);
 
   const fetchTopRatedMovies = async () => {
-    console.log("Fetching top rated movies...");
-        axios.get('/api/movies/top-rated')
-        .then(
-          response => {
-            const data = response.data;
-            console.log(data);
-            setTopRated(data);
-          }
-          )
-        .catch(error => console.error(error));
-  }
+    try {
+      console.log("Fetching top rated movies...");
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/movies/top-rated`);
+      const data = response.data;
+      console.log(data);
+      setTopRated(data);
+    } catch (error) {
+      console.error("Error fetching top-rated movies:", error);
+    }
+  };
 
   useEffect(() => {
     fetchTopRatedMovies();
