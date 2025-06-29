@@ -31,6 +31,6 @@ Watch'em is a full-stack movie recommendation and playlist management web app th
 [once-ui.com/docs](https://once-ui.com/docs)
 
 
-#TODO
+<!-- #TODO
 - Fix movie detail rendering
-- Fix scroller on main page
+- Fix scroller on main page -->
