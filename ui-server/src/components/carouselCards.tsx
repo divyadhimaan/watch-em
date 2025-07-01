@@ -6,6 +6,7 @@ import {
 import { Carousel } from "@/components/carousel";
 
 import styles from "@/components/carouselCards.module.scss";
+import { getImageUrl } from "@/utils/getImageUrl";
 import { usePopularMovies } from '@/hooks/usePopularMovies';
 
 
@@ -20,7 +21,7 @@ export const CarouselCards = () => {
       indicator="line"
       images={trending
         .map((item) => ({
-          src: `http://image.tmdb.org/t/p/w1280${item.backdrop_path}`,
+          src: getImageUrl(item.backdrop_path, "w1280"),
           alt: item.title,
           id: item.id,
           desc: item.overview,

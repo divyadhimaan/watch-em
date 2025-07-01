@@ -4,6 +4,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Card, IconButton, Flex, Text, Icon, SmartImage, Line } from "@/once-ui/components";
 import styles from "@/components/contentScroll.module.scss";
 import { Item } from '@/types/item';
+import { getImageUrl } from "@/utils/getImageUrl";
+
 
 type ContentScrollProps = {
   title: string;
@@ -99,7 +101,7 @@ export const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) =>
               }
             >
               <SmartImage
-                src={`http://image.tmdb.org/t/p/w500${item.poster_path}`}
+                src={getImageUrl(item.poster_path)}
                 alt={item.title}
                 aspectRatio="2/3"
                 enlarge

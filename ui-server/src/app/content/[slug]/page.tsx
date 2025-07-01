@@ -9,6 +9,8 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { useMovieById } from '@/hooks/useMovieById';
 import { useParams } from "next/navigation";
+import { getImageUrl } from "@/utils/getImageUrl";
+
 
 
 
@@ -33,7 +35,7 @@ const ContentPage = () => {
 
                     <Grid columns={2} style={{ gridTemplateColumns: "30% 70%" }}>
                         <SmartImage
-                            src={`http://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+                            src={getImageUrl(movie?.poster_path)}
                             alt={movie?.title}
                             aspectRatio="3/4"
                             enlarge
