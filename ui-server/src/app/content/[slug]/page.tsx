@@ -16,9 +16,10 @@ const ContentPage = () => {
     const params = useParams();
     const slug = typeof params.slug === 'string' ? params.slug : Array.isArray(params.slug) ? params.slug[0] : '';
 
-    const { movie, isLoading } = useMovieById(slug);
+    console.log("fetch movie for slug:", slug);
+    const { movie, loading } = useMovieById(slug);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (loading) return <div>Loading...</div>;
     if (!movie) return notFound();
 
 
