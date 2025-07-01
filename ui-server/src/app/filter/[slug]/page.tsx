@@ -7,7 +7,7 @@ interface PageProps {
   params: { slug: string };
 }
 
-const FilteredContentPage = ({ params }: PageProps) => {
+const FilteredContentPage = async ({ params }: PageProps) => {
   const slug = params.slug.toLowerCase();
 
   return (

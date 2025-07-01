@@ -1,9 +1,10 @@
 'use client';
 
-import { useMoviesBySlug } from '@/hooks/useMoviesBySlug';
-import { Card, Grid, SmartImage, Flex, Text } from "@/once-ui/components";
+import { useMovies } from '@/hooks/useMovies';
+import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import React, { useMemo } from "react";
 import { getImageUrl } from "@/utils/getImageUrl";
+
 
 interface Props {
   slug: string;
@@ -18,25 +19,15 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-const FilteredMovieList = ({ slug }: Props) => {
-  const { movies, loading, error } = useMoviesBySlug(slug);
-  const shuffled = useMemo(() => shuffleArray(movies), [movies]);
-
-  if (loading) {
-    return (
-      <Flex align="center" style={{ height: '60vh', width: '100%' }}>
-        <Text size="xl" weight="strong">Loading...</Text>
-      </Flex>
-    );
-  }
-
-  if (error || !movies.length) {
-    return (
-      <div className="p-6 text-center text-red-500">
-        No movies found.
-      </div>
-    );
-  }
+const MovieList = () => {
+  const { movies, loading, error } = useMovies();
+  const shuffled = useMemo(
+    () => (movies && movies.length > 0 ? shuffleArray(movies) : []),
+    [movies]
+  );
+  if (loading) return <div className="p-6 text-center">Loading...</div>;
+  if (error || !movies.length)
+    return <div className="p-6 text-center text-red-500">No movies found.</div>;
 
   return (
     <Flex
@@ -46,9 +37,7 @@ const FilteredMovieList = ({ slug }: Props) => {
       paddingY="xl"
       paddingX="l"
     >
-      <h1 className="text-3xl font-bold capitalize mb-6">
-        Movies for: {slug.replace(/-/g, " ")}
-      </h1>
+      
       <Grid columns={6} gap="12">
         {shuffled.map((item) => (
           <Card
@@ -81,4 +70,4 @@ const FilteredMovieList = ({ slug }: Props) => {
   );
 };
 
-export default FilteredMovieList;
+export default MovieList;

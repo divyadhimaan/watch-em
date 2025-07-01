@@ -6,7 +6,8 @@ const memoryCache = {
   'popular': [],
   'top-rated': [],
   'upcoming': [],
-  'in-theatres': []
+  'in-theatres': [],
+  'all': [],
 };
 
 // Helper to update both MongoDB and memory
@@ -26,9 +27,6 @@ const updateCache = async (type, movies) => {
   memoryCache[type] = movies;
   console.log(`📥 ${type} movies cached in MongoDB and memory`);
 };
-
-
-// Fetch movies from Java API
 
 
 const fetchMoviesByType = async (type) => {
@@ -79,11 +77,11 @@ const fetchMoviesBySlug = async (slug) => {
 const getMoviesByType = (type) => memoryCache[type] || [];
 
 
-
 module.exports = {
     fetchMoviesByType,
     fetchMovieDetailsById,
     fetchMoviesBySlug,
+    getAllMovies: () => getMoviesByType('all'),
     getPopularMovies: () => getMoviesByType('popular'),
     getTopRatedMovies: () => getMoviesByType('top-rated'),
     getUpcomingMovies: () => getMoviesByType('upcoming'),

@@ -4,6 +4,8 @@ const router = express.Router();
 
 const {
     fetchMoviesByType,
+    fetchMovies,
+    getAllMovies,
     getPopularMovies,
     getTopRatedMovies,
     getUpcomingMovies,
@@ -15,6 +17,17 @@ const {
 
 
 // Route to get  movies
+
+router.get('/movies/all', async (req, res) => {
+    const movies = getAllMovies();
+
+    if (movies.length === 0){
+        console.log(' Movies not cached, fetching from API...');
+        await fetchMoviesByType('all');
+    } 
+  
+    res.json(getAllMovies());
+});
 
 router.get('/movies/popular', async (req, res) => {
     const movies = getPopularMovies();
