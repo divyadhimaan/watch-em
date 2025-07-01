@@ -4,16 +4,17 @@ import { Footer } from "@/components/footer";
 import FilteredMovieList from "@/components/filteredMovieList";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const FilteredContentPage = async ({ params }: PageProps) => {
-  const slug = params.slug.toLowerCase();
+  const { slug } = await params;
+  const normalizedSlug = slug.toLowerCase();
 
   return (
     <>
       <Header />
-      <FilteredMovieList slug={slug} />
+      <FilteredMovieList slug={normalizedSlug} />
       <Footer />
     </>
   );
