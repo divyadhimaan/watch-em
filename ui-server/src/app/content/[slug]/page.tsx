@@ -20,6 +20,7 @@ const ContentPage = () => {
     const { movie, loading } = useMovieById(slug);
 
     if (loading) return <div>Loading...</div>;
+    console.log("movie:", movie);
     if (!movie) return notFound();
 
 
@@ -32,8 +33,8 @@ const ContentPage = () => {
 
                     <Grid columns={2} style={{ gridTemplateColumns: "30% 70%" }}>
                         <SmartImage
-                            src={movie.poster_path}
-                            alt={movie.title}
+                            src={`http://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+                            alt={movie?.title}
                             aspectRatio="3/4"
                             enlarge
                             radius="l"
@@ -48,7 +49,7 @@ const ContentPage = () => {
                             <Flex horizontal="space-between" align="center" >
                                 <Flex horizontal="start" direction="column" gap="1">
                                     <Text as="h1" size="xl" weight="strong" align="start">
-                                        {movie.title}
+                                        {movie?.title}
                                     </Text>
                                     <Text size="l" color="neutral-medium" weight="strong" paddingY="s">
                                     {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
@@ -94,10 +95,10 @@ const ContentPage = () => {
 
                             </Flex>
                             <Flex wrap gap="8" >
-                                {movie.genre?.map((genre) => (
+                                {movie?.genres.map((genre) => (
                                     <Badge
-                                        key={genre}
-                                        title={genre}
+                                        key={genre.id}
+                                        title={genre.name}
                                         arrow={false}
                                         effect={false}
                                         paddingX="12"
@@ -108,14 +109,14 @@ const ContentPage = () => {
                                 ))}
                             </Flex>
                             <Flex paddingY="l" color="neutral-strong" align="start" >
-                                {movie.overview}
+                                {movie?.overview}
                             </Flex>
                         </div>
 
 
                     </Grid>
 
-                    <Text as="h3" size="xl" weight="strong" align="start">
+                    {/* <Text as="h3" size="xl" weight="strong" align="start">
                         Streaming
                     </Text>
                     {movie.streaming && (
@@ -146,7 +147,7 @@ const ContentPage = () => {
                                 );
                             })}
                         </Flex>
-                    )}
+                    )} */}
 
 
 

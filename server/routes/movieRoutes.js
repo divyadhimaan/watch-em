@@ -38,8 +38,8 @@ router.get('/movie/details/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const details = await fetchMovieDetailsById(id);
-        console.log('📦 Movie details from Java backend:', res.data.results);
-        res.json(details.data.results);
+        console.log('📦 Movie details from Java backend:', details);
+        res.json(details);
       } catch (err) {
         res.status(500).json({ error: 'Failed to fetch movie details' });
       }

@@ -53,6 +53,7 @@ const fetchMovieDetailsById = async (id) => {
     try {
         const res = await axios.get(`${backendURL}/movie/details/${id}`);
         console.log('Movie details fetched for ID:', id);
+        // console.log(res.data);
         return res.data;
     } catch (err) {
         console.error('Failed to fetch movie details:', err.message);

@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { Item } from '@/types/item';
+import { MovieDetail } from '@/types/movie-detail';
 
 export const useMovieById = (id: string) => {
-  const [movie, setMovie] = useState<Item | null>(null);
+  const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || id.trim() === '') return;
+    
 
     const fetchData = async () => {
       setLoading(true);
