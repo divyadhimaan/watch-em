@@ -63,6 +63,19 @@ const fetchMovieDetailsById = async (id) => {
         throw err;
     }
 }
+const fetchMoviesBySlug = async (slug) => {
+  try {
+      const res = await axios.get(`${backendURL}/movies/filter/${slug}`);
+      console.log('Movies fetched for slug: ', slug);
+      // console.log(res.data);
+      return res.data.results;
+  } catch (err) {
+      console.error('Failed to fetch movies:', err.message);
+      throw err;
+  }
+}
+
+
 const getMoviesByType = (type) => memoryCache[type] || [];
 
 
@@ -70,6 +83,7 @@ const getMoviesByType = (type) => memoryCache[type] || [];
 module.exports = {
     fetchMoviesByType,
     fetchMovieDetailsById,
+    fetchMoviesBySlug,
     getPopularMovies: () => getMoviesByType('popular'),
     getTopRatedMovies: () => getMoviesByType('top-rated'),
     getUpcomingMovies: () => getMoviesByType('upcoming'),

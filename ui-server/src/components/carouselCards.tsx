@@ -7,13 +7,13 @@ import { Carousel } from "@/components/carousel";
 
 import styles from "@/components/carouselCards.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
-import { usePopularMovies } from '@/hooks/usePopularMovies';
+import { useMoviesByCategory } from '@/hooks/useMoviesByCategory';
 
 
 
 export const CarouselCards = () => {
 
-  const { data: trending = [] } = usePopularMovies();
+  const { data: trending = [] } = useMoviesByCategory('popular');
 
   return (
     <Carousel

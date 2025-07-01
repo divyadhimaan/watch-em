@@ -6,7 +6,9 @@ export interface Tag {
     category: string;
     link: string;
     id?: number;
-}const social = [
+};
+
+const social = [
     // Links are automatically displayed.
     // Import new icons in /once-ui/icons.ts
     {

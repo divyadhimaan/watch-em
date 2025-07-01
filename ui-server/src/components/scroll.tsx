@@ -4,7 +4,6 @@ import { series } from "@/resources/series";
 import { allContent } from "@/resources/allContent";
 import axios from 'axios';
 import { useState, useEffect } from "react";
-import { usePopularMovies } from '@/hooks/usePopularMovies';
 import { useMoviesByCategory } from '@/hooks/useMoviesByCategory';
 import { Item } from '@/types/item';
 

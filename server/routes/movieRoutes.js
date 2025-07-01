@@ -8,6 +8,7 @@ const {
     getTopRatedMovies,
     getUpcomingMovies,
     getInTheatreMovies,
+    fetchMoviesBySlug,
     fetchMovieDetailsById
   } = require('../services/fetchMovies');
 
@@ -54,6 +55,16 @@ router.get('/movies/in-theatres', async (req, res) => {
         await fetchMoviesByType('in-theatres');
     }
     res.json(getInTheatreMovies());
+});
+
+router.get('/movies/filters/:slug', async (req, res) => {
+    const { slug } = req.params;
+    try {
+        const movies = await fetchMoviesBySlug(slug);
+        res.json(movies);
+      } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch movies by slug' });
+      }
 });
 
 router.get('/movie/details/:id', async (req, res) => {
