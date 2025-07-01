@@ -5,29 +5,18 @@ import { allContent } from "@/resources/allContent";
 import axios from 'axios';
 import { useState, useEffect } from "react";
 import { usePopularMovies } from '@/hooks/usePopularMovies';
+import { useMoviesByCategory } from '@/hooks/useMoviesByCategory';
 import { Item } from '@/types/item';
 
 
 export default function Scroll() {
-  const [topRated, setTopRated] = useState<Item[]>([]);
 
-  const fetchTopRatedMovies = async () => {
-    try {
-      console.log("Fetching top rated movies...");
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/movies/top-rated`);
-      const data = response.data;
-      console.log(data);
-      setTopRated(data);
-    } catch (error) {
-      console.error("Error fetching top-rated movies:", error);
-    }
-  };
+  const { data: trended = [] } = useMoviesByCategory('popular');
+  const { data: topRatedMovies = [] } = useMoviesByCategory('top-rated');
+  const { data: upcomingMovies = [] } = useMoviesByCategory('upcoming');
+  const { data: inTheatres = [] } = useMoviesByCategory('in-theatres');
 
-  useEffect(() => {
-    fetchTopRatedMovies();
-  }, []);
 
-  const { data: trended = [] } = usePopularMovies();
 
 
   const recommended = [...allContent]
@@ -40,7 +29,10 @@ export default function Scroll() {
   return (
     <main className="bg-[#0f172a] min-h-screen px-6 py-8">
       <ContentScroll title="Trending" items={trended.slice(0, 7)} />
-      <ContentScroll title="Top Rated" items={topRated.slice(0, 7)} />
+      <ContentScroll title="Top Rated" items={topRatedMovies.slice(0, 7)} />
+      <ContentScroll title="Upcoming" items={upcomingMovies.slice(0, 7)} />
+      <ContentScroll title="In theatres" items={inTheatres.slice(0, 7)} />
+
 
       {/* <ContentScroll title="Recommended" items={recommended} /> */}
       {/* <ContentScroll title="Series to Binge" items={recommendedSeries} /> */}

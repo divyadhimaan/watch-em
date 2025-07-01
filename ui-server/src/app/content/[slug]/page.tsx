@@ -21,11 +21,13 @@ const ContentPage = () => {
     console.log("fetch movie for slug:", slug);
     const { movie, loading } = useMovieById(slug);
 
+
     if (loading) return <div>Loading...</div>;
     console.log("movie:", movie);
     if (!movie) return notFound();
 
-
+    const flatrate = movie?.watch_providers?.flatrate;
+    console.log(flatrate)
 
     return (
         <>
@@ -54,7 +56,7 @@ const ContentPage = () => {
                                         {movie?.title}
                                     </Text>
                                     <Text size="l" color="neutral-medium" weight="strong" paddingY="s">
-                                    {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
+                                        {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
                                     </Text>
                                 </Flex>
                                 <Flex gap="l" >
@@ -117,44 +119,38 @@ const ContentPage = () => {
 
 
                     </Grid>
-
-                    {/* <Text as="h3" size="xl" weight="strong" align="start">
-                        Streaming
-                    </Text>
-                    {movie.streaming && (
-                        <Flex gap="12" wrap align="center">
-                            {movie.streaming.map((platform) => {
-                                const imgSrc = streamingImageMap[platform];
-                                console.log("imgSrc", imgSrc);
-                                return imgSrc ? (
-                                    <>
-
+                    {(flatrate ?? []).length > 0  ? (
+                        <>
+                            <Text as="h3" size="xl" weight="strong" align="start">
+                                Available to Stream (India)
+                            </Text>
+                            <Flex gap="12" wrap align="center">
+                                {flatrate!.map((provider) => {
+                                    const imgSrc = getImageUrl(provider.logo_path, "w185");
+                                    return (
                                         <SmartImage
+                                            key={provider.provider_id}
                                             src={imgSrc}
-                                            alt={platform}
+                                            alt={provider.provider_name}
                                             aspectRatio="3/4"
                                             radius="l"
                                             style={{
                                                 borderRadius: "0.75rem",
                                                 overflow: "hidden",
-                                                width: "160px",
-                                                height: "80px",
+                                                objectFit: "contain",
+                                                width: "120px",
+                                                height: "100px",
                                             }}
                                         />
-                                    </>
-                                ) : (
-                                    <Text key={platform} size="s" color="neutral-medium">
-                                        {platform}
-                                    </Text>
-                                );
-                            })}
-                        </Flex>
-                    )} */}
-
-
-
-
-
+                                    );
+                                })}
+                            </Flex>
+                        </>
+                    ) : (
+                        <Text size="m" color="neutral-medium">
+                            Not available for streaming in India.
+                        </Text>
+                    )}
                 </Flex>
 
             </Column>

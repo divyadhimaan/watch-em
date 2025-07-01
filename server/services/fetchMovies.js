@@ -2,10 +2,31 @@ const axios = require('axios');
 const backendURL = process.env.JAVA_API_BASE_URL || 'http://localhost:8080';
 const Movie = require('../models/Movie');
 
+const memoryCache = {
+  'popular': [],
+  'top-rated': [],
+  'upcoming': [],
+  'in-theatres': []
+};
 
+// Helper to update both MongoDB and memory
+const updateCache = async (type, movies) => {
+  if (!Array.isArray(movies) || movies.length === 0) return;
 
-let popularMovies = [];
-let topRatedMovies = [];
+  await Movie.bulkWrite(
+    movies.map((movie) => ({
+      updateOne: {
+        filter: { id: movie.id, type },
+        update: { $set: { data: movie } },
+        upsert: true,
+      },
+    }))
+  );
+
+  memoryCache[type] = movies;
+  console.log(`📥 ${type} movies cached in MongoDB and memory`);
+};
+
 
 // Fetch movies from Java API
 
@@ -15,35 +36,17 @@ const fetchMoviesByType = async (type) => {
     const cached = await Movie.find({ type });
     if (cached.length > 0) {
       const movieList = cached.map(doc => doc.data);
+      memoryCache[type] = movieList;
       console.log(`✅ Loaded ${type} movies from MongoDB cache`);
-  
-      // Update local memory store
-      if (type === 'popular') popularMovies = movieList;
-      if (type === 'top-rated') topRatedMovies = movieList;
-  
       return;
     }
   
     // Fetch from Java backend
     try {
       const res = await axios.get(`${backendURL}/movies/${type}`);
-      const movies = res.data.results;
-  
-      // Cache in MongoDB
-      const saveOps = movies.map((movie) =>
-        Movie.updateOne(
-          { id: movie.id, type },
-          { $set: { data: movie } },
-          { upsert: true }
-        )
-      );
-      await Promise.all(saveOps);
-  
-      // Update memory cache
-      if (type === 'popular') popularMovies = movies;
-      if (type === 'top-rated') topRatedMovies = movies;
-  
-      console.log(`📥 ${type} movies cached in MongoDB`);
+      const movies = res.data.results || [];
+      console.log(`📥 Fetched ${movies.length} ${type} movies from Java API`);
+      await updateCache(type, movies);
     } catch (err) {
       console.error(`❌ Failed to fetch ${type} movies:`, err.message);
     }
@@ -60,14 +63,15 @@ const fetchMovieDetailsById = async (id) => {
         throw err;
     }
 }
+const getMoviesByType = (type) => memoryCache[type] || [];
 
-const getPopularMovies = () => popularMovies;
-const getTopRatedMovies = () => topRatedMovies;
 
 
 module.exports = {
     fetchMoviesByType,
     fetchMovieDetailsById,
-    getPopularMovies,
-    getTopRatedMovies,
+    getPopularMovies: () => getMoviesByType('popular'),
+    getTopRatedMovies: () => getMoviesByType('top-rated'),
+    getUpcomingMovies: () => getMoviesByType('upcoming'),
+    getInTheatreMovies: () => getMoviesByType('in-theatres')
   };

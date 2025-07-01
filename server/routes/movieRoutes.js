@@ -6,6 +6,8 @@ const {
     fetchMoviesByType,
     getPopularMovies,
     getTopRatedMovies,
+    getUpcomingMovies,
+    getInTheatreMovies,
     fetchMovieDetailsById
   } = require('../services/fetchMovies');
 
@@ -34,11 +36,30 @@ router.get('/movies/top-rated', async (req, res) => {
     res.json(getTopRatedMovies());
 });
 
+router.get('/movies/upcoming', async (req, res) => {
+    const movies = getUpcomingMovies();
+   
+    if (movies.length === 0){
+        console.log('Upcoming Movies not cached, fetching from API...');
+        await fetchMoviesByType('upcoming');
+    }
+    res.json(getUpcomingMovies());
+});
+
+router.get('/movies/in-theatres', async (req, res) => {
+    const movies = getInTheatreMovies();
+   
+    if (movies.length === 0){
+        console.log('In Theatre Movies not cached, fetching from API...');
+        await fetchMoviesByType('in-theatres');
+    }
+    res.json(getInTheatreMovies());
+});
+
 router.get('/movie/details/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const details = await fetchMovieDetailsById(id);
-        console.log('📦 Movie details from Java backend:', details);
         res.json(details);
       } catch (err) {
         res.status(500).json({ error: 'Failed to fetch movie details' });

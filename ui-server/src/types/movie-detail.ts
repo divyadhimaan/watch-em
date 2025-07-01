@@ -20,6 +20,20 @@ export interface Genre {
     iso_639_1: string;
     name: string;
   }
+
+  export interface ProviderDetails {
+    logo_path: string;
+    provider_id: number;
+    provider_name: string;
+    display_priority: number;
+  }
+  
+  export interface WatchProvider {
+    link: string;
+    flatrate?: ProviderDetails[];
+    rent?: ProviderDetails[];
+    buy?: ProviderDetails[];
+  }
   
   export interface MovieDetail {
     adult: boolean;
@@ -48,5 +62,6 @@ export interface Genre {
     video: boolean;
     vote_average: number;
     vote_count: number;
+    watch_providers: WatchProvider | null;
   }
   

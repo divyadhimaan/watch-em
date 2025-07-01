@@ -46,4 +46,8 @@ app.listen(PORT, () => {
 
   fetchMoviesByType('popular')
   fetchMoviesByType('top-rated')
+  fetchMoviesByType('upcoming')
+  fetchMoviesByType('in-theatres')
+
+
 });
