@@ -2,12 +2,11 @@
 const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
-  id: { type: Number, required: true}, // TMDB ID
+  id: { type: Number }, // TMDB ID
   title: String,
   data: Object,
   type: {
     type: String,
-    enum: ['popular', 'top-rated', 'details', 'all', 'upcoming', 'in-theatres'],
     required: true
   },
   createdAt: {

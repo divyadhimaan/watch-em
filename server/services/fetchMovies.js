@@ -55,21 +55,52 @@ const fetchMovieDetailsById = async (id) => {
         const res = await axios.get(`${backendURL}/movie/details/${id}`);
         console.log('Movie details fetched for ID:', id);
         // console.log(res.data);
+
+        await Movie.updateOne(
+          { id, type: 'details' },
+          { $set: { data: res.data } },
+          { upsert: true }
+        );    
+
         return res.data;
     } catch (err) {
-        console.error('Failed to fetch movie details:', err.message);
-        throw err;
+      console.warn('⚠️ Java API failed, falling back to MongoDB for ID:', id);
+
+      const cached = await Movie.findOne({ id, type: 'details' });
+      if (cached) {
+        console.log('✅ Movie details loaded from MongoDB cache:', id);
+        return cached.data;
+      }
+      console.error('❌ Movie details not found in MongoDB:', err.message);
+      throw err;
     }
 }
 const fetchMoviesBySlug = async (slug) => {
+  const slugType = `slug:${slug}`;
+  
   try {
-      const res = await axios.get(`${backendURL}/movies/filter/${slug}`);
-      console.log('Movies fetched for slug: ', slug);
-      // console.log(res.data);
-      return res.data.results;
+    const res = await axios.get(`${backendURL}/movies/filter/${slug}`);
+    const movies = res.data.results || [];
+    console.log('📥 Movies fetched from Java API for slug:', slug);
+
+    await Movie.updateOne(
+      { type: slugType },
+      { $set: { data: movies } },
+      { upsert: true }
+    );
+
+    return movies;
   } catch (err) {
-      console.error('Failed to fetch movies:', err.message);
-      throw err;
+    console.warn('⚠️ Java API failed, falling back to MongoDB for slug:', slug);
+
+    const cached = await Movie.findOne({ type: slugType });
+    if (cached && Array.isArray(cached.data)) {
+      console.log('✅ Slug movies loaded from MongoDB cache:', slug);
+      return cached.data;
+    }
+
+    console.error('❌ Slug movies not found in MongoDB:', err.message);
+    throw err;
   }
 }
 
