@@ -37,6 +37,10 @@ app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello from Node.js server!' });
 });
 
+app.get('/', (req, res) => {
+  res.send('✅ Watch-em backend is running');
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
