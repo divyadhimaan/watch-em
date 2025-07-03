@@ -41,16 +41,29 @@ app.get('/', (req, res) => {
   res.send('✅ Watch-em backend is running');
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).send('✅ Watch-em backend is healthy');
+});
+
+const prefetchAllMovies = async () => {
+  try {
+    console.log('📦 Pre-fetching popular & top-rated movies...');
+    await fetchMoviesByType('popular');
+    await fetchMoviesByType('top-rated');
+    await fetchMoviesByType('upcoming');
+    await fetchMoviesByType('in-theatres');
+    await fetchMoviesByType('all');
+    console.log('✅ Finished prefetching all movies');
+  } catch (err) {
+    console.error('❌ Prefetching failed:', err);
+  }
+};
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
   console.log(`Connected to Java backend at ${backendURL}`);
 
-  console.log('📦 Pre-fetching popular & top-rated movies...');
 
-  fetchMoviesByType('popular')
-  fetchMoviesByType('top-rated')
-  fetchMoviesByType('upcoming')
-  fetchMoviesByType('in-theatres')
-  fetchMoviesByType('all')
+  prefetchAllMovies();
 });
