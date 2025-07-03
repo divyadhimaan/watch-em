@@ -26,12 +26,33 @@ const MovieList = () => {
   //   () => (movies && movies.length > 0 ? shuffleArray(movies) : []),
   //   [movies]
   // );
-  if (loading) return <div className="p-6 text-center">Loading...</div>;
-  // if (error || !movies.length)
-  //   return <div className="p-6 text-center text-red-500">No movies found.</div>;
+  if (loading) return (
+    <Flex
+      direction="column"
+      paddingY='160'
+      align="center"
+      vertical='center'
+      className="min-h-screen"
+    >
+      <div className="w-16 h-16 bg-blue-500 rounded-full animate-pulse"></div>
+      <p className="mt-4 text-gray-600">Loading movies...</p>
+    </Flex>
+  );
+  if (error || !movies.length)
+    return (
+      <Flex
+        direction="column"
+        paddingY='160'
+        align="center"
+        vertical='center'
+        className="min-h-screen"
+      >
+        <div className="w-16 h-16 bg-blue-500 rounded-full animate-pulse"></div>
+        <p className="mt-4 text-gray-600">No Movies Found.</p>
+      </Flex>
+    );
 
   const movieList = (!error && movies?.length) ? movies : mockMovies;
-
 
   return (
     <Flex

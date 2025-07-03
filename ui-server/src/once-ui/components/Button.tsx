@@ -8,7 +8,7 @@ import { Spinner, Icon, Arrow, Flex } from ".";
 import styles from "./Button.module.scss";
 
 interface CommonProps {
-  variant?: "primary" | "secondary" | "tertiary" | "danger";
+  variant?: "primary" | "secondary" | "tertiary" | "danger" | "link";
   size?: "s" | "m" | "l";
   radius?:
     | "none"

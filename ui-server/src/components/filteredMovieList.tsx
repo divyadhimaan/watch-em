@@ -22,19 +22,31 @@ const FilteredMovieList = ({ slug }: Props) => {
   const { movies, loading, error } = useMoviesBySlug(slug);
   // const shuffled = useMemo(() => shuffleArray(movies), [movies]);
 
-  if (loading) {
-    return (
-      <Flex align="center" style={{ height: '60vh', width: '100%' }}>
-        <Text size="xl" weight="strong">Loading...</Text>
-      </Flex>
-    );
-  }
+  if (loading) return (
+    <Flex
+      direction="column"
+      paddingY='160'
+      align="center"
+      vertical='center'
+      className="min-h-screen"
+    >
+      <div className="w-16 h-16 bg-blue-500 rounded-full animate-pulse"></div>
+      <p className="mt-4 text-gray-600">Loading movies...</p>
+    </Flex>
+  );
 
   if (error || !movies.length) {
     return (
-      <div className="p-6 text-center text-red-500">
-        No movies found.
-      </div>
+      <Flex
+        direction="column"
+        paddingY='160'
+        align="center"
+        vertical='center'
+        className="min-h-screen"
+      >
+        <div className="w-16 h-16 bg-blue-500 rounded-full animate-pulse"></div>
+        <p className="mt-4 text-gray-600">No Movies found for selected filter</p>
+      </Flex>
     );
   }
 

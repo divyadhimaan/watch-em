@@ -111,3 +111,8 @@ a:not(.button) {
 ::-webkit-scrollbar-corner {
     background-color: var(--static-transparent);
 }
+
+
+.signup-link-button:hover {
+    text-decoration: underline;
+  }

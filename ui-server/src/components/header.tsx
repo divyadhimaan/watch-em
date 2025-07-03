@@ -13,7 +13,20 @@ import { routes } from "@/once-ui/resources/config";
 import { movies, series } from "@/once-ui/resources/content"
 
 
-export const Header = () => {
+
+interface HeaderProps {
+    showLogo?: boolean;
+    showMenu?: boolean;
+    showOptions?: boolean;
+    showSignIn?: boolean;
+  }
+
+export const Header: React.FC<HeaderProps> = ({
+    showLogo = true,
+    showMenu = true,
+    showOptions = true,
+    showSignIn = false,
+  }) => {
     const pathname = usePathname() ?? "";
     const [searchExpanded, setSearchExpanded] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -45,8 +58,12 @@ export const Header = () => {
                     paddingLeft="32"
                     paddingY="20"
                 >
-                    <Logo size="m" icon={false} href="/" />
-                    <Flex
+                    <Row hide="s">
+                    {showLogo && <Logo size="m" icon={false} href="/" />}
+                    </Row>
+                    
+                    
+                    {showMenu && <Flex
                         background="surface"
                         border="neutral-medium"
                         radius="m-4"
@@ -93,8 +110,8 @@ export const Header = () => {
                                     />
                                 </>
                             )}
-                            <Line vert maxHeight="24" />
-                            <Flex align="center" style={{ position: "relative", minWidth: "40px" }}>
+                            {/* <Line vert maxHeight="24" /> */}
+                            {/* <Flex align="center" style={{ position: "relative", minWidth: "40px" }}>
                                 {!searchExpanded ? (
                                     <ToggleButton
                                         prefixIcon="search"
@@ -128,37 +145,54 @@ export const Header = () => {
                                         />
                                     </Flex>
                                 )}
-                            </Flex>
+                            </Flex> */}
 
                         </Flex>
                     </Flex>
+                    }
 
-
-                    <Row gap="12" hide="s">
-                        <Flex
-                            background="surface"
-                            border="neutral-medium"
-                            radius="m-4"
-                            shadow="l"
-                            padding="4"
-                            horizontal="center"
-                        >
-                            <ToggleButton prefixIcon="notification" onClick={checkNodeServer} selected={false} />
-                        
-                        </Flex><Flex
-                            background="surface"
-                            border="neutral-medium"
-                            radius="m-4"
-                            shadow="l"
-                            padding="4"
-                            horizontal="center"
-                        >
-                            <ToggleButton prefixIcon="person"  href="/login" selected={false} />
-                        </Flex>
-                        <Row position="fixed" top="20" right="20">
-                            <StyleOverlay position="fixed" top="8" right="8" style={{ height: "calc(100vh - var(--static-space-16))" }} />
+                    {showOptions && 
+                        <Row gap="12" hide="s">
+                            <Flex
+                                background="surface"
+                                border="neutral-medium"
+                                radius="m-4"
+                                shadow="l"
+                                padding="4"
+                                horizontal="center"
+                            >
+                                <ToggleButton prefixIcon="notification" onClick={checkNodeServer} selected={false} />
+                            
+                            </Flex><Flex
+                                background="surface"
+                                border="neutral-medium"
+                                radius="m-4"
+                                shadow="l"
+                                padding="4"
+                                horizontal="center"
+                            >
+                                <ToggleButton prefixIcon="person"  href="/signin" selected={false} />
+                            </Flex>
+                            <Row position="fixed" top="20" right="20">
+                                <StyleOverlay position="fixed" top="8" right="8" style={{ height: "calc(100vh - var(--static-space-16))" }} />
+                            </Row>
                         </Row>
-                    </Row>
+                    }
+                    {showSignIn && 
+                        <Row gap="12" hide="s">
+                            <Flex
+                                background="surface"
+                                border="neutral-medium"
+                                radius="m-4"
+                                shadow="l"
+                                padding="4"
+                                horizontal="center"
+                            >
+                                <ToggleButton label="Sign In" href="/signin" selected={false} />
+                            
+                            </Flex>
+                        </Row>
+                    }
                 </Row>
             </Row>
         </>
