@@ -6,6 +6,7 @@ dotenv.config();
 const connectMongoDB = async () => {
     try {
       const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/watch-em';
+      console.log("my mongoURI", mongoURI);
   
       await mongoose.connect(mongoURI, {
         dbName: 'watchem',

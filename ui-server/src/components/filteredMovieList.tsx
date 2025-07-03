@@ -20,7 +20,7 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const FilteredMovieList = ({ slug }: Props) => {
   const { movies, loading, error } = useMoviesBySlug(slug);
-  const shuffled = useMemo(() => shuffleArray(movies), [movies]);
+  // const shuffled = useMemo(() => shuffleArray(movies), [movies]);
 
   if (loading) {
     return (
@@ -50,7 +50,7 @@ const FilteredMovieList = ({ slug }: Props) => {
         Movies for: {slug.replace(/-/g, " ")}
       </h1>
       <Grid columns={6} gap="12">
-        {shuffled.map((item) => (
+        {movies.map((item) => (
           <Card
             key={item.id}
             href={`/content/${item.id}`}

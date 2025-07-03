@@ -4,6 +4,7 @@ import { useMovies } from '@/hooks/useMovies';
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import React, { useMemo } from "react";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { movies as mockMovies } from "@/resources/movies";
 
 
 interface Props {
@@ -21,13 +22,16 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const MovieList = () => {
   const { movies, loading, error } = useMovies();
-  const shuffled = useMemo(
-    () => (movies && movies.length > 0 ? shuffleArray(movies) : []),
-    [movies]
-  );
+  // const shuffled = useMemo(
+  //   () => (movies && movies.length > 0 ? shuffleArray(movies) : []),
+  //   [movies]
+  // );
   if (loading) return <div className="p-6 text-center">Loading...</div>;
-  if (error || !movies.length)
-    return <div className="p-6 text-center text-red-500">No movies found.</div>;
+  // if (error || !movies.length)
+  //   return <div className="p-6 text-center text-red-500">No movies found.</div>;
+
+  const movieList = (!error && movies?.length) ? movies : mockMovies;
+
 
   return (
     <Flex
@@ -39,7 +43,7 @@ const MovieList = () => {
     >
       
       <Grid columns={6} gap="12">
-        {shuffled.map((item) => (
+        {movieList.map((item) => (
           <Card
             key={item.id}
             href={`/content/${item.id}`}
@@ -48,9 +52,9 @@ const MovieList = () => {
             <div className="relative w-full aspect-[2/3] group">
               <SmartImage
                 src={
-                  item.poster_path
+                  item?.poster_path
                     ? getImageUrl(item.poster_path)
-                    : "/fallback.jpg"
+                    : item.poster_path
                 }
                 alt={item.title}
                 aspectRatio="3/4"
