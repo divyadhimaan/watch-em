@@ -30,6 +30,8 @@ const movieRoutes = require('./routes/movieRoutes');
 
 app.use('/api', movieRoutes);
 
+app.use('/api/auth', require('./routes/authRoutes'));
+
 
 
 // Health check route

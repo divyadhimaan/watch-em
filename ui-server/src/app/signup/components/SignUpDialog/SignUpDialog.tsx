@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 import {
     Heading,
@@ -29,6 +30,9 @@ const SignUpDialog = ({
 
     const [email, setEmail] = useState(credentials?.email || "");
     const [password, setPassword] = useState("");
+
+    const { signup, isAuthenticated, logout } = useAuth();
+
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
 
@@ -50,7 +54,7 @@ const SignUpDialog = ({
         return null;
     };
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         const emailError = validateEmail();
         if (emailError) {
           setError(emailError);
@@ -66,13 +70,20 @@ const SignUpDialog = ({
 
         setCredentials({ email, password });
 
-        addToast({
-            variant: "success",
-            message: "Wohoo! Grab some popcorn. The binge begins now.",
-        });
+        const success = await signup({ email, password });
+        if (success) {
+            addToast({
+                variant: "success",
+                message: "Wohoo! Grab some popcorn. The binge begins now.",
+            });
+    
+            onClose();
+            router.push("/");
+        } else {
+            setError("Invalid Credentials.");
+        }
 
-        onClose();
-        router.push("/");
+        
       };
 
   return (
