@@ -17,26 +17,31 @@ import {
     Column,
     Row,
     useToast,
+    Dialog,
 } from "@/once-ui/components";
 import { Header } from "@/components/header";
+import SignUpDialog from "./components/SignUpDialog/SignUpDialog"
 
 
 export default function SignupPage() {
 
     const { addToast } = useToast();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isFirstDialogOpen, setIsFirstDialogOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [credentials, setCredentials] = useState<{ email: string; password: string }>({
+        email: "",
+        password: "",
+      });
 
 
-    const validateLogin = () => {
+    const validateEmail = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!regex.test(email)) {
-            return "Email and / or password is invalid.";
+        if (!regex.test(credentials.email)) {
+            return "Email is invalid.";
         }
         return null;
     };
+
 
     return (
         <Column fillWidth paddingY="160" paddingX="s" horizontal="center" flex={1}>
@@ -85,11 +90,10 @@ export default function SignupPage() {
                                 id="email"
                                 label="Email"
                                 labelAsPlaceholder
-                                onChange={(e) => setEmail(e.target.value)}
-                                value={email}
-                                validate={validateLogin}
+                                onChange={(e) => setCredentials((prev) => ({ ...prev, email: e.target.value }))}
+                                value={credentials?.email || ""}
+                                validate={validateEmail}
                                 errorMessage={false}
-                                // radius="top"
                             />
                             <Button
                                 id="login"
@@ -97,17 +101,67 @@ export default function SignupPage() {
                                 arrowIcon
                                 fillWidth
                                 onClick={() => {
-                                    addToast({
-                                        variant: "success",
-                                        message: "Lights, Camera, Watchem!",
-                                    });
-                                }}
+                                    if(credentials.email==""){
+                                        addToast({
+                                            variant: "danger",
+                                            message: "Email cannot be empty.",
+                                        });
+                                        return;
+                                    }
+                                    const error = validateEmail();
+                                    if (error) {
+                                      addToast({
+                                        variant: "danger",
+                                        message: error,
+                                      });
+                                      return;
+                                    }
+                                    
+                                
+                                    setOpenDialog(true);
+                                  }}
                             />
                         </Row>
+                        {openDialog && (
+                            <Dialog 
+                                title=""
+                                isOpen={openDialog}
+                                onClose={() => setOpenDialog(false)}
+                                closeOnOutsideClick={false}
+                            >
+                                <SignUpDialog 
+                                    onClose={() => setOpenDialog(false)} 
+                                    credentials={credentials}
+                                    setCredentials={setCredentials}
+                                />
+                            </ Dialog>
+                        )}
                         
-                        <Text onBackground="neutral-medium" marginBottom="24" >
-                            New to Watchem ? 
-                            <SmartLink href="/">sign up</SmartLink>
+                        <Text
+                            as="span"
+                            onBackground="neutral-medium"
+                            marginBottom="24"
+                            style={{ display: "inline-flex", alignItems: "baseline", gap: "4px" }}
+                            >
+                            {"Already a member?"}
+                            <Button
+                                id="signin"
+                                label="Sign in"
+                                variant="link"
+                                size="s"
+                                href="/signin"
+                                fillWidth={false}
+                                className="link-button signin-link-button"
+                                style={{
+                                    background: "none",
+                                    padding: 0,
+                                    color: "var(--once-text-primary, #fff)",
+                                    display: "inline", 
+                                    fontSize: "inherit", 
+                                    fontWeight: "inherit",
+                                    cursor: "pointer",
+                                }}
+                            />
                         </Text>
 
                         

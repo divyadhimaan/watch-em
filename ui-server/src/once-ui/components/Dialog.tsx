@@ -19,12 +19,13 @@ interface DialogProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
   onClose: () => void;
   title: ReactNode | string;
   description?: ReactNode;
-  children: ReactNode;
+  children?: React.ReactElement;
   footer?: ReactNode;
   base?: boolean;
   stack?: boolean;
   onHeightChange?: (height: number) => void;
   minHeight?: number;
+  closeOnOutsideClick?: boolean;
 }
 
 const DialogContext = React.createContext<{
@@ -65,6 +66,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
       footer,
       onHeightChange,
       minHeight,
+      closeOnOutsideClick, 
       ...rest
     },
     ref,
@@ -86,6 +88,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
         onHeightChange?.(height);
       }
     }, [isVisible, onHeightChange]);
+
 
     useEffect(() => {
       if (isOpen) {
@@ -137,45 +140,53 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
       }
     }, [isOpen, handleKeyDown]);
 
+    // useEffect(() => {
+    //   if (isOpen) {
+    //     document.body.style.overflow = "hidden";
+    //     // Make everything outside the dialog inert
+    //     document.body.childNodes.forEach((node) => {
+    //       if (node instanceof HTMLElement && node !== document.getElementById("portal-root")) {
+    //         node.inert = true;
+    //       }
+    //     });
+
+    //     // If this is a stacked dialog, make the base dialog inert too
+    //     if (stack) {
+    //       const dialogs = document.querySelectorAll('[role="dialog"]');
+    //       dialogs.forEach((dialog) => {
+    //         if (dialog instanceof HTMLElement && !dialog.contains(dialogRef.current)) {
+    //           dialog.inert = true;
+    //         }
+    //       });
+    //     }
+    //   } else {
+    //     // If this is a stacked dialog closing, restore interactivity to base dialog
+    //     if (stack) {
+    //       const dialogs = document.querySelectorAll('[role="dialog"]');
+    //       dialogs.forEach((dialog) => {
+    //         if (dialog instanceof HTMLElement) {
+    //           dialog.inert = false;
+    //         }
+    //       });
+    //     } else {
+    //       // If base dialog is closing, restore everything
+    //       document.body.childNodes.forEach((node) => {
+    //         if (node instanceof HTMLElement) {
+    //           node.inert = false;
+    //         }
+    //       });
+    //       document.body.style.overflow = "unset";
+    //     }
+    //   }
+    // }, [isOpen, stack]);
+
     useEffect(() => {
       if (isOpen) {
         document.body.style.overflow = "hidden";
-        // Make everything outside the dialog inert
-        document.body.childNodes.forEach((node) => {
-          if (node instanceof HTMLElement && node !== document.getElementById("portal-root")) {
-            node.inert = true;
-          }
-        });
-
-        // If this is a stacked dialog, make the base dialog inert too
-        if (stack) {
-          const dialogs = document.querySelectorAll('[role="dialog"]');
-          dialogs.forEach((dialog) => {
-            if (dialog instanceof HTMLElement && !dialog.contains(dialogRef.current)) {
-              dialog.inert = true;
-            }
-          });
-        }
       } else {
-        // If this is a stacked dialog closing, restore interactivity to base dialog
-        if (stack) {
-          const dialogs = document.querySelectorAll('[role="dialog"]');
-          dialogs.forEach((dialog) => {
-            if (dialog instanceof HTMLElement) {
-              dialog.inert = false;
-            }
-          });
-        } else {
-          // If base dialog is closing, restore everything
-          document.body.childNodes.forEach((node) => {
-            if (node instanceof HTMLElement) {
-              node.inert = false;
-            }
-          });
-          document.body.style.overflow = "unset";
-        }
+        document.body.style.overflow = "unset";
       }
-    }, [isOpen, stack]);
+    }, [isOpen]);
 
     useEffect(() => {
       if (isOpen && dialogRef.current) {
@@ -188,6 +199,9 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
     }, [isOpen]);
 
     useEffect(() => {
+
+      if (!closeOnOutsideClick) return;
+
       const handleClickOutside = (event: MouseEvent) => {
         if (!dialogRef.current?.contains(event.target as Node)) {
           if (stack || !base) {
@@ -202,7 +216,8 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
           document.removeEventListener("mousedown", handleClickOutside);
         };
       }
-    }, [isVisible, onClose, stack, base]);
+    }, [isVisible, onClose, stack, base, closeOnOutsideClick]);
+
 
     if (!isVisible) return null;
 
@@ -225,6 +240,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
         role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"
+        // onClick={(e) => e.stopPropagation()}
       >
         <Flex
           fill
@@ -295,7 +311,11 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
                   size="m"
                   variant="tertiary"
                   tooltip="Close"
-                  onClick={onClose}
+                  style={{ cursor: "pointer" }}
+                  onClick={(e: any) => {
+                    e.stopPropagation(); 
+                    onClose();
+                  }}
                 />
               </Flex>
               {description && (
@@ -312,7 +332,9 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
               overflowY="auto"
               direction="column"
             >
-              {children}
+              {React.isValidElement(children)
+              ? React.cloneElement(children as React.ReactElement<any>, { onClose })
+              : children}
             </Flex>
             {footer && (
               <Flex borderTop="neutral-medium" as="footer" horizontal="end" padding="12" gap="8">
