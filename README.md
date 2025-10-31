@@ -15,6 +15,7 @@ Watch'em is a full-stack movie recommendation and playlist management web app th
 - Movie Recommendations: Get personalized movie suggestions using TMDb/OMDb APIs.
 - User Dashboard: Track playlists, ratings, and trending movies.
 - Social Sharing: Share playlists with friends and follow other users.
+- User authentication using jwt backend
 
 
 ## Tech Stack
