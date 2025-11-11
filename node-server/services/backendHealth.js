@@ -8,7 +8,6 @@ const BACKEND_HEALTH_URL = `${backendURL}/actuator/health`;
 
 const checkBackendHealth = async () => {
   try {
-    console.log(`🔍 Checking backend connectivity at ${BACKEND_HEALTH_URL} ...`);
     const response = await axios.get(BACKEND_HEALTH_URL, { timeout: 5000 });
 
     if (response.status === 200) {

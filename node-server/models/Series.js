@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose');
 
-const movieSchema = new mongoose.Schema({
+const seriesSchema = new mongoose.Schema({
   id: { type: Number }, // TMDB ID
   title: String,
   data: Object,
@@ -16,8 +16,7 @@ const movieSchema = new mongoose.Schema({
   }
 });
 
-movieSchema.index({ id: 1, type: 1 }, { unique: true });
+seriesSchema.index({ id: 1, type: 1 }, { unique: true });
 
 
-module.exports = mongoose.models.Movie || mongoose.model('Movie', movieSchema);
-
+module.exports = mongoose.models.Series || mongoose.model('Series', seriesSchema);
