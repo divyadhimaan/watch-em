@@ -35,17 +35,20 @@ export const useEntity = <T extends Entity>(
   const params = options?.params;
   const query = options?.query;
 
+  const optionsKey = JSON.stringify({ params, query });
+
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       console.log(`Fetching ${entityType}...`);
-
+  
       try {
         const baseURL = process.env.NEXT_PUBLIC_API_BASE;
-        const queryString = options?.query ? `/${query}` : '/all';
-        const res = await axios.get(`${baseURL}/api/${entityType}${queryString}`, {params});
-
+        const queryString = query ? `/${query}` : '/all';
+        const res = await axios.get(`${baseURL}/api/${entityType}${queryString}`, { params });
+  
         console.log(`${entityType} fetched successfully:`, res.data);
         setData(res.data);
       } catch (err: any) {
@@ -54,9 +57,9 @@ export const useEntity = <T extends Entity>(
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [entityType, JSON.stringify(options), params, query]);
+  }, [entityType, optionsKey]);
 
   return { data, loading, error };
 };
