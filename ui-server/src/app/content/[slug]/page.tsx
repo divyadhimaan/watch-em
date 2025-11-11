@@ -12,12 +12,14 @@ import { useParams } from "next/navigation";
 import { getImageUrl } from "@/utils/getImageUrl";
 
 
-
-
 const ContentPage = () => {
-    const params = useParams();
-    const slug = typeof params.slug === 'string' ? params.slug : Array.isArray(params.slug) ? params.slug[0] : '';
-
+    const params = useParams() as { slug?: string | string[] } | null;
+    const slug =
+    params && params.slug
+      ? typeof params.slug === 'string'
+        ? params.slug
+        : params.slug[0]
+      : '';
     console.log("fetch movie for slug:", slug);
     const { movie, loading } = useMovieById(slug);
 
