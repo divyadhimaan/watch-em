@@ -3,6 +3,7 @@
 import React from 'react';
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import { getImageUrl } from "@/utils/getImageUrl";
+import Loader from "../Loader/Loader"
 
 export interface Entity {
   id: string | number;
@@ -31,15 +32,10 @@ const EntityList: React.FC<EntityListProps> = ({
 }) => {
 
   if (error) return <div>Error: {error}</div>;
-  if (!data || data.length === 0) return <div>No movies found</div>;
-
 
   if (loading)
     return (
-      <Flex direction="column" paddingY="160" align="center" vertical="center" className="min-h-screen">
-        <div className="w-16 h-16 bg-blue-500 rounded-full animate-pulse"></div>
-        <p className="mt-4 text-gray-600">Loading {entityType}s...</p>
-      </Flex>
+        <Loader />
     );
 
   const entityList = (!error && data?.length) ? data : mockData;
