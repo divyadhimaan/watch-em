@@ -11,7 +11,6 @@ import { useEntity } from '@/hooks/useEntity';
 export default function AllMoviesPage() {
   const { data, loading, error } = useEntity('movies');
 
-  console.log(data);
   return (
     <>
     <Header />

@@ -38,7 +38,6 @@ export const useEntity = <T extends Entity>(
       try {
         const baseURL = process.env.NEXT_PUBLIC_API_BASE;
         const queryString = options?.query ? `/${options.query}` : '/all';
-        console.log(`queryString: ${queryString}`)
         const res = await axios.get(`${baseURL}/api/${entityType}${queryString}`, {
           params: options?.params,
         });

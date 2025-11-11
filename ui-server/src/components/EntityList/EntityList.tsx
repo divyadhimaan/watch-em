@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import { getImageUrl } from "@/utils/getImageUrl";
 
@@ -29,8 +29,6 @@ const EntityList: React.FC<EntityListProps> = ({
   loading,
   error,
 }) => {
-  console.log(data);
-
 
   if (error) return <div>Error: {error}</div>;
   if (!data || data.length === 0) return <div>No movies found</div>;
