@@ -29,6 +29,8 @@ checkBackendHealth();
 // Routes
 app.use('/api/movies', require('./routes/movies'));
 app.use('/api/series', require('./routes/series'));
+app.use('/api/entities', require('./routes/entities'));
+
 app.use('/api/auth', require('./routes/authRoutes'));
 
 // Health check route

@@ -2,11 +2,11 @@ import React from 'react';
 import ClientFilteredContent from '@/components/ClientFilteredContent/ClientFilteredContent';
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const FilteredContentPage = async ({ params }: PageProps) => {
-  const { slug } = params;
+  const { slug } = await params; // unwrap server params
   return <ClientFilteredContent slug={slug} />;
 };
 
