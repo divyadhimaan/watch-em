@@ -1,35 +1,13 @@
-'use client';
-
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
-import FilteredMovieList from "@/components/filteredMovieList";
-import { useMoviesBySlug } from '@/hooks/useMoviesBySlug';
-import EntityList from "@/components/EntityList/EntityList";
+import React from 'react';
+import ClientFilteredContent from '@/components/ClientFilteredContent/ClientFilteredContent';
 
 interface PageProps {
-  params: { slug: string }; 
+  params: { slug: string };
 }
 
-const FilteredContentPage = ({ params }: PageProps) => {
+const FilteredContentPage = async ({ params }: PageProps) => {
   const { slug } = params;
-  const normalizedSlug = slug.toLowerCase();
-
-  const { movies, loading, error } = useMoviesBySlug(normalizedSlug);
-
-  return (
-    <>
-      <Header />
-      {/* <FilteredMovieList slug={normalizedSlug} /> */}
-      <EntityList
-        entityType="movie"
-        mockData={[]}
-        data={movies}
-        loading={loading}
-        error={error}
-      />
-      <Footer />
-    </>
-  );
+  return <ClientFilteredContent slug={slug} />;
 };
 
 export default FilteredContentPage;

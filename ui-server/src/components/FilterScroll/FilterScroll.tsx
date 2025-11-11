@@ -3,16 +3,15 @@ import {
     Button,
     IconButton,
     Flex,
-    Background,
 } from "@/once-ui/components";
 
 import { TAGS } from "@/resources/tags";
-import styles from "@/components/filter.module.scss";
+import styles from "./FilterScroll.module.scss";
 
 import Link from "next/link";
 
 
-export const Filter = () => {
+export const FilterScroll = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [showLeft, setShowLeft] = useState(false);
     const [showRight, setShowRight] = useState(false);
@@ -77,14 +76,14 @@ export const Filter = () => {
                                                 key={item.label}
                                                 prefixIcon={item.icon}
                                                 label={item.label}
-                                                size="l"
+                                                size="m"
                                                 variant="secondary"
                                             />
                                             </Link>
                                             <Link href={`/filter/${item.value}` || slugify(item.label)}>
                                             <IconButton
                                                 className="s-flex-show"
-                                                size="l"
+                                                size="m"
                                                 key={`${item.label}-icon`}
                                                 icon={item.icon}
                                                 variant="secondary"

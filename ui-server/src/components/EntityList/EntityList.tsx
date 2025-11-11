@@ -14,6 +14,7 @@ export interface Entity {
 }
 
 interface EntityListProps {
+  header?: string
   entityType: 'movie' | 'series' | 'person' | string;
   mockData: Entity[];
   routePrefix?: string;
@@ -23,6 +24,7 @@ interface EntityListProps {
 }
 
 const EntityList: React.FC<EntityListProps> = ({
+  header,
   entityType,
   mockData,
   routePrefix = '/content',
@@ -49,6 +51,13 @@ const EntityList: React.FC<EntityListProps> = ({
 
   return (
     <Flex direction="column" className="px-6 py-10 max-w-6xl mx-auto" gap="m" paddingY="xl" paddingX="l">
+      
+      {header && (
+        <Flex direction="row" className="mb-6" align="center">
+          <h2 className="text-2xl font-semibold text-gray-800">{header}</h2>
+        </Flex>
+      )}
+
       <Grid columns={6} gap="12">
         {entityList.map((item) => (
           <Card

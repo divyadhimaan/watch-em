@@ -33,7 +33,7 @@ import {
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 import { CarouselCards } from "@/components/CarouselCards/CarouselCards";
-import { Filter } from "@/components/filter"
+import { FilterScroll } from "@/components/FilterScroll/FilterScroll"
 import Scroll from "@/components/scroll";
 
 export default function Home() {
@@ -119,7 +119,7 @@ export default function Home() {
         fillWidth
       >
         <CarouselCards />
-        <Filter />
+        <FilterScroll />
         <Scroll />
         
         {/* <Column

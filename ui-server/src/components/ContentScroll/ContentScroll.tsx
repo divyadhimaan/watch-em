@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Card, IconButton, Flex, Text, Icon, SmartImage, Line } from "@/once-ui/components";
-import styles from "@/components/ContentScroll/ContentScroll.module.scss";
+import styles from "./ContentScroll.module.scss";
 import { Item } from '@/types/item';
 import { getImageUrl } from "@/utils/getImageUrl";
 

@@ -14,6 +14,7 @@ export default function AllSeriesPage() {
     <>
     <Header />
     <EntityList
+      header="Series"
       entityType="series"
       mockData={mockSeries}
       data={data}

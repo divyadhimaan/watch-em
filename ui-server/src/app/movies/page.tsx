@@ -15,6 +15,7 @@ export default function AllMoviesPage() {
     <>
     <Header />
     <EntityList
+      header="Movies"
       entityType="movie"
       mockData={mockMovies}
       data={data}
