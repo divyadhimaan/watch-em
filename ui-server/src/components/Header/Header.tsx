@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({
                                     />
                                 </>
                             )}
-                            {routes["/series"] && (
+                            {/* {routes["/series"] && (
                                 <>
                                     <ToggleButton
                                         className="s-flex-hide"
@@ -109,7 +109,8 @@ export const Header: React.FC<HeaderProps> = ({
                                         selected={pathname.startsWith("/series")}
                                     />
                                 </>
-                            )}
+                            )} */}
+                            
                             {/* <Line vert maxHeight="24" /> */}
                             {/* <Flex align="center" style={{ position: "relative", minWidth: "40px" }}>
                                 {!searchExpanded ? (
