@@ -1,10 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const axios = require('axios');
 const dotenv = require('dotenv');
 const connectMongoDB = require('./config/mongo');
-const { fetchMoviesByType } = require('./services/fetchMovies');
-const { checkJavaBackend } = require('./services/javaHealth');
+const { checkJavaBackend } = require('./services/backendHealth');
 const { prefetchAll } = require('./services/fetchMovies');
 
 //Load env
@@ -32,8 +30,6 @@ app.use('/api/auth', require('./routes/authRoutes'));
 
 // Health check route
 app.get('/health', (req, res) => res.status(200).send('✅ Watch-em backend is healthy'));
-
-
 
 // Start server
 app.listen(PORT, async () => {

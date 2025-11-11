@@ -1,7 +1,7 @@
 const axios = require('axios');
 const backendURL = process.env.JAVA_API_BASE_URL || 'http://localhost:8080';
 const Movie = require('../models/Movie');
-const { checkJavaBackend } = require('./javaHealth');
+const { checkBackendHealth } = require('./backendHealth');
 const { handleAxiosError } = require('../utils/errorHandler'); 
 
 const memoryCache = {
@@ -43,9 +43,9 @@ const fetchMoviesByType = async (type) => {
   }
 
   // Check Java backend health before fetching
-  const javaUp = await checkJavaBackend();
-  if (!javaUp) {
-    console.warn(`⚠️ Skipping Java API fetch for '${type}' — backend is down`);
+  const backendUp = await checkBackendHealth();
+  if (!backendUp) {
+    console.warn(`⚠️ Skipping Backend API fetch for '${type}' — backend is down`);
     return;
   }
 
@@ -54,7 +54,7 @@ const fetchMoviesByType = async (type) => {
 
 
     const movies = res.data.results || [];
-    console.log(`📥 Fetched ${movies.length} ${type} movies from Java API`);
+    console.log(`📥 Fetched ${movies.length} ${type} movies from Backend API`);
     await updateCache(type, movies);
   } catch (err) {
     handleAxiosError(err, `fetchMoviesByType(${type})`);
@@ -64,8 +64,8 @@ const fetchMoviesByType = async (type) => {
 
 // Fetch movie details by ID (with MongoDB fallback)
 const fetchMovieDetailsById = async (id) => {
-  const javaUp = await checkJavaBackend();
-  if (javaUp) {
+  const backendUp = await checkBackendHealth();
+  if (backendUp) {
     try {
       const res = await axios.get(`${backendURL}/movie/details/${id}`);
       console.log('🎬 Movie details fetched for ID:', id);
@@ -96,13 +96,13 @@ const fetchMovieDetailsById = async (id) => {
 // Fetch movies by slug (category-based)
 const fetchMoviesBySlug = async (slug) => {
   const slugType = `slug:${slug}`;
-  const javaUp = await checkJavaBackend();
+  const backendUp = await checkBackendHealth();
 
-  if (javaUp) {
+  if (backendUp) {
     try {
       const res = await axios.get(`${backendURL}/movies/filter/${slug}`);
       const movies = res.data.results || [];
-      console.log('📥 Movies fetched from Java API for slug:', slug);
+      console.log('📥 Movies fetched from Backend API for slug:', slug);
 
       await Movie.updateOne(
         { type: slugType },
