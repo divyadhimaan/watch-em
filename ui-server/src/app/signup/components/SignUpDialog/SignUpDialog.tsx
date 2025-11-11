@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { signIn } from "next-auth/react";
 
 import {
     Heading,
@@ -129,6 +130,7 @@ const SignUpDialog = ({
                             weight="default"
                             prefixIcon="google"
                             size="l"
+                            onClick={() => signIn("google", { callbackUrl: "/" })}
                         />
                     </Column>
                     <Row fillWidth paddingY="24">

@@ -7,9 +7,10 @@
 .yarn/install-state.gz
 /node_modules
 .idea
+.next
 
-/server/node_modules
-/server/.env
+/node-server/node_modules
+/node-server/.env
 # testing
 
 /coverage
