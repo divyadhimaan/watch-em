@@ -1,11 +1,12 @@
 import { series } from "@/resources/series";
 import { Card, SmartImage, Grid, Flex } from "@/once-ui/components";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
+import { Footer } from "@/components/Footer/Footer";
+import { Header } from "@/components/Header/Header";
 
 export default function AllSeriesPage() {
   return (
     <>
+
     <Header />
     <Flex direction="column" className="px-6 py-10 max-w-6xl mx-auto" gap="l" paddingY="xl" paddingX="l">
       <h1 className="text-3xl font-bold capitalize mb-6">All Series</h1>

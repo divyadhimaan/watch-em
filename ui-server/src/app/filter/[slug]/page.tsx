@@ -1,6 +1,6 @@
 
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
 import FilteredMovieList from "@/components/filteredMovieList";
 
 interface PageProps {

@@ -20,7 +20,7 @@ import {
     Row,
     useToast,
 } from "@/once-ui/components";
-import { Header } from "@/components/header";
+import { Header } from "@/components/Header/Header";
 
 
 

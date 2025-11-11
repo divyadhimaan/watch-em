@@ -14,7 +14,7 @@ import {
     useToast,
     Dialog,
 } from "@/once-ui/components";
-import { Header } from "@/components/header";
+import { Header } from "@/components/Header/Header";
 import SignUpDialog from "./components/SignUpDialog/SignUpDialog"
 
 

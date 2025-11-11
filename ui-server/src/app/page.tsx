@@ -30,9 +30,9 @@ import {
   Column,
   Row,
 } from "@/once-ui/components";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { CarouselCards } from "@/components/carouselCards";
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
+import { CarouselCards } from "@/components/CarouselCards/CarouselCards";
 import { Filter } from "@/components/filter"
 import Scroll from "@/components/scroll";
 
