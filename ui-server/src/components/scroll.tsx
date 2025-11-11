@@ -1,11 +1,8 @@
-import { ContentScroll } from "@/components/contentScroll";
+import ContentScroll from "./ContentScroll";
 import { movies } from "@/resources/movies";
 import { series } from "@/resources/series";
 import { allContent } from "@/resources/allContent";
-import axios from 'axios';
-import { useState, useEffect } from "react";
 import { useMoviesByCategory } from '@/hooks/useMoviesByCategory';
-import { Item } from '@/types/item';
 
 
 export default function Scroll() {
@@ -14,8 +11,6 @@ export default function Scroll() {
   const { data: topRatedMovies = [] } = useMoviesByCategory('top-rated');
   const { data: upcomingMovies = [] } = useMoviesByCategory('upcoming');
   const { data: inTheatres = [] } = useMoviesByCategory('in-theatres');
-
-
 
 
   const recommended = [...allContent]
@@ -29,8 +24,8 @@ export default function Scroll() {
     <main className="bg-[#0f172a] min-h-screen px-6 py-8">
       <ContentScroll title="Trending" items={trended.slice(0, 7)} />
       <ContentScroll title="Top Rated" items={topRatedMovies.slice(0, 7)} />
-      <ContentScroll title="Upcoming" items={upcomingMovies.slice(0, 7)} />
-      <ContentScroll title="In theatres" items={inTheatres.slice(0, 7)} />
+      <ContentScroll title="Upcoming" items={upcomingMovies?.slice(0, 7) ?? []} />
+      <ContentScroll title="In theatres" items={inTheatres?.slice(0, 7) ?? []} />
 
 
       {/* <ContentScroll title="Recommended" items={recommended} /> */}

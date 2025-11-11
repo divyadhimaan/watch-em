@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Card, IconButton, Flex, Text, Icon, SmartImage, Line } from "@/once-ui/components";
-import styles from "@/components/contentScroll.module.scss";
+import styles from "@/components/ContentScroll/ContentScroll.module.scss";
 import { Item } from '@/types/item';
 import { getImageUrl } from "@/utils/getImageUrl";
 
@@ -13,7 +13,7 @@ type ContentScrollProps = {
 };
 
 
-export const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) => {
+const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -159,3 +159,4 @@ export const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) =>
     </div>
   );
 };
+export default ContentScroll;

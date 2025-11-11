@@ -7,8 +7,9 @@ export const useMoviesByCategory = (category: string) => {
     queryKey: ['movies', category],
     queryFn: async () => {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/movies/${category}`);
-      return res.data;
+      return res.data?.results ?? []; 
     },
     staleTime: 1000 * 60 * 5,
   });
 };
+

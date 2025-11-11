@@ -4,14 +4,14 @@
  */
 async function handleCacheAndFetch(getFromCache, fetchFn, type, res) {
     try {
-      const cached = getFromCache();
-      if (cached.length > 0) {
-        console.log(`✅ Served ${type} data from memory`);
+      const cached = await getFromCache();
+      if (Array.isArray(cached) && cached.length > 0) {
+        console.log(`✅ Served ${type} data from memory or DB`);
         return res.json(cached);
       }
   
       await fetchFn(type);
-      const updated = getFromCache();
+      const updated = await getFromCache();
       res.json(updated);
     } catch (err) {
       console.error(`❌ Failed to fetch ${type}`, err);

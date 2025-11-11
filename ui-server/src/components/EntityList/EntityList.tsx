@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Grid, SmartImage, Flex } from "@/once-ui/components";
 import { getImageUrl } from "@/utils/getImageUrl";
 
-// Generic type for entities
-interface Entity {
+export interface Entity {
   id: string | number;
   title?: string;
   name?: string;
@@ -14,29 +13,32 @@ interface Entity {
 }
 
 interface EntityListProps {
-  useEntityHook: () => { data: Entity[]; loading: boolean; error: boolean };
-  mockData: Entity[];
   entityType: 'movie' | 'series' | 'person' | string;
+  mockData: Entity[];
   routePrefix?: string;
+  data?: Entity[];
+  loading?: boolean;
+  error?: string | null;
 }
 
 const EntityList: React.FC<EntityListProps> = ({
-  useEntityHook,
-  mockData,
   entityType,
+  mockData,
   routePrefix = '/content',
+  data,
+  loading,
+  error,
 }) => {
-  const { data, loading, error } = useEntityHook();
+  console.log(data);
+
+
+  if (error) return <div>Error: {error}</div>;
+  if (!data || data.length === 0) return <div>No movies found</div>;
+
 
   if (loading)
     return (
-      <Flex
-        direction="column"
-        paddingY="160"
-        align="center"
-        vertical="center"
-        className="min-h-screen"
-      >
+      <Flex direction="column" paddingY="160" align="center" vertical="center" className="min-h-screen">
         <div className="w-16 h-16 bg-blue-500 rounded-full animate-pulse"></div>
         <p className="mt-4 text-gray-600">Loading {entityType}s...</p>
       </Flex>
@@ -46,25 +48,13 @@ const EntityList: React.FC<EntityListProps> = ({
 
   if (!entityList.length)
     return (
-      <Flex
-        direction="column"
-        paddingY="160"
-        align="center"
-        vertical="center"
-        className="min-h-screen"
-      >
+      <Flex direction="column" paddingY="160" align="center" vertical="center" className="min-h-screen">
         <p className="mt-4 text-gray-600">No {entityType}s found.</p>
       </Flex>
     );
 
   return (
-    <Flex
-      direction="column"
-      className="px-6 py-10 max-w-6xl mx-auto"
-      gap="m"
-      paddingY="xl"
-      paddingX="l"
-    >
+    <Flex direction="column" className="px-6 py-10 max-w-6xl mx-auto" gap="m" paddingY="xl" paddingX="l">
       <Grid columns={6} gap="12">
         {entityList.map((item) => (
           <Card
@@ -77,17 +67,13 @@ const EntityList: React.FC<EntityListProps> = ({
                 src={
                   item.poster_path
                     ? getImageUrl(item.poster_path)
-                    : item.image || ''
+                    : item.image || '/images/fallback-poster.png'
                 }
                 alt={item.title || item.name || entityType}
                 aspectRatio="3/4"
                 enlarge
                 radius="l"
-                style={{
-                  overflow: "hidden",
-                  width: "200px",
-                  height: "300px",
-                }}
+                style={{ overflow: "hidden", width: "200px", height: "300px" }}
               />
             </div>
           </Card>

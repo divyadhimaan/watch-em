@@ -3,26 +3,33 @@ const router = express.Router();
 const { handleCacheAndFetch } = require('./baseTmdbRouter');
 
 const {
-  fetchSeriesByType,
-  getAllSeries,
-  getPopularSeries,
-  getTopRatedSeries,
-  getOnAirSeries,
-  fetchSeriesBySlug,
-  fetchSeriesDetailsById
+  fetchByType,
+  getAll,
+  getPopular,
+  getTopRated,
+  getOnAir,
+  fetchBySlug,
+  fetchDetailsById
 } = require('../services/tmdb/seriesService');
 
-// 📺 Series Routes
-router.get('/all', async (_, res) => handleCacheAndFetch(getAllSeries, fetchSeriesByType, 'all', res));
-router.get('/popular', async (_, res) => handleCacheAndFetch(getPopularSeries, fetchSeriesByType, 'popular', res));
-router.get('/top-rated', async (_, res) => handleCacheAndFetch(getTopRatedSeries, fetchSeriesByType, 'top-rated', res));
-router.get('/on-air', async (_, res) => handleCacheAndFetch(getOnAirSeries, fetchSeriesByType, 'on-air', res));
+const movieRoutes = [
+  { path: 'all', type: 'all', getter: getAll },
+  { path: 'popular', type: 'popular', getter: getPopular },
+  { path: 'top-rated', type: 'top-rated', getter: getTopRated },
+  { path: 'on-air', type: 'on-air', getter: getOnAir },
+];
+
+movieRoutes.forEach(({ path, type, getter }) => {
+  router.get(`/${path}`, async (_, res) => {
+    await handleCacheAndFetch(getter, fetchByType, type, res);
+  });
+});
 
 // 🧩 Filters
 router.get('/filters/:slug', async (req, res) => {
   try {
     const { slug } = req.params;
-    const series = await fetchSeriesBySlug(slug);
+    const series = await fetchBySlug(slug);
     res.json(series);
   } catch (err) {
     console.error('❌ Failed to fetch series by slug', err);
@@ -34,7 +41,7 @@ router.get('/filters/:slug', async (req, res) => {
 router.get('/details/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const details = await fetchSeriesDetailsById(id);
+    const details = await fetchDetailsById(id);
     res.json(details);
   } catch (err) {
     console.error('❌ Failed to fetch series details', err);

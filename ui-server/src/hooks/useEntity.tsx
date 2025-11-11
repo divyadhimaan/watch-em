@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -15,7 +17,14 @@ interface UseEntityResult<T> {
   error: string | null;
 }
 
-export const useEntity = <T extends Entity>(entityType: string): UseEntityResult<T> => {
+/**
+ * Generic entity fetcher hook.
+ * Works for any entity type — movies, series, people, etc.
+ */
+export const useEntity = <T extends Entity>(
+  entityType: string,
+  options?: { query?: string; params?: Record<string, string | number> }
+): UseEntityResult<T> => {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +36,13 @@ export const useEntity = <T extends Entity>(entityType: string): UseEntityResult
       console.log(`Fetching ${entityType}...`);
 
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE}/api/${entityType}/all`);
+        const baseURL = process.env.NEXT_PUBLIC_API_BASE;
+        const queryString = options?.query ? `/${options.query}` : '/all';
+        console.log(`queryString: ${queryString}`)
+        const res = await axios.get(`${baseURL}/api/${entityType}${queryString}`, {
+          params: options?.params,
+        });
+
         console.log(`${entityType} fetched successfully:`, res.data);
         setData(res.data);
       } catch (err: any) {
@@ -38,7 +53,7 @@ export const useEntity = <T extends Entity>(entityType: string): UseEntityResult
     };
 
     fetchData();
-  }, [entityType]);
+  }, [entityType, JSON.stringify(options)]);
 
   return { data, loading, error };
 };

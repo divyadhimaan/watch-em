@@ -11,7 +11,7 @@ const baseSeriesService = createTmdbService({
 });
 
 // Series-specific: "On Air" shows
-const getOnAirSeries = async () => {
+const getOnAir = async () => {
   const backendUp = await checkBackendHealth();
 
   if (backendUp) {
@@ -38,5 +38,5 @@ const getOnAirSeries = async () => {
 
 module.exports = {
   ...baseSeriesService,
-  getOnAirSeries,
+  getOnAir,
 };

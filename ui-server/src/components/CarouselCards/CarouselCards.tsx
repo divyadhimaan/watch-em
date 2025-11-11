@@ -1,11 +1,10 @@
 import React from 'react'
-import { useState, useEffect } from "react";
 import {
   ToggleButton,
 } from "@/once-ui/components";
 import { Carousel } from "@/components/Carousel/Carousel";
 
-import styles from "@/components/carouselCards.module.scss";
+import styles from "@/components/CarouselCards/CarouselCards.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { useMoviesByCategory } from '@/hooks/useMoviesByCategory';
 
