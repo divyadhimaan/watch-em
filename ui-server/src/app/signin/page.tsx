@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-
+import { useAuth } from "@/hooks/useAuth";
 import {
     Heading,
     Text,
@@ -21,25 +21,53 @@ import {
     useToast,
 } from "@/once-ui/components";
 import { Header } from "@/components/Header/Header";
-
+import { useRouter } from "next/navigation";
 
 
 export default function SignInPage() {
 
     const { addToast } = useToast();
+    const router = useRouter();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isFirstDialogOpen, setIsFirstDialogOpen] = useState(false);
+    const [error, setError] = useState("");
+
+    const { login } = useAuth();
 
 
-    const validateLogin = () => {
+    const validateEmail = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regex.test(email)) {
             return "Email and / or password is invalid.";
         }
         return null;
     };
+
+    const handleSignIn = async () => {
+        const emailError = validateEmail();
+        if (emailError) {
+            setError(emailError);
+            return;
+        }
+
+        setError("");
+        const result = await login({ email, password });
+        if (result.success) {
+        
+            addToast({
+                variant: "success",
+                message: "Wohoo! Grab some popcorn. The binge begins now.",
+            });
+    
+            router.push("/");
+        } else {
+            addToast({ 
+                variant: "danger", 
+                message: result?.message || "Unexpected Error. Try again",
+            });
+        }
+    }
 
     return (
         <Column fillWidth paddingY="80" paddingX="s" horizontal="center" flex={1}>
@@ -113,7 +141,6 @@ export default function SignInPage() {
                                 labelAsPlaceholder
                                 onChange={(e) => setEmail(e.target.value)}
                                 value={email}
-                                validate={validateLogin}
                                 errorMessage={false}
                                 radius="top"
                             />
@@ -125,7 +152,6 @@ export default function SignInPage() {
                                 radius="bottom"
                                 onChange={(e) => setPassword(e.target.value)}
                                 value={password}
-                                validate={validateLogin}
                             />
                         </Column>
                         <Button
@@ -133,12 +159,7 @@ export default function SignInPage() {
                             label="Sign In"
                             arrowIcon
                             fillWidth
-                            onClick={() => {
-                                addToast({
-                                    variant: "success",
-                                    message: "Wohoo! Grab some popcorn. The binge begins now.",
-                                });
-                            }}
+                            onClick={handleSignIn}
                         />
                         <Text
                             as="span"

@@ -17,8 +17,8 @@ import {
 
 type SignUpDialogProps = {
     onClose: () => void;
-    credentials: {email: string; password: string} | null;
-    setCredentials: React.Dispatch<React.SetStateAction<{ email: string; password: string }>>;
+    credentials: {email: string; password: string; username: string} | null;
+    setCredentials: React.Dispatch<React.SetStateAction<{ email: string; password: string; username: string }>>;
 }
 
 const SignUpDialog = ({ 
@@ -30,12 +30,12 @@ const SignUpDialog = ({
     const router = useRouter();
 
     const [email, setEmail] = useState(credentials?.email || "");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
-    const { signup, isAuthenticated, logout } = useAuth();
-
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+
+    const { signup } = useAuth();
 
     useEffect(() => {
         if (error) {
@@ -69,10 +69,11 @@ const SignUpDialog = ({
     
         setError("");
 
-        setCredentials({ email, password });
+        setCredentials({ email, password, username });
 
-        const success = await signup({ email, password });
-        if (success) {
+        const result = await signup({ email, password, username });
+        if (result.success) {
+        
             addToast({
                 variant: "success",
                 message: "Wohoo! Grab some popcorn. The binge begins now.",
@@ -81,7 +82,10 @@ const SignUpDialog = ({
             onClose();
             router.push("/");
         } else {
-            setError("Invalid Credentials.");
+            addToast({ 
+                variant: "danger", 
+                message: result?.message || "Unexpected Error. Try again",
+            });
         }
 
         
@@ -149,6 +153,15 @@ const SignUpDialog = ({
                             errorMessage={false}
                             // radius="top"
                         />
+                        <Input
+                            id="username"
+                            label="Username"
+                            labelAsPlaceholder
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
+                            errorMessage={false}
+                            // radius="top"
+                        />
                         <PasswordInput
                             autoComplete="new-password"
                             id="password"
@@ -177,12 +190,6 @@ const SignUpDialog = ({
                         arrowIcon
                         fillWidth
                         onClick={handleSignUp}
-                        // onClick={() => {
-                        //     addToast({
-                        //         variant: "success",
-                        //         message: "Wohoo! Grab some popcorn. The binge begins now.",
-                        //     });
-                        // }}
                     />
     
 

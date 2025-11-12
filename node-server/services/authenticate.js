@@ -1,22 +1,36 @@
-const axios = require('axios');
-const dotenv = require('dotenv');
-dotenv.config();
+const { fetchFromJavaAPI } = require('./fetchFromJavaAPI'); // your util
+const { handleAxiosError } = require('../utils/errorHandler');
 
-const backendURL = process.env.JAVA_API_BASE_URL || 'http://localhost:8080';
-
+/**
+ * Login user via Java backend
+ * @param {string} email
+ * @param {string} password
+ */
 const authenticateUser = async (email, password) => {
-    try {
-      const response = await axios.post(`${backendURL}/api/auth/login`, { email, password });
-      console.log("✅ Authentication success:", response.data);
-      return response.data;
-    } catch (err) {
-      console.error("❌ Authentication failed:", err.message);
-      throw err;
-    }
-  };
 
-   
+    const response = await fetchFromJavaAPI('/api/auth/login', {
+      method: 'POST',
+      data: { email, password },
+    });
+    // Expecting: { token: "...", message: "Login successful" }
+    return response;
+  
+};
 
-module.exports = {
-    authenticateUser,
-  };
+/**
+ * Signup user via Java backend
+ * @param {string} email
+ * @param {string} password
+ * @param {string} username
+ */
+const registerUser = async (email, username, password) => {
+    const response = await fetchFromJavaAPI('/api/auth/signup', {
+      method: 'POST',
+      data: { email, username, password },
+    });
+    // Expecting: { token: "...", message: "Signup successful" }
+    return response;
+  
+};
+
+module.exports = { authenticateUser, registerUser };

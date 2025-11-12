@@ -23,9 +23,10 @@ export default function SignupPage() {
     const { addToast } = useToast();
 
     const [openDialog, setOpenDialog] = useState(false);
-    const [credentials, setCredentials] = useState<{ email: string; password: string }>({
+    const [credentials, setCredentials] = useState<{ email: string; password: string; username: string }>({
         email: "",
         password: "",
+        username: "",
       });
 
 

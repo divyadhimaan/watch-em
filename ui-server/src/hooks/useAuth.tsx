@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-type Credentials = { email: string; password: string };
+type SignUpCredentials = { email: string; password: string, username: string };
+type LoginCredentials = { email: string; password: string};
 type AuthResponse = { token: string; message: string };
 
 export const useAuth = () => {
@@ -15,30 +16,59 @@ export const useAuth = () => {
     if (savedUser) setUser(savedUser);
   }, []);
 
-  // sign up user (calls your Java backend)
-  const signup = async (credentials: Credentials) => {
+  // Sign up user
+  const signup = async (credentials: SignUpCredentials): Promise<{ success: boolean; message?: string }> => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      const data: AuthResponse | { message: string } = await response.json();
+
+      console.log(data);
+
+      if (!response.ok || !("token" in data)){
+        return { success: false, message: data?.message || "Signup failed" };
+      }
+
+      // Save token and user
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userEmail", credentials.email);
+      setToken(data.token);
+      setUser(credentials.email);
+
+      return { success: true, message: data.message };
+    } catch (err: any) {
+      console.error("Signup failed:", err.message);
+      return { success: false, message: err.message || "Signup failed" };
+    }
+  };
+
+  // Login user: For now only using email password
+  const login = async (credentials: LoginCredentials): Promise<{ success: boolean; message?: string }> => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
       });
+      const data: AuthResponse | { message: string } = await response.json();
 
-      if (!response.ok) {
-        throw new Error("Invalid email or password");
+      if (!response.ok || !("token" in data)) {
+        return { success: false, message: data?.message || "Login failed" };
       }
-
-      const data: AuthResponse = await response.json();
-      console.log("Auth response:", data);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("userEmail", credentials.email);
       setToken(data.token);
       setUser(credentials.email);
-      return true;
+
+      return { success: true, message: data.message };
     } catch (err: any) {
       console.error("Login failed:", err.message);
-      return false;
+      return { success: false, message: err.message || "Login failed" };
     }
   };
 
@@ -50,5 +80,5 @@ export const useAuth = () => {
     setUser(null);
   };
 
-  return { token, user, signup, logout, isAuthenticated: !!token };
+  return { token, user, signup, login, logout, isAuthenticated: !!token };
 };
