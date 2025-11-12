@@ -80,6 +80,7 @@ const SignUpDialog = ({
             });
     
             onClose();
+            console.log(`Signed Up ${username}!`)
             router.push("/");
         } else {
             addToast({ 

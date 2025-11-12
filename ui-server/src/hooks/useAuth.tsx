@@ -26,9 +26,7 @@ export const useAuth = () => {
       });
 
       const data: AuthResponse | { message: string } = await response.json();
-
-      console.log(data);
-
+      
       if (!response.ok || !("token" in data)){
         return { success: false, message: data?.message || "Signup failed" };
       }

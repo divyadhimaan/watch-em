@@ -59,7 +59,7 @@ export default function SignInPage() {
                 variant: "success",
                 message: "Wohoo! Grab some popcorn. The binge begins now.",
             });
-    
+            console.log("Signed In!")
             router.push("/");
         } else {
             addToast({ 
