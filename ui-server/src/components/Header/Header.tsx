@@ -3,11 +3,10 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-
-
+import { useAuth } from "@/hooks/useAuth";
 
 import { Fade, Flex, Logo, Row, Line, StyleOverlay, ToggleButton, Input } from "@/once-ui/components";
-import styles from "@/components/Header.module.scss";
+import styles from "./Header.module.scss";
 
 import { routes } from "@/once-ui/resources/config";
 import { movies, series } from "@/once-ui/resources/content"
@@ -27,6 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
     showOptions = true,
     showSignIn = false,
   }) => {
+    const { user, isAuthenticated } = useAuth();
     const pathname = usePathname() ?? "";
     const [searchExpanded, setSearchExpanded] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -163,8 +163,8 @@ export const Header: React.FC<HeaderProps> = ({
                                 horizontal="center"
                             >
                                 <ToggleButton prefixIcon="notification" onClick={checkNodeServer} selected={false} />
-                            
-                            </Flex><Flex
+                            </Flex>
+                            <Flex
                                 background="surface"
                                 border="neutral-medium"
                                 radius="m-4"
@@ -172,7 +172,12 @@ export const Header: React.FC<HeaderProps> = ({
                                 padding="4"
                                 horizontal="center"
                             >
-                                <ToggleButton prefixIcon="person"  href="/signin" selected={false} />
+                                <ToggleButton 
+                                    prefixIcon="person"  
+                                    href={isAuthenticated ? "/profile" : "/signin"}
+                                    label={isAuthenticated ? user?.username : "Sign In"}
+                                    selected={false} 
+                                />
                             </Flex>
                             <Row position="fixed" top="20" right="20">
                                 <StyleOverlay position="fixed" top="8" right="8" style={{ height: "calc(100vh - var(--static-space-16))" }} />

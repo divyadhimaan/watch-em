@@ -3,17 +3,18 @@ import { useState, useEffect } from "react";
 type SignUpCredentials = { email: string; password: string, username: string };
 type LoginCredentials = { email: string; password: string};
 type AuthResponse = { token: string; message: string };
+type User = { username: string, email: string};
 
 export const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // Load token from localStorage on mount
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
-    const savedUser = localStorage.getItem("userEmail");
+    const savedUser = localStorage.getItem("user");
     if (savedToken) setToken(savedToken);
-    if (savedUser) setUser(savedUser);
+    if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
   // Sign up user
@@ -26,16 +27,17 @@ export const useAuth = () => {
       });
 
       const data: AuthResponse | { message: string } = await response.json();
-      
+
       if (!response.ok || !("token" in data)){
         return { success: false, message: data?.message || "Signup failed" };
       }
+      const userObj: User = { email: credentials.email, username: credentials.username };
 
       // Save token and user
       localStorage.setItem("token", data.token);
-      localStorage.setItem("userEmail", credentials.email);
+      localStorage.setItem("user", JSON.stringify(userObj));
       setToken(data.token);
-      setUser(credentials.email);
+      setUser(userObj);
 
       return { success: true, message: data.message };
     } catch (err: any) {
@@ -58,10 +60,12 @@ export const useAuth = () => {
         return { success: false, message: data?.message || "Login failed" };
       }
 
+      const userObj: User = { email: credentials.email, username: (data as any).username || credentials.email };
+
       localStorage.setItem("token", data.token);
-      localStorage.setItem("userEmail", credentials.email);
+      localStorage.setItem("user", JSON.stringify(userObj));
       setToken(data.token);
-      setUser(credentials.email);
+      setUser(userObj);
 
       return { success: true, message: data.message };
     } catch (err: any) {
@@ -73,7 +77,7 @@ export const useAuth = () => {
   // Logout user
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
+    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };
