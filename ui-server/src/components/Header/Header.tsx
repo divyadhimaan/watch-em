@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
+import { Dropdown } from "@/once-ui/components";
 import { useAuth } from "@/hooks/useAuth";
 
 import { Fade, Flex, Logo, Row, Line, StyleOverlay, ToggleButton, Input } from "@/once-ui/components";
@@ -26,9 +27,10 @@ export const Header: React.FC<HeaderProps> = ({
     showOptions = true,
     showSignIn = false,
   }) => {
-    const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated, logout } = useAuth();
     const pathname = usePathname() ?? "";
     const [searchExpanded, setSearchExpanded] = useState(false);
+    const [showUserDropdown, setShowUserDropdown] = useState(false);
     const [searchText, setSearchText] = useState("");
     const searchRef = useRef<HTMLInputElement | null>(null);
 
@@ -174,10 +176,31 @@ export const Header: React.FC<HeaderProps> = ({
                             >
                                 <ToggleButton 
                                     prefixIcon="person"  
-                                    href={isAuthenticated ? "/profile" : "/signin"}
-                                    label={isAuthenticated ? user?.username : "Sign In"}
+                                    suffixIcon={isAuthenticated ? "chevronDown" : ''}
+                                    href={isAuthenticated ? '' : '/signin'}
+                                    label={isAuthenticated ? `Hello, ${user?.username}` : "Sign In"}
                                     selected={false} 
+                                    onClick={() => setShowUserDropdown(!showUserDropdown)}
                                 />
+                                {showUserDropdown && isAuthenticated && (
+                                    <Dropdown
+                                    style={{
+                                        position: "absolute",
+                                        top: "80%",
+                                        width: "160px",
+                                        zIndex: 1000,
+                                    }}
+                                    onSelect={(option) => {
+                                        setShowUserDropdown(false);
+                                        if (option === "profile") window.location.href = "/profile";
+                                        if (option === "logout") logout();
+                                    }}
+                                    >
+                                    <div data-value="profile" style={{ padding: "8px 12px", cursor: "pointer" }}>My Profile</div>
+                                    <div data-value="logout" style={{ padding: "8px 12px", cursor: "pointer" }}>Logout</div>
+                                    </Dropdown>
+                                )}
+                            
                             </Flex>
                             <Row position="fixed" top="20" right="20">
                                 <StyleOverlay position="fixed" top="8" right="8" style={{ height: "calc(100vh - var(--static-space-16))" }} />

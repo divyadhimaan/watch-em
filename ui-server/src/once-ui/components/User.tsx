@@ -7,6 +7,7 @@ import { Flex, Text, Skeleton, Tag, TagProps, Avatar, AvatarProps } from ".";
 
 interface UserProps {
   name?: string;
+  showAvatar?: boolean;
   children?: React.ReactNode;
   subline?: React.ReactNode;
   tag?: string;
@@ -18,7 +19,7 @@ interface UserProps {
 
 const User = forwardRef<HTMLDivElement, UserProps>(
   (
-    { name, children, subline, tagProps = {}, loading = false, avatarProps = {}, className },
+    { name, showAvatar=false, children, subline, tagProps = {}, loading = false, avatarProps = {}, className },
     ref,
   ) => {
     const { src, value, empty, ...restAvatarProps } = avatarProps;
@@ -26,14 +27,14 @@ const User = forwardRef<HTMLDivElement, UserProps>(
 
     return (
       <Flex ref={ref} vertical="center" gap="8" className={classNames(className)}>
-        <Avatar
+        {showAvatar && <Avatar
           size="m"
           src={src}
           value={value}
           empty={isEmpty}
           loading={loading}
           {...restAvatarProps}
-        />
+        />}
         {children}
         {name && (
           <Flex direction="column" paddingLeft="4" paddingRight="12">

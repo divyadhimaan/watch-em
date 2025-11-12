@@ -39,11 +39,17 @@ router.get('/filters/:slug', async (req, res) => {
   }
 });
 
-// 🎞️ Details
+// 🎞️ Details : /api/movies/details/
 router.get('/details/:id', async (req, res) => {
+  console.log("Node route hit for details:", req.params.id);
   try {
     const { id } = req.params;
     const details = await fetchDetailsById(id);
+
+    console.log("✅ Details fetched successfully:", details ? "YES" : "NO");
+    console.log("📦 Details keys:", details ? Object.keys(details) : "null");
+    
+
     res.json(details);
   } catch (err) {
     console.error('❌ Failed to fetch movie details', err);

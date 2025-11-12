@@ -60,7 +60,7 @@ export const useAuth = () => {
         return { success: false, message: data?.message || "Login failed" };
       }
 
-      const userObj: User = { email: credentials.email, username: (data as any).username || credentials.email };
+      const userObj: User = { email: credentials.email, username: (data as any).username || "User" };
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(userObj));

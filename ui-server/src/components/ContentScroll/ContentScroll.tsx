@@ -40,9 +40,9 @@ const ContentScroll: React.FC<ContentScrollProps> = ({ title, items }) => {
     const el = scrollRef.current;
     if (!el) return;
 
-    console.log("Scroll Width:", el.scrollWidth);
-  console.log("Client Width:", el.clientWidth);
-  console.log("Initial Scroll Left:", el.scrollLeft);
+  //   console.log("Scroll Width:", el.scrollWidth);
+  // console.log("Client Width:", el.clientWidth);
+  // console.log("Initial Scroll Left:", el.scrollLeft);
 
     el.scrollLeft = 0;
 

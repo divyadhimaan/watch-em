@@ -1,16 +1,12 @@
 'use client';
 
-
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
-import { streamingImageMap } from "@/resources/movies";
-import { Flex, Text, SmartImage, Line, Badge, ToggleButton, Row, Column, Grid } from "@/once-ui/components";
+import { Flex, Text, SmartImage, Badge, ToggleButton, Column, Grid } from "@/once-ui/components";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { useMovieById } from '@/hooks/useMovieById';
 import { useParams } from "next/navigation";
 import { getImageUrl } from "@/utils/getImageUrl";
-
 
 const ContentPage = () => {
     const params = useParams() as { slug?: string | string[] } | null;
@@ -23,6 +19,7 @@ const ContentPage = () => {
     console.log("fetch movie for slug:", slug);
     const { movie, loading } = useMovieById(slug);
 
+    console.log("movie fetched: ", movie)
 
     const flatrate = movie?.watch_providers?.flatrate;
     console.log(flatrate)
