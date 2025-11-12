@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
 
                     {showOptions && 
                         <Row gap="12" hide="s">
-                            <Flex
+                            {/* <Flex
                                 background="surface"
                                 border="neutral-medium"
                                 radius="m-4"
@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 horizontal="center"
                             >
                                 <ToggleButton prefixIcon="notification" onClick={checkNodeServer} selected={false} />
-                            </Flex>
+                            </Flex> */}
                             <Flex
                                 background="surface"
                                 border="neutral-medium"
