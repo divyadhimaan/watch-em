@@ -29,10 +29,16 @@ export const Header: React.FC<HeaderProps> = ({
   }) => {
     const { user, isAuthenticated, logout } = useAuth();
     const pathname = usePathname() ?? "";
+    const [mounted, setMounted] = useState(false);
     const [searchExpanded, setSearchExpanded] = useState(false);
     const [showUserDropdown, setShowUserDropdown] = useState(false);
     const [searchText, setSearchText] = useState("");
     const searchRef = useRef<HTMLInputElement | null>(null);
+
+    // Fix hydration: only use auth state after component mounts
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         if (searchExpanded) {
@@ -176,13 +182,13 @@ export const Header: React.FC<HeaderProps> = ({
                             >
                                 <ToggleButton 
                                     prefixIcon="person"  
-                                    suffixIcon={isAuthenticated ? "chevronDown" : ''}
-                                    href={isAuthenticated ? '' : '/signin'}
-                                    label={isAuthenticated ? `Hello, ${user?.username}` : "Sign In"}
+                                    suffixIcon={mounted && isAuthenticated ? "chevronDown" : ''}
+                                    href={mounted && isAuthenticated ? '' : '/signin'}
+                                    label={mounted && isAuthenticated ? `Hello, ${user?.username}` : "Sign In"}
                                     selected={false} 
                                     onClick={() => setShowUserDropdown(!showUserDropdown)}
                                 />
-                                {showUserDropdown && isAuthenticated && (
+                                {showUserDropdown && mounted && isAuthenticated && (
                                     <Dropdown
                                     style={{
                                         position: "absolute",

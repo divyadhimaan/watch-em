@@ -33,6 +33,7 @@ interface CommonProps {
   style?: React.CSSProperties;
   id?: string;
   arrowIcon?: boolean;
+  disabled?: boolean;
 }
 
 export type ButtonProps = CommonProps & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -57,17 +58,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
       arrowIcon = false,
       className,
       style,
+      disabled,
       ...props
     },
     ref,
   ) => {
     const iconSize = size === "l" ? "s" : size === "m" ? "s" : "xs";
     const radiusSize = size === "s" || size === "m" ? "m" : "l";
+    const isDisabled = disabled || loading;
 
     return (
       <ElementType
         id={id}
-        href={href}
+        href={isDisabled ? undefined : href}
         ref={ref}
         className={classNames(
           styles.button,
@@ -80,7 +83,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
               : `radius-${radiusSize}`,
           "text-decoration-none",
           "button",
-          "cursor-interactive",
+          isDisabled ? "cursor-not-allowed" : "cursor-interactive",
           {
             ["fill-width"]: fillWidth,
             ["fit-width"]: !fillWidth,
@@ -89,6 +92,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
           className,
         )}
         style={style}
+        disabled={isDisabled}
+        onClick={isDisabled ? (e) => e.preventDefault() : props.onClick}
         {...props}
       >
         {prefixIcon && !loading && <Icon name={prefixIcon} size={iconSize} />}

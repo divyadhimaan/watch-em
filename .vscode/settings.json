@@ -1,0 +1,27 @@
+{
+  "cSpell.words": [
+    "client"
+  ],
+  "cSpell.ignoreRegExpList": [
+    "'use client'",
+    "\"use client\"",
+    "/^'use client';?$/m",
+    "/^\"use client\";?$/m"
+  ],
+  "files.associations": {
+    "*.tsx": "typescriptreact",
+    "*.ts": "typescript"
+  },
+  "css.validate": false,
+  "scss.validate": false,
+  "css.customData": [],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true
+}
+
