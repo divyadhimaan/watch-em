@@ -93,7 +93,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps | AnchorProps>(
         )}
         style={style}
         disabled={isDisabled}
-        onClick={isDisabled ? (e) => e.preventDefault() : props.onClick}
+        onClick={
+          isDisabled
+            ? (e: React.MouseEvent<HTMLElement>) => e.preventDefault()
+            : props.onClick
+        }
         {...props}
       >
         {prefixIcon && !loading && <Icon name={prefixIcon} size={iconSize} />}
