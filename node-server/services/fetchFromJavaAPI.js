@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { handleAxiosError } = require('../utils/errorHandler');
 
 const backendURL = process.env.JAVA_API_BASE_URL || 'http://localhost:8080';
 
@@ -11,7 +10,7 @@ const backendURL = process.env.JAVA_API_BASE_URL || 'http://localhost:8080';
  */
 async function fetchFromJavaAPI(endpoint, options = {}) {
   try {
-    const url = `${backendURL}${endpoint}`;
+    const url = `${backendURL}/api${endpoint}`;
     const response = await axios({
       url,
       method: options.method || 'GET',

@@ -28,6 +28,7 @@ import {
   HiCheckCircle,
   HiOutlineShieldCheck,
   HiOutlineSparkles,
+  HiMiniGlobeAsiaAustralia
 } from "react-icons/hi2";
 import { GiScrollUnfurled } from "react-icons/gi";
 
@@ -116,4 +117,5 @@ export const iconLibrary: Record<string, IconType> = {
   scroll: GiScrollUnfurled,
   music: FaMusic,
   tv: FaTv,
+  globe: HiMiniGlobeAsiaAustralia,
 };

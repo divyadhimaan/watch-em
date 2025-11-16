@@ -27,6 +27,7 @@ connectMongoDB();
 checkBackendHealth();
 
 // Routes
+app.use('/api/profile', require('./routes/userProfile'));
 app.use('/api/movies', require('./routes/movies'));
 app.use('/api/series', require('./routes/series'));
 app.use('/api/entities', require('./routes/entities'));

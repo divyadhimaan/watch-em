@@ -8,7 +8,7 @@ const { handleAxiosError } = require('../utils/errorHandler');
  */
 const authenticateUser = async (email, password) => {
 
-    const response = await fetchFromJavaAPI('/api/auth/login', {
+    const response = await fetchFromJavaAPI('/auth/login', {
       method: 'POST',
       data: { email, password },
     });
@@ -24,7 +24,7 @@ const authenticateUser = async (email, password) => {
  * @param {string} username
  */
 const registerUser = async (email, username, password) => {
-    const response = await fetchFromJavaAPI('/api/auth/signup', {
+    const response = await fetchFromJavaAPI('/auth/signup', {
       method: 'POST',
       data: { email, username, password },
     });

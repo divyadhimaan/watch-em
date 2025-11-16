@@ -15,18 +15,19 @@ import {
   Icon,
   TagInput,
 } from "@/once-ui/components";
+import { Profile, User } from "@/types/User";
 
 interface ProfileTabProps {
-  user: {
-    username?: string;
-    email?: string;
-  } | null;
+  user: User | null;
+  profile: Profile | null,
   isEditing: boolean;
   setIsEditing: (editing: boolean) => void;
   bio: string;
   setBio: (bio: string) => void;
   favoriteGenres: string[];
   setFavoriteGenres: (genres: string[]) => void;
+  country: string,
+  setCountry: (country: string) => void;
   stats: {
     playlists: number;
     moviesWatched: number;
@@ -37,10 +38,13 @@ interface ProfileTabProps {
 
 export function ProfileTab({
   user,
+  profile,
   isEditing,
   setIsEditing,
   bio,
   setBio,
+  country,
+  setCountry,
   favoriteGenres,
   setFavoriteGenres,
   stats,
@@ -69,7 +73,7 @@ export function ProfileTab({
               {bio && (
                 <>
                   <Text onBackground="neutral-weak" style={{ lineHeight: "1.6" }}>
-                    {bio}
+                    {profile?.bio ? profile.bio : bio}
                   </Text>
                   <Line />
                 </>
@@ -97,7 +101,7 @@ export function ProfileTab({
                 </Column>
               </Grid>
               
-              {favoriteGenres.length > 0 && (
+              {/* {favoriteGenres.length > 0 && (
                 <>
                   <Line />
                   <Column gap="12" fillWidth>
@@ -116,7 +120,7 @@ export function ProfileTab({
                     </Row>
                   </Column>
                 </>
-              )}
+              )} */}
             </Column>
           </Card>
 
@@ -229,24 +233,38 @@ export function ProfileTab({
                   labelAsPlaceholder
                 />
               </Column>
-              
+              <Text size="s" weight="strong" onBackground="neutral-medium">
+                Bio
+              </Text>
               <Textarea
                 id="bio"
-                label="Bio"
+                label=""
                 lines={4}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Tell us about yourself, your favorite movies, and what you're watching..."
               />
+
+              <Text size="s" weight="strong" onBackground="neutral-medium">
+                Country
+              </Text>
+              <Textarea
+                id="country"
+                label=""
+                lines={4}
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                placeholder="Where are you from?"
+              />
               
-              <TagInput
+              {/* <TagInput
                 id="genres"
                 value={favoriteGenres}
                 onChange={(newTags: string[]) => {
                   setFavoriteGenres(newTags);
                 }}
                 label="Favorite Genres"
-              />
+              /> */}
             </Column>
             
             <Line />

@@ -1,9 +1,17 @@
+import { Profile, User } from "@/types/User";
 import { useState, useEffect } from "react";
 
 type SignUpCredentials = { email: string; password: string, username: string };
 type LoginCredentials = { email: string; password: string};
-type AuthResponse = { token: string; message: string };
-type User = { username: string, email: string};
+type AuthResponse = { 
+  token: string; 
+  message: string; 
+  username: string; 
+  avatarUrl: string; 
+  userId: string;
+  bio: string;
+  country: null;
+};
 
 export const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -31,11 +39,22 @@ export const useAuth = () => {
       if (!response.ok || !("token" in data)){
         return { success: false, message: data?.message || "Signup failed" };
       }
-      const userObj: User = { email: credentials.email, username: credentials.username };
-
+      const userObj: User = {
+        email: credentials.email,
+        username: data.username,
+      };
+      const profileObj: Profile = {
+        userId: data.userId,
+        avatarUrl: data.avatarUrl,
+        country: data.country,
+        bio: data.bio,
+        favourites: [],
+        playlists:[]
+      }
       // Save token and user
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(userObj));
+      localStorage.setItem("profile", JSON.stringify(profileObj));
       setToken(data.token);
       setUser(userObj);
 
@@ -60,10 +79,22 @@ export const useAuth = () => {
         return { success: false, message: data?.message || "Login failed" };
       }
 
-      const userObj: User = { email: credentials.email, username: (data as any).username || "User" };
+      const userObj: User = {
+        email: credentials.email,
+        username: data.username,
+      };
+      const profileObj: Profile = {
+        userId: data.userId,
+        avatarUrl: data.avatarUrl,
+        country: data.country,
+        bio: data.bio,
+        favourites: [],
+        playlists:[]
+      }
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(userObj));
+      localStorage.setItem("profile", JSON.stringify(profileObj));
       setToken(data.token);
       setUser(userObj);
 

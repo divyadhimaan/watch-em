@@ -15,20 +15,26 @@ import {
   Background,
   Feedback,
   SmartImage,
+  Icon,
 } from "@/once-ui/components";
 import { ProfileTab } from "./components/ProfileTab";
 import { PlaylistsTab } from "./components/PlaylistsTab";
 import { SettingsTab } from "./components/SettingsTab";
+import { useProfile } from "@/hooks/useProfile";
 
 export function ProfilePage() {
   const { user, isAuthenticated } = useAuth();
+  const { profile } = useProfile();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
-  const [bio, setBio] = useState("Movie enthusiast and playlist curator. Love discovering hidden gems!");
+  const [bio, setBio] = useState("");
+  const [country, setCountry] = useState("");
   const [favoriteGenres, setFavoriteGenres] = useState<string[]>(["Action", "Sci-Fi", "Thriller"]);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [publicProfile, setPublicProfile] = useState(true);
+
+  console.log(profile);
 
   // Fix hydration: only check auth after component mounts on client
   useEffect(() => {
@@ -184,9 +190,16 @@ export function ProfilePage() {
                     <Heading as="h3" variant="display-default-m">
                       {user?.username || "User"}
                     </Heading>
-                    <Text align="center" onBackground="neutral-weak">
+                    {/* <Text align="center" onBackground="neutral-weak">
                       {stats.moviesWatched} movies watched • {stats.ratings} ratings
-                    </Text>
+                    </Text> */}
+                    
+                    {profile?.country && 
+                      <Row gap="8" vertical="center">
+                        <Icon size="xs" name="globe" />
+                        {profile?.country}
+                      </Row>
+                    }
                   </Column>
                 </Row>
 
@@ -217,10 +230,13 @@ export function ProfilePage() {
                 {activeTab === "profile" && (
                   <ProfileTab
                     user={user}
+                    profile={profile}
                     isEditing={isEditing}
                     setIsEditing={setIsEditing}
                     bio={bio}
                     setBio={setBio}
+                    country={country}
+                    setCountry={setCountry}
                     favoriteGenres={favoriteGenres}
                     setFavoriteGenres={setFavoriteGenres}
                     stats={stats}
