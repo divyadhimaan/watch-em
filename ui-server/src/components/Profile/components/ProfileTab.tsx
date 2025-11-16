@@ -51,8 +51,8 @@ export function ProfileTab({
         <>
           {/* About Section */}
           <Card padding="24" radius="l" fillWidth>
-            <Column gap="16">
-              <Row horizontal="space-between" vertical="center">
+            <Column gap="16" fillWidth>
+              <Row horizontal="space-between" vertical="center" fillWidth>
                 <Heading as="h4" variant="heading-default-l">
                   About
                 </Heading>
@@ -100,14 +100,14 @@ export function ProfileTab({
               {favoriteGenres.length > 0 && (
                 <>
                   <Line />
-                  <Column gap="12">
-                    <Row gap="8" vertical="center">
+                  <Column gap="12" fillWidth>
+                    <Row gap="8" vertical="center" fillWidth>
                       <Icon name="star" size="s" onBackground="neutral-medium" />
                       <Text size="s" weight="strong" onBackground="neutral-medium">
                         Favorite Genres
                       </Text>
                     </Row>
-                    <Row gap="8" wrap>
+                    <Row gap="8" wrap fillWidth>
                       {favoriteGenres.map((genre) => (
                         <Badge key={genre} >
                           {genre}
@@ -121,8 +121,8 @@ export function ProfileTab({
           </Card>
 
           {/* Stats Overview */}
-          <Card padding="24" radius="l" fillWidth>
-            <Column gap="16">
+          {/* <Card padding="24" radius="l" fillWidth>
+            <Column gap="16" fillWidth>
               <Heading as="h4" variant="heading-default-l">
                 Activity Overview
               </Heading>
@@ -182,12 +182,12 @@ export function ProfileTab({
                 </Card>
               </Grid>
             </Column>
-          </Card>
+          </Card> */}
         </>
       ) : (
         <Card padding="24" radius="l" fillWidth>
-          <Column gap="20">
-            <Row horizontal="space-between" vertical="center">
+          <Column gap="20" fillWidth>
+            <Row horizontal="space-between" vertical="center" fillWidth>
               <Heading as="h4" variant="heading-default-l">
                 Edit Profile
               </Heading>
@@ -203,20 +203,32 @@ export function ProfileTab({
             <Line />
             
             <Column gap="16">
-              <Input
-                label="Username"
-                defaultValue={user?.username || ""}
-                id="username"
-                prefixIcon="person"
-              />
+              <Column gap="8">
+                <Text size="s" weight="strong" onBackground="neutral-medium">
+                  Username
+                </Text>
+                <Input
+                  defaultValue={user?.username || ""}
+                  id="username"
+                  hasPrefix={<Icon name="person" size="xs" />}
+                  label=""
+                  labelAsPlaceholder
+                />
+              </Column>
               
-              <Input
-                label="Email"
-                defaultValue={user?.email || ""}
-                id="email"
-                type="email"
-                prefixIcon="openLink"
-              />
+              <Column gap="8">
+                <Text size="s" weight="strong" onBackground="neutral-medium">
+                  Email
+                </Text>
+                <Input
+                  defaultValue={user?.email || ""}
+                  id="email"
+                  type="email"
+                  hasPrefix={<Icon name="openLink" size="xs" />}
+                  label=""
+                  labelAsPlaceholder
+                />
+              </Column>
               
               <Textarea
                 id="bio"

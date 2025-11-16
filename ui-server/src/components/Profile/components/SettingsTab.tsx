@@ -27,15 +27,15 @@ export function SettingsTab({
   return (
     <Column fillWidth gap="16">
       <Card padding="24" radius="l" fillWidth>
-        <Column gap="24">
+        <Column gap="24" fillWidth>
           <Heading as="h4" variant="heading-default-m">
             Account Settings
           </Heading>
           
           <Line />
           
-          <Column gap="16">
-            <Row horizontal="space-between" vertical="center">
+          <Column gap="16" fillWidth>
+            <Row horizontal="space-between" vertical="center" fillWidth>
               <Column gap="4">
                 <Text weight="strong">Public Profile</Text>
                 <Text size="s" onBackground="neutral-weak">
@@ -50,7 +50,7 @@ export function SettingsTab({
             
             <Line />
             
-            <Row horizontal="space-between" vertical="center">
+            <Row horizontal="space-between" vertical="center" fillWidth>
               <Column gap="4">
                 <Text weight="strong">Email Notifications</Text>
                 <Text size="s" onBackground="neutral-weak">
@@ -64,13 +64,12 @@ export function SettingsTab({
             </Row>
           </Column>
           
-          <Line />
+          {/* <Line /> */}
           
-          <Column gap="12">
+          {/* <Column gap="12" horizontal="space-between" fillWidth>
             <Button
               variant="secondary"
               prefixIcon="security"
-              fillWidth
               disabled={true}
             >
               Change Password
@@ -79,12 +78,11 @@ export function SettingsTab({
             <Button
               variant="secondary"
               prefixIcon="person"
-              fillWidth
               disabled={true}
             >
               Privacy Settings
             </Button>
-          </Column>
+          </Column> */}
         </Column>
       </Card>
     </Column>
