@@ -15,11 +15,10 @@ import {
   Icon,
   TagInput,
 } from "@once-ui/components";
-import type { Profile, User } from "@app-types/user";
+import type { UserProfile } from "@app-types/user";
 
 interface ProfileTabProps {
-  user: User | null;
-  profile: Profile | null,
+  profile: UserProfile | null,
   isEditing: boolean;
   setIsEditing: (editing: boolean) => void;
   bio: string;
@@ -37,7 +36,6 @@ interface ProfileTabProps {
 }
 
 export function ProfileTab({
-  user,
   profile,
   isEditing,
   setIsEditing,
@@ -87,18 +85,18 @@ export function ProfileTab({
                       Username
                     </Text>
                   </Row>
-                  <Text onBackground="neutral-weak">{user?.username || "Not set"}</Text>
+                  <Text onBackground="neutral-weak">{profile?.username || "Not set"}</Text>
                 </Column>
                 
-                <Column gap="8">
+                {/* <Column gap="8">
                   <Row gap="8" vertical="center">
                     <Icon name="openLink" size="s" onBackground="neutral-medium" />
                     <Text size="s" weight="strong" onBackground="neutral-medium">
                       Email
                     </Text>
                   </Row>
-                  <Text onBackground="neutral-weak">{user?.email || "Not set"}</Text>
-                </Column>
+                  <Text onBackground="neutral-weak">{profile?.username || "Not set"}</Text>
+                </Column> */}
               </Grid>
               
               {/* {favoriteGenres.length > 0 && (
@@ -212,7 +210,7 @@ export function ProfileTab({
                   Username
                 </Text>
                 <Input
-                  defaultValue={user?.username || ""}
+                  defaultValue={profile?.username || ""}
                   id="username"
                   hasPrefix={<Icon name="person" size="xs" />}
                   label=""
@@ -220,7 +218,7 @@ export function ProfileTab({
                 />
               </Column>
               
-              <Column gap="8">
+              {/* <Column gap="8">
                 <Text size="s" weight="strong" onBackground="neutral-medium">
                   Email
                 </Text>
@@ -232,7 +230,7 @@ export function ProfileTab({
                   label=""
                   labelAsPlaceholder
                 />
-              </Column>
+              </Column> */}
               <Text size="s" weight="strong" onBackground="neutral-medium">
                 Bio
               </Text>

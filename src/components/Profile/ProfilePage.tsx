@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/context/AuthContext";
 import {
   Column,
   Row,
@@ -23,8 +23,7 @@ import { SettingsTab } from "./components/SettingsTab";
 import { useProfile } from "@/hooks/useProfile";
 
 export function ProfilePage() {
-  const { user, isAuthenticated } = useAuth();
-  const { profile } = useProfile();
+  const { profile, isAuthenticated } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
@@ -188,7 +187,7 @@ export function ProfilePage() {
                       src="/images/profile.jpg"
                     />
                     <Heading as="h3" variant="display-default-m">
-                      {user?.username || "User"}
+                      {profile?.username || "User"}
                     </Heading>
                     {/* <Text align="center" onBackground="neutral-weak">
                       {stats.moviesWatched} movies watched • {stats.ratings} ratings
@@ -229,7 +228,6 @@ export function ProfilePage() {
                 {/* Profile Tab */}
                 {activeTab === "profile" && (
                   <ProfileTab
-                    user={user}
                     profile={profile}
                     isEditing={isEditing}
                     setIsEditing={setIsEditing}
