@@ -28,7 +28,8 @@
       "paths": {
         "@/*": ["./src/*"],
         "@once-ui/*": ["./packages/once-ui/*"],
-        "@app-types/*": ["./packages/types/*"]
+        "@app-types/*": ["./packages/types/*"],
+        "@store/*": ["./packages/store/*"]
       },
       "target": "ES2017"
     },

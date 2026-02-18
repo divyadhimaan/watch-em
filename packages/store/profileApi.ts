@@ -1,18 +1,19 @@
 import { http } from "./httpClient";
+import type { UserProfile } from "@app-types/user";
 
 export const profileApi = {
   getMe: (token: string) =>
-    http<any>("/api/profile/me", { token }),
+    http<UserProfile>("/api/profile/me", { token }),
 
-  updateMe: (token: string, body: any) =>
-    http<any>("/api/profile/me", {
+  updateMe: (token: string, body: Partial<UserProfile>) =>
+    http<UserProfile>("/api/profile/me", {
       method: "PUT",
       body,
       token,
     }),
 
   addFavourite: (token: string, movieId: number) =>
-    http<any>(`/api/profile/me/favourites/${movieId}`, {
+    http<UserProfile>(`/api/profile/me/favourites/${movieId}`, {
       method: "POST",
       token,
     }),

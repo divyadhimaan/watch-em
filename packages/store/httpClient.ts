@@ -1,4 +1,5 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
 
 type HttpOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
@@ -6,7 +7,10 @@ type HttpOptions = {
   token?: string;
 };
 
-export async function http<T>(path: string, options?: HttpOptions): Promise<T> {
+export async function http<T>(
+  path: string,
+  options?: HttpOptions
+): Promise<T> {
   const { method = "GET", body, token } = options ?? {};
 
   const headers: Record<string, string> = {

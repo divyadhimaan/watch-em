@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { headers } from "next/headers";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { AuthProvider } from "./../context/AuthContext"
 
 
 // import { RouteGuard } from "@/components/RouteGuard";
@@ -161,7 +162,10 @@ export default function RootLayout({
             }}
           />
           <ReactQueryProvider>
+            <AuthProvider>
+
             {children}
+            </AuthProvider>
           </ReactQueryProvider>
         </Column>
       </ToastProvider>

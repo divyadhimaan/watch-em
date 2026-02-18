@@ -1,13 +1,8 @@
-export type Profile = {
-    userId: string | number;
-    avatarUrl: string;
-    country?: string | null;
-    bio?: string | null;
-    favourites: any[];
-    playlists: any[];
+export type UserProfile = {
+    id: number;
+    username: string;
+    avatarUrl?: string;
+    country?: string;
+    bio?: string;
+    favouriteMovieIds?: number[];
   };
-
-export type User = {
-    username?: string;
-    email?: string;
-}
