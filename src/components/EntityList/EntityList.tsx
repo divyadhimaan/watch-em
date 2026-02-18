@@ -19,7 +19,7 @@ interface EntityListProps {
   routePrefix?: string;
   data?: Entity[];
   loading?: boolean;
-  error?: string | null;
+  error?: Error | null;
 }
 
 const EntityList: React.FC<EntityListProps> = ({
@@ -32,7 +32,7 @@ const EntityList: React.FC<EntityListProps> = ({
   error,
 }) => {
 
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   if (loading)
     return (

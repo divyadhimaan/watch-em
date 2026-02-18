@@ -6,7 +6,7 @@ export type TMDBListResponse<T> = {
   };
   
   export type TMDBMovie = {
-    id: number;
+    id: string;
     title: string;
     overview: string;
     poster_path: string;
@@ -16,7 +16,7 @@ export type TMDBListResponse<T> = {
   };
   
   export type TMDBSeries = {
-    id: number;
+    id: string;
     name: string;
     overview: string;
     poster_path: string;

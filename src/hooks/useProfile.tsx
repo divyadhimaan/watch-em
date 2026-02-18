@@ -1,63 +1,72 @@
-import { Profile } from 'packages/types/User';
-import { useEffect, useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { profileApi } from "@store/profileApi";
+import { useAuth } from "@/context/AuthContext";
+
+/* -------- Get Profile -------- */
 
 export const useProfile = () => {
-    const token = localStorage.getItem("token");
+  const { token } = useAuth();
 
-    const [profile, setProfile] = useState<Profile | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: () => {
+        if (!token) throw new Error("No auth token");
+        return profileApi.getMe(token);
+      },
+    enabled: !!token,
+  });
+};
 
+/* -------- Update Profile -------- */
 
-    const fetchProfile = async () => {
-        if(!token){
-            setError("No authentication token found");
-            setLoading(false);
-            return;
-        }
+export const useUpdateProfile = () => {
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
 
-        try{
-            setLoading(true);
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE}/api/profile`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                      },
-                }
-            );
-            if (!res.ok) {
-                throw new Error("Failed to fetch profile");
-            }
+  return useMutation({
+    mutationFn: (body: any) =>{
+        if (!token) throw new Error("Not authenticated");
+        return profileApi.updateMe(token, body);
+      },
 
-            const data: Profile = await res.json();
-            setProfile(data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+};
 
-            const profileObj: Profile = {
-                userId: data.userId,
-                avatarUrl: data.avatarUrl,
-                country: data.country,
-                bio: data.bio,
-                favourites: data.favourites,
-                playlists: data.playlists
-              }
-            localStorage.setItem("user", JSON.stringify(profileObj));
+/* -------- Add Favourite -------- */
 
-            setError(null);
-        }catch (err: any) {
-            setError(err.message || "Failed to load profile");
-            setProfile(null);
-        } finally {
-        setLoading(false);
-        }
-    }
+export const useAddFavourite = () => {
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
 
-    useEffect(() => {
-        fetchProfile();
-      }, [token]);
+  return useMutation({
+    mutationFn: (body: any) => {
+        if (!token) throw new Error("Not authenticated");
+        return profileApi.updateMe(token, body);
+      },
 
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
+};
 
-      return { profile, loading, error, refetch: fetchProfile };
+/* -------- Remove Favourite -------- */
+
+export const useRemoveFavourite = () => {
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (body: any) => {
+        if (!token) throw new Error("Not authenticated");
+        return profileApi.updateMe(token, body);
+      },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
+  });
 };

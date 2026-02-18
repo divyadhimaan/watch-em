@@ -3,7 +3,7 @@
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 import EntityList from "@/components/EntityList/EntityList";
-import { useEntitiesBySlug } from '@/hooks/useEntitiesBySlug';
+import { useEntityFilters } from '@/hooks/useEntities';
 
 interface ClientFilteredContentProps {
   slug: string;
@@ -11,19 +11,22 @@ interface ClientFilteredContentProps {
 
 const ClientFilteredContent: React.FC<ClientFilteredContentProps> = ({ slug }) => {
   const normalizedSlug = slug.toLowerCase();
-  const { data, loading, error } = useEntitiesBySlug(normalizedSlug);
+
+  const { data, isLoading, error } = useEntityFilters(normalizedSlug);
 
   return (
     <>
       <Header />
+
       <EntityList
         header={`Filter: ${slug}`}
         entityType="movie"
         mockData={[]}
-        data={data}
-        loading={loading}
+        data={data ?? []}
+        loading={isLoading}
         error={error}
       />
+
       <Footer />
     </>
   );

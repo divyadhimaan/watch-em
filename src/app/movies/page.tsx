@@ -1,15 +1,14 @@
 'use client';
 
 import { movies as mockMovies } from "@/resources/movies";
-import { Card, SmartImage, Grid, Flex } from "../../../packages/once-ui/components";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import EntityList from "@/components/EntityList/EntityList";
-import { useEntity } from '@/hooks/useEntity';
+import { useEntityFilters } from "@/hooks/useEntities";
 
 
 export default function AllMoviesPage() {
-  const { data, loading, error } = useEntity('movies');
+  const { data, isLoading, error } = useEntityFilters("movies");
 
   return (
     <>
@@ -19,7 +18,7 @@ export default function AllMoviesPage() {
       entityType="movie"
       mockData={mockMovies}
       data={data}
-      loading={loading}
+      loading={isLoading}
       error={error}
     />
     <Footer />
