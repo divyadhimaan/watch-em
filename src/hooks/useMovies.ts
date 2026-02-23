@@ -24,6 +24,13 @@ export const useMoviesByCategory = (category: string) => {
   });
 };
 
+export const useAllMovies = () => {
+  return useQuery<TMDBMovie[]>({
+    queryKey: ["movies", "all"],
+    queryFn: () => moviesApi.getAll(),
+  });
+};
+
 /* -------- Details -------- */
 
 export const useMovieDetails = (id: number) => {

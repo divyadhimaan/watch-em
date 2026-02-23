@@ -3,7 +3,10 @@
 import ContentScroll from "./ContentScroll";
 import { scrollSections as sections } from "@/resources/scrollSections";
 import { useQueries } from '@tanstack/react-query';
-import { useMoviesByCategory } from '@/hooks/useMoviesByCategory';
+import { moviesApi } from "@/store/catalogApi";
+import type { TMDBMovie } from "@/types/tmdb";
+
+import { useMoviesByCategory } from '@/hooks/useMovies';
 
 export default function Scroll() {
   const queries = useQueries({

@@ -4,11 +4,12 @@ import { movies as mockMovies } from "@/resources/movies";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import EntityList from "@/components/EntityList/EntityList";
-import { useEntityFilters } from "@/hooks/useEntities";
+import { useAllMovies } from "@/hooks/useMovies";
 
 
 export default function AllMoviesPage() {
-  const { data, isLoading, error } = useEntityFilters("movies");
+  const { data: movies, isLoading, error } = useAllMovies();
+
 
   return (
     <>
@@ -17,7 +18,7 @@ export default function AllMoviesPage() {
       header="Movies"
       entityType="movie"
       mockData={mockMovies}
-      data={data}
+      data={movies}
       loading={isLoading}
       error={error}
     />

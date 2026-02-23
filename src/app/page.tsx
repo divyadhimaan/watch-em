@@ -1,32 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
-  Heading,
-  Text,
-  Button,
   Icon,
-  InlineCode,
-  Logo,
-  Input,
-  Avatar,
-  AvatarGroup,
-  Textarea,
-  PasswordInput,
-  SegmentedControl,
-  SmartLink,
-  Dialog,
-  Feedback,
-  Line,
-  LogoCloud,
-  Background,
-  Select,
-  Card,
   Fade,
-  StatusIndicator,
-  TagInput,
-  Switch,
   Column,
   Row,
 } from "../../packages/once-ui/components";
