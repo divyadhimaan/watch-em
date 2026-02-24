@@ -1,5 +1,6 @@
 import { http } from './httpClient'
 import type { TMDBMovie, TMDBSeries } from './../types/tmdb'
+import type { EntityType } from './../types/Entity';
 /* ---------------------------------- */
 /* ------------ MOVIES -------------- */
 /* ---------------------------------- */
@@ -84,6 +85,11 @@ export const seriesApi = {
 /* ---------------------------------- */
 
 export const entitiesApi = {
-  getFiltersBySlug: (slug: string) =>
-    http<any>(`/entities/filters/${slug}`),
+  getFiltersBySlug: (
+    type: EntityType,
+    slug: string
+  ): Promise<TMDBMovie[] | TMDBSeries[]> =>
+    http<{ results: TMDBMovie[] | TMDBSeries[] }>(
+      `/${type}s/filter/${slug}`
+    ).then(res => res.results),
 };
