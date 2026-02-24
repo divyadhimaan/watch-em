@@ -10,10 +10,11 @@ import { getImageUrl } from "@/utils/getImageUrl";
 type ContentScrollProps = {
   title: string;
   items: Item[];
+  loading: boolean;
 };
 
 
-const ContentScroll: FC<ContentScrollProps> = ({ title, items }) => {
+const ContentScroll: FC<ContentScrollProps> = ({ title, items, loading }) => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);

@@ -9,7 +9,7 @@ import type { EntityType } from "@app-types/Entity";
 
 interface ClientFilteredContentProps {
   slug: string;
-  entityType: EntityType;
+  entityType?: EntityType;
 }
 
 const ClientFilteredContent: React.FC<ClientFilteredContentProps> = ({ slug, entityType = 'movie' }) => {
