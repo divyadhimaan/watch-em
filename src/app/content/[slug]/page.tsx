@@ -4,25 +4,31 @@ import { notFound } from "next/navigation";
 import { Flex, Text, SmartImage, Badge, ToggleButton, Column, Grid } from "../../../../packages/once-ui/components";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import { useMovieById } from '@/hooks/useMovieById';
+import { useMovieDetails } from './../../../hooks/useMovies';
 import { useParams } from "next/navigation";
 import { getImageUrl } from "@/utils/getImageUrl";
 
 const ContentPage = () => {
     const params = useParams() as { slug?: string | string[] } | null;
     const slug =
-    params && params.slug
-      ? typeof params.slug === 'string'
-        ? params.slug
-        : params.slug[0]
-      : '';
-    console.log("fetch movie for slug:", slug);
-    const { movie, loading } = useMovieById(slug);
+    typeof params?.slug === "string"
+      ? params.slug
+      : params?.slug?.[0];
 
-    console.log("movie fetched: ", movie)
+    if (!slug) return notFound();
 
-    const flatrate = movie?.watch_providers?.flatrate;
-    console.log(flatrate)
+    const movieId = Number(slug);
+
+    if (Number.isNaN(movieId)) return notFound();
+
+    const { data: movie, isLoading: loading } = useMovieDetails(movieId);
+
+    if (!loading && !movie) {
+        return notFound();
+    }
+
+    // const flatrate = movie?.watch_providers?.flatrate ?? [];
+
 
     return (
         <>
@@ -123,7 +129,7 @@ const ContentPage = () => {
 
 
                         </Grid>
-                        {(flatrate ?? []).length > 0 ? (
+                        {/* {(flatrate ?? []).length > 0 ? (
                             <>
                                 <Text as="h3" size="xl" weight="strong" align="start">
                                     Available to Stream (India)
@@ -154,7 +160,7 @@ const ContentPage = () => {
                             <Text size="m" color="neutral-medium">
                                 Not available for streaming in India.
                             </Text>
-                        )}
+                        )} */}
                     </Flex>
 
                 }

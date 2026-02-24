@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { moviesApi } from "@store/catalogApi";
-import type { TMDBMovie } from "@app-types/tmdb"
+import type { TMDBMovie, TMDBMovieDetails } from "@app-types/tmdb"
 
 /* -------- Generic Category Hook -------- */
 
@@ -34,7 +34,7 @@ export const useAllMovies = () => {
 /* -------- Details -------- */
 
 export const useMovieDetails = (id: number) => {
-  return useQuery({
+  return useQuery<TMDBMovieDetails>({
     queryKey: ["movie", id],
     queryFn: () => moviesApi.getDetails(id),
     enabled: !!id,
@@ -50,3 +50,4 @@ export const useFilteredMovies = (slug: string) => {
     enabled: !!slug,
   });
 };
+

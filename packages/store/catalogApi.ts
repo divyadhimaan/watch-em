@@ -1,5 +1,5 @@
 import { http } from './httpClient'
-import type { TMDBMovie, TMDBSeries } from './../types/tmdb'
+import type { TMDBMovie, TMDBSeries, TMDBMovieDetails } from './../types/tmdb'
 import type { EntityType } from './../types/Entity';
 /* ---------------------------------- */
 /* ------------ MOVIES -------------- */
@@ -26,8 +26,8 @@ export const moviesApi = {
     http<{ results: TMDBMovie[] }>("/movies/top-rated")
       .then(res => res.results),
 
-  getDetails: (id: number): Promise<TMDBMovie> =>
-    http<TMDBMovie>(`/movies/details/${id}`),
+  getDetails: (id: number): Promise<TMDBMovieDetails> =>
+      http<TMDBMovieDetails>(`/movies/details/${id}`),
 
   getByFilter: (slug: string): Promise<TMDBMovie[]> =>
     http<{ results: TMDBMovie[] }>(`/movies/filter/${slug}`)
