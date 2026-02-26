@@ -20,7 +20,7 @@ export default function Scroll() {
   });
 
   return (
-    <main className="bg-[#0f172a] min-h-screen px-6 py-8 space-y-8">
+    <>
       {sections.map((section, idx) => {
         const { data = [], isLoading } = queries[idx];
 
@@ -28,12 +28,12 @@ export default function Scroll() {
           <ContentScroll
             key={section.category}
             title={section.title}
-            items={data.slice(0, section.limit ?? 7)}
+            items={data}
             entityType="movie"
             loading={isLoading}
           />
         );
       })}
-    </main>
+    </>
   );
 }
