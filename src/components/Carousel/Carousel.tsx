@@ -158,7 +158,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 }}
               >
                 {/* Movie Phrase */}
-                <ToggleButton size="l" prefixIcon="arrowRight" label="Stalk now!" selected={false} href={`/content/${images[activeIndex].id}`}/>
+                <ToggleButton size="l" prefixIcon="infoCircle" label="More Info" selected={false} href={`/content/${images[activeIndex].id}`}/>
                 {/* <span>Stalk now!</span> */}
               </div>
             </div>

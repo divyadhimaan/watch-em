@@ -83,39 +83,40 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
               entityType === "movie" ? (item as TMDBMovie).title : (item as TMDBSeries).name;
 
             return (
-              <Card
-                key={item.id}
-                radius="l-4"
-                direction="column"
-                border="neutral-alpha-medium"
-                href={`/content/${item.id}`}
-                className={styles.cardItem}
-              >
-                <Media
-                  border="neutral-alpha-weak"
-                  // sizes="800px"
+              <div key={item.id} className={styles.cardItem}>
+                <Card
+                  radius="l-4"
+                  direction="column"
+                  border="neutral-alpha-medium"
+                  href={`/content/${item.id}`}
                   fillWidth
-                  aspectRatio="2 / 3"
-                  radius="l"
-                  alt={itemTitle}
-                  src={getImageUrl(item.poster_path)}
-                />
-                <Column fillWidth paddingX="12" paddingY="12" gap="8">
-                  <Text variant="label-default-s">{itemTitle}</Text>
-                </Column>
-                <Line background="neutral-alpha-medium" />
-                <Row
-                  paddingX="20"
-                  paddingY="12"
-                  gap="8"
-                  vertical="center"
-                  textVariant="label-default-s"
-                  onBackground="neutral-medium"
                 >
-                  <Icon name="star" size="xs" color="warning" />
-                  <Text size="s">{item.vote_average ? item.vote_average.toFixed(1) : "N/A"}</Text>
-                </Row>
-              </Card>
+                  <Media
+                    border="neutral-alpha-weak"
+                    // sizes="800px"
+                    fillWidth
+                    aspectRatio="2 / 3"
+                    radius="l"
+                    alt={itemTitle}
+                    src={getImageUrl(item.poster_path)}
+                  />
+                  <Column fillWidth paddingX="12" paddingY="8" gap="8">
+                    <Text variant="label-default-s">{itemTitle}</Text>
+                  </Column>
+                  <Line background="neutral-alpha-medium" />
+                  <Row
+                    paddingX="12"
+                    paddingY="8"
+                    gap="8"
+                    vertical="center"
+                    textVariant="label-default-s"
+                    onBackground="neutral-medium"
+                  >
+                    <Icon name="star" size="xs" color="warning" />
+                    <Text size="s">{item.vote_average ? item.vote_average.toFixed(1) : "N/A"}</Text>
+                  </Row>
+                </Card>
+              </div>
             );
           })}
         </div>
