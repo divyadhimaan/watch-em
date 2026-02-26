@@ -29,6 +29,7 @@ export default function Scroll() {
             key={section.category}
             title={section.title}
             items={data.slice(0, section.limit ?? 7)}
+            entityType="movie"
             loading={isLoading}
           />
         );

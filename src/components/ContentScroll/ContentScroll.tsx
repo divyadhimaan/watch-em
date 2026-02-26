@@ -2,19 +2,24 @@
 
 import { type FC, useRef, useState, useEffect } from "react";
 import { Card, IconButton, Flex, Text, Icon, SmartImage, Line } from "@once-ui/components";
+import type { EntityType } from "@app-types/Entity";
+import type { TMDBMovie, TMDBSeries } from "@app-types/tmdb";
+
 import styles from "./ContentScroll.module.scss";
-import type { Item } from '@app-types/item';
 import { getImageUrl } from "@/utils/getImageUrl";
 
 
 type ContentScrollProps = {
   title: string;
-  items: Item[];
+  items: ScrollEntity[];
+  entityType: EntityType;
   loading: boolean;
 };
+type ScrollEntity = TMDBMovie | TMDBSeries;
 
 
-const ContentScroll: FC<ContentScrollProps> = ({ title, items, loading }) => {
+
+const ContentScroll: FC<ContentScrollProps> = ({ title, items, loading, entityType }) => {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -77,73 +82,81 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, loading }) => {
               </Flex>
           )}
           <div ref={scrollRef} className={styles.scrollContainer}>
-          {items.map((item, index) => (
-            <Card
-              key={item.id}
-              href={`/content/${item.id}`}
-              direction="column"
-              radius="l"
-              style={{
-                width: "200px",
-                height: "300px",
-                backgroundColor: "var(--surface)",
-                borderRadius: "1rem",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                transition: "transform 0.3s ease-in-out",
-                cursor: "pointer",
-                flexShrink: 0,
-                marginLeft: index === 0 ? '8px' : undefined,
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = "scale(1.03)";
-              }}
-              
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = "scale(1)";
-              }}
-            >
-              <SmartImage
-                src={getImageUrl(item.poster_path)}
-                alt={item.title}
-                aspectRatio="2/3"
-                enlarge
+          {items.map((item, index) => {
+            const releaseYear =
+            entityType === "movie"
+              ? (item as TMDBMovie).release_date
+              : (item as TMDBSeries).first_air_date;
+            return (
+              <Card
+                key={item.id}
+                href={`/content/${item.id}`}
+                direction="column"
                 radius="l"
                 style={{
-                  borderRadius: "0.75rem",
-                  overflow: "hidden",
-                  width: "180px",
-                  height: "220px",
+                  width: "200px",
+                  height: "300px",
+                  backgroundColor: "var(--surface)",
+                  borderRadius: "1rem",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  transition: "transform 0.3s ease-in-out",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                  marginLeft: index === 0 ? '8px' : undefined,
                 }}
-              />
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = "scale(1.03)";
+                }}
+                
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.transform = "scale(1)";
+                }}
+              >
+                <SmartImage
+                  src={getImageUrl(item.poster_path)}
+                  alt={title}
+                  aspectRatio="2/3"
+                  enlarge
+                  radius="l"
+                  style={{
+                    borderRadius: "0.75rem",
+                    overflow: "hidden",
+                    width: "180px",
+                    height: "220px",
+                  }}
+                />
 
-              <Flex direction="column" gap="8" padding="8" wrap align="start">
-                <Text
-                  align="start"
-                  paddingTop="8"
-                  variant="body-strong-s"
-                  color="onBackground"
-                  className="truncate"
-                >
-                  {item.title}
-                </Text>
+                <Flex direction="column" gap="8" padding="8" wrap align="start">
+                  <Text
+                    align="start"
+                    paddingTop="8"
+                    variant="body-strong-s"
+                    color="onBackground"
+                    className="truncate"
+                  >
+                    {title}
+                  </Text>
 
-                <Flex gap="8" align="center">
-                  <Flex gap="4" align="center" paddingTop="8"  >
-                    <Icon name="star" size="xs" color="warning" />
-                    <Text size="l" color="onBackground" gap="4">
-                    {item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
-                    </Text>
-                    <Line vert maxHeight="24" />
+                  <Flex gap="8" align="center">
+                    <Flex gap="4" align="center" paddingTop="8"  >
+                      <Icon name="star" size="xs" color="warning" />
+                      <Text size="l" color="onBackground" gap="4">
+                      {item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
+                      </Text>
+                      <Line vert maxHeight="24" />
 
-                    <Text size="m" color="onBackground">
-                      {item.release_date ? new Date(item.release_date).getFullYear() : 'N/A'}
-                    </Text>
+                      <Text size="m" color="onBackground">
+                        {releaseYear
+                          ? new Date(releaseYear).getFullYear()
+                          : "N/A"}
+                      </Text>
+                    </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
-            </Card>
-
-          ))}
+              </Card>
+              )
+            }
+          )}
           </div>
   
           {showRight && (

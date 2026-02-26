@@ -1,0 +1,24 @@
+.wrapper {
+    position: relative;
+    height: 38px;
+    max-height: 38px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease;
+}
+
+.collapsed {
+    width: 40px;
+}
+
+.expanded {
+    width: 260px;
+}
+
+.input {
+    height: 38px;
+    max-height: 38px;
+    width: 100%;
+}
