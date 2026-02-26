@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Grid, SmartImage, Flex, Text } from "@once-ui/components";
+import { Card, Grid, SmartImage, Flex, Text, Media } from "@once-ui/components";
 import { getImageUrl } from "@/utils/getImageUrl";
 import Loader from "../Loader/Loader";
 
@@ -73,11 +73,10 @@ export const EntityList: React.FC<EntityListProps> = ({
           >
             <div className="relative w-full aspect-[2/3] group">
               {item.poster_path ? (
-                <SmartImage
+                <Media
                   src={getImageUrl(item.poster_path)}
                   alt={item.title || item.name || entityType}
                   aspectRatio="3/4"
-                  enlarge
                   radius="s"
                   style={{ overflow: "hidden", width: "200px", height: "300px" }}
                 />
@@ -95,13 +94,23 @@ export const EntityList: React.FC<EntityListProps> = ({
                     padding: "16px",
                   }}
                 >
-                  {/* subtle placeholder label */}
-                  <Text size="xs" color="neutral-medium" style={{ opacity: 0.6 }}>
-                    Poster not available
-                  </Text>
+                  {/* <Media
+                  // caption={item.title || item.name || entityType}
+                  src={getImageUrl(item.poster_path)}
+                  alt={item.title || item.name || entityType}
+                  loading
+                  aspectRatio="3/4"
+                  enlarge
+                  radius="s"
+                  style={{ overflow: "hidden", width: "200px", height: "300px" }}
+                /> */}
+                   {/* subtle placeholder label */}
+                   <Text size="xs" color="neutral-medium" style={{ opacity: 0.6 }}>
+                     Poster not available
+                   </Text>
 
-                  {/* movie title */}
-                  <Text
+                   {/* movie title */}
+                   <Text
                     size="s"
                     weight="strong"
                     align="center"
