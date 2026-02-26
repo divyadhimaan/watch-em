@@ -3,7 +3,7 @@ import type { UserProfile } from "@app-types/user";
 
 export const profileApi = {
   getMe: (token: string) =>
-    http<UserProfile>("/api/profile/me", { token }),
+    http<UserProfile>("/profile/me", { token }),
 
   updateMe: (token: string, body: Partial<UserProfile>) =>
     http<UserProfile>("/api/profile/me", {
@@ -13,14 +13,14 @@ export const profileApi = {
     }),
 
   addFavourite: (token: string, movieId: number) =>
-    http<UserProfile>(`/api/profile/me/favourites/${movieId}`, {
+    http<UserProfile>(`/profile/me/favourites/${movieId}`, {
       method: "POST",
       token,
     }),
 
   removeFavourite: (token: string, movieId: number) =>
     http<{ message: string }>(
-      `/api/profile/me/favourites/${movieId}`,
+      `/profile/me/favourites/${movieId}`,
       {
         method: "DELETE",
         token,

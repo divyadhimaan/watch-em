@@ -2,7 +2,7 @@
 
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
-import EntityList from "@/components/EntityList/EntityList";
+import { EntityList } from "@/components/EntityList/EntityList";
 import { useEntityFilters } from '@/hooks/useEntities';
 import type { EntityType } from "@app-types/Entity";
 

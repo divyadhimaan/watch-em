@@ -90,7 +90,7 @@ const Carousel: React.FC<CarouselProps> = ({
         <SmartImage
           sizes={sizes}
           priority
-          radius="l"
+          radius="s"
           border="neutral-alpha-weak"
           alt={images[activeIndex]?.alt}
           aspectRatio={aspectRatio}

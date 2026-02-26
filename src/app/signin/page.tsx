@@ -26,6 +26,7 @@ export default function SignInPage() {
   const { addToast } = useToast();
   const router = useRouter();
   const { login } = useAuth();
+  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

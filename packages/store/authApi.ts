@@ -3,13 +3,13 @@ import type { AuthRequest, AuthResponse } from "@app-types/auth";
 
 export const authApi = {
   signup: (body: AuthRequest) =>
-    http<AuthResponse>("/api/auth/signup", {
+    http<AuthResponse>("/auth/signup", {
       method: "POST",
       body,
     }),
 
   login: (body: AuthRequest) =>
-    http<AuthResponse>("/api/auth/login", {
+    http<AuthResponse>("/auth/login", {
       method: "POST",
       body,
     }),

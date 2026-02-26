@@ -7,6 +7,7 @@ import {
   useEffect,
   type ReactNode,
   useCallback,
+
 } from "react";
 
 import { authApi } from "@store/authApi";
@@ -22,6 +23,7 @@ type AuthContextType = {
   login: (data: AuthRequest) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
+  isReady: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -29,27 +31,47 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  /* -------- Logout -------- */
+
+  const logout = useCallback(() => {
+    localStorage.removeItem("token");
+    setToken(null);
+    setProfile(null);
+  }, []);
 
   /* -------- Fetch Profile -------- */
 
-  const fetchProfile = useCallback(async (jwt: string) => {
-    try {
-      const data = await profileApi.getMe(jwt);
-      setProfile(data);
-    } catch (error) {
-      console.error("Profile fetch failed:", error);
-      logout();
-    }
-  }, []);
+  const fetchProfile = useCallback(
+    async (jwt: string) => {
+      try {
+        const data = await profileApi.getMe(jwt);
+        setProfile(data);
+      } catch (error) {
+        console.error("Profile fetch failed:", error);
+        logout();
+      }
+    },
+    [logout]
+  );
+
 
   /* -------- Restore Session -------- */
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
-      fetchProfile(savedToken);
+
+    if (!savedToken) {
+      setIsReady(true);
+      return;
     }
+
+    setToken(savedToken);
+
+    fetchProfile(savedToken).finally(() => {
+      setIsReady(true);
+    });
   }, [fetchProfile]);
 
   /* -------- Handle Auth Success -------- */
@@ -85,13 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  /* -------- Logout -------- */
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-    setProfile(null);
-  };
+  
 
   return (
     <AuthContext.Provider
@@ -101,7 +117,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signup,
         login,
         logout,
-        isAuthenticated: !!token,
+        isAuthenticated: !!token && !!profile,
+        isReady,
       }}
     >
       {children}

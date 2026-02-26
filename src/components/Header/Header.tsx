@@ -31,18 +31,10 @@ export const Header: FC<HeaderProps> = ({
   showOptions = true,
   showSignIn = false,
 }) => {
-  const { profile, isAuthenticated, logout } = useAuth();
+  const { profile, isAuthenticated, logout, isReady } = useAuth();
 
   const pathname = usePathname() ?? "";
-  const [mounted, setMounted] = useState(false);
   const [searchText, setSearchText] = useState("");
-
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
-
-  // Fix hydration: only use auth state after component mounts
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <Row position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
@@ -54,8 +46,10 @@ export const Header: FC<HeaderProps> = ({
         paddingLeft="32"
         paddingY="20"
       >
+        {/* LOGO */}
         <Row hide="s">{showLogo && <Logo size="m" icon={false} href="/" />}</Row>
 
+        {/* Navigation */}
         {showMenu && (
           <Flex
             background="surface"
@@ -112,60 +106,51 @@ export const Header: FC<HeaderProps> = ({
           </Flex>
         )}
 
+        {/* Right Section */}
         {showOptions && (
           <Row gap="12" hide="s">
-            {/* <Flex
-                                background="surface"
-                                border="neutral-medium"
-                                radius="m-4"
-                                shadow="l"
-                                padding="4"
-                                horizontal="center"
-                            >
-                                <ToggleButton prefixIcon="notification" onClick={checkNodeServer} selected={false} />
-                            </Flex> */}
-            {showOptions && (
-              <Row gap="12" hide="s">
-                {mounted &&
-                  (isAuthenticated ? (
-                    <UserMenu username={profile?.username ?? ""} onLogout={logout} />
-                  ) : (
-                    <Flex
-                      background="surface"
-                      border="neutral-medium"
-                      radius="m-4"
-                      shadow="l"
-                      padding="4"
-                      horizontal="center"
-                    >
-                      <ToggleButton
-                        prefixIcon="person"
-                        href="/signin"
-                        label="Sign In"
-                        selected={false}
-                      />
-                    </Flex>
-                  ))}
-                <Row position="fixed" top="20" right="20">
-                  <StyleOverlay
-                    position="fixed"
-                    top="8"
-                    right="8"
-                    style={{ height: "calc(100vh - var(--static-space-16))" }}
+            {/* Auth Section */}
+            {isReady && (
+              isAuthenticated ? (
+                <UserMenu
+                  username={profile?.username ?? ""}
+                  onLogout={logout}
+                />
+              ) : (
+                <Flex
+                  background="surface"
+                  border="neutral-medium"
+                  radius="m-4"
+                  shadow="l"
+                  padding="4"
+                  horizontal="center"
+                >
+                  <ToggleButton
+                    prefixIcon="person"
+                    href="/signin"
+                    label="Sign In"
+                    selected={false}
                   />
-                </Row>
-              </Row>
+                </Flex>
+              )
             )}
+
+            {/* Overlay */}
             <Row position="fixed" top="20" right="20">
               <StyleOverlay
                 position="fixed"
                 top="8"
                 right="8"
-                style={{ height: "calc(100vh - var(--static-space-16))" }}
+                style={{
+                  height: "calc(100vh - var(--static-space-16))",
+                }}
               />
             </Row>
           </Row>
         )}
+
+
+        {/* Explicit SignIn Variant */}
         {showSignIn && (
           <Row gap="12" hide="s">
             <Flex
@@ -176,7 +161,11 @@ export const Header: FC<HeaderProps> = ({
               padding="4"
               horizontal="center"
             >
-              <ToggleButton label="Sign In" href="/signin" selected={false} />
+              <ToggleButton
+                label="Sign In"
+                href="/signin"
+                selected={false}
+              />
             </Flex>
           </Row>
         )}

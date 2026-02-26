@@ -93,3 +93,25 @@ export const entitiesApi = {
       `/${type}s/filter/${slug}`
     ).then(res => res.results),
 };
+
+/* ---------------------------------- */
+/* ------------ SEARCH -------------- */
+/* ---------------------------------- */
+
+export const searchApi = {
+  search: (params: {
+    query: string;
+    includeAdult?: boolean;
+    page?: number;
+  }) => {
+    const searchParams = new URLSearchParams({
+      query: params.query,
+      includeAdult: String(params.includeAdult ?? false),
+      page: String(params.page ?? 1),
+    });
+
+    return http<{ results: (TMDBMovie | TMDBSeries)[] }>(
+      `/search?${searchParams.toString()}`
+    ).then(res => res.results);
+  },
+};

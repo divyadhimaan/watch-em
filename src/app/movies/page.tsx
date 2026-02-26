@@ -3,7 +3,7 @@
 import { movies as mockMovies } from "@/resources/movies";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
-import EntityList from "@/components/EntityList/EntityList";
+import { EntityList } from "@/components/EntityList/EntityList";
 import { useAllMovies } from "@/hooks/useMovies";
 
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type FC } from "react";
+import { useRouter } from "next/navigation";
 import { Flex, Input, IconButton, Icon, ToggleButton } from "@once-ui/components";
 import styles from "./SearchInput.module.scss";
 
@@ -14,6 +15,18 @@ export const SearchInput: FC<SearchInputProps> = ({ value, onChange, onExpandCha
   const [expanded, setExpanded] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const router = useRouter();
+
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (value.trim()) {
+        router.replace(`/search?q=${encodeURIComponent(value)}`);
+      }
+    }, 400);
+  
+    return () => clearTimeout(timeout);
+  }, [value, router]);
   useEffect(() => {
     if (expanded) inputRef.current?.focus();
   }, [expanded]);
@@ -37,7 +50,7 @@ export const SearchInput: FC<SearchInputProps> = ({ value, onChange, onExpandCha
       ) : (
         <Input
           id="input-search"
-          label=""
+          label="Search for a movie..."
           height="s"
           labelAsPlaceholder
           ref={inputRef}
