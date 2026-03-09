@@ -1,5 +1,5 @@
 import { http } from "./httpClient";
-import type { AuthRequest, AuthResponse } from "@app-types/auth";
+import type { AuthRequest, AuthResponse } from "./types";
 
 export const authApi = {
   signup: (body: AuthRequest) =>

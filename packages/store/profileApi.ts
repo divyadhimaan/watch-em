@@ -1,5 +1,5 @@
 import { http } from "./httpClient";
-import type { UserProfile } from "@app-types/user";
+import type { UserProfile } from "./types";
 
 
 export const profileApi = {
