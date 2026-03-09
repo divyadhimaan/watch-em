@@ -7,8 +7,13 @@ import { EntityList } from "@/components/EntityList/EntityList";
 import { CarouselCards } from "@/components/CarouselCards/CarouselCards";
 import { FilterScroll } from "@/components/FilterScroll/FilterScroll";
 import Scroll from "@/components/scroll";
+import { useSearchParams } from "next/navigation";
+import { DetailDialog } from "@/components/DetailDialog";
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const movieId = searchParams?.get("movie");
+
   return (
     <Column fillWidth paddingY="80" paddingX="s" horizontal="center" flex={1}>
       <Fade
@@ -40,6 +45,15 @@ export default function Home() {
         <CarouselCards />
         <FilterScroll />
         <Scroll />
+        {movieId && (
+  <DetailDialog
+    movieId={Number(movieId)}
+    isOpen={true}
+    onClose={() => router.back()}
+  />
+)}
+
+        
 
         <Footer />
       </Column>

@@ -10,7 +10,7 @@
   font-weight: 700;
   color: white;
   margin-bottom: 1rem;
-  padding-left: 1rem;
+  padding: 0 2.5rem;
 }
 
 .wrapper {
@@ -18,6 +18,56 @@
   width: 100%;
   max-width: 100%;
   // no overflow:hidden here — it clips the scroll arrows
+}
+/* Edge fade overlays */
+.wrapper::before,
+.wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px; 
+  height: 100%;
+  z-index: 5;
+  pointer-events: none; 
+}
+
+/* Left fade */
+.wrapper::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    #0f0f0f 0%,   
+    rgba(15, 15, 15, 0.8) 40%,
+    rgba(15, 15, 15, 0) 100%
+  );
+}
+
+/* Hide by default */
+.wrapper::before,
+.wrapper::after {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show left fade */
+.showLeftFade::before {
+  opacity: 1;
+}
+
+/* Show right fade */
+.showRightFade::after {
+  opacity: 1;
+}
+
+/* Right fade */
+.wrapper::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    #0f0f0f 0%,  
+    rgba(15, 15, 15, 0.8) 40%,
+    rgba(15, 15, 15, 0) 100%
+  );
 }
 
 .scrollContainer {

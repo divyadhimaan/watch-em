@@ -23,6 +23,7 @@ interface DialogProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
   footer?: ReactNode;
   base?: boolean;
   stack?: boolean;
+  paddingDialog?: string;
   onHeightChange?: (height: number) => void;
   minHeight?: number;
   closeOnOutsideClick?: boolean;
@@ -65,6 +66,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
       base,
       footer,
       onHeightChange,
+      paddingDialog,
       minHeight,
       closeOnOutsideClick, 
       ...rest
@@ -236,7 +238,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
           [styles.open]: isAnimating,
         })}
         center
-        padding="l"
+        padding={paddingDialog}
         role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"

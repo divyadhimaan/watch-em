@@ -76,7 +76,7 @@ export const FilterScroll = () => {
                                 (item) =>
                                     item.link && (
                                         <React.Fragment key={item.label}>
-                                            <Link href={`/filter/${item.value}` || slugify(item.label)}>
+                                            <Link href={`/filter?tag=${item.value || slugify(item.label)}`}>
                                             <Button
                                                 className="s-flex-hide"
                                                 key={item.label}
@@ -86,7 +86,7 @@ export const FilterScroll = () => {
                                                 variant="secondary"
                                             />
                                             </Link>
-                                            <Link href={`/filter/${item.value}` || slugify(item.label)}>
+                                            <Link href={`/filter?tag=${item.value || slugify(item.label)}`}>
                                             <IconButton
                                                 className="s-flex-show"
                                                 size="m"

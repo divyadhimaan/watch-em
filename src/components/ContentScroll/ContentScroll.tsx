@@ -6,6 +6,7 @@ import type { EntityType } from "@app-types/Entity";
 import type { TMDBMovie, TMDBSeries } from "@app-types/tmdb";
 import styles from "./ContentScroll.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { useRouter } from "next/navigation";
 
 type ScrollEntity = TMDBMovie | TMDBSeries;
 
@@ -20,6 +21,7 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
+  const router = useRouter();
 
   const checkScroll = useCallback(() => {
     const el = scrollRef.current;
@@ -62,7 +64,11 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
     <section className={styles.section}>
       <h2 className={styles.heading}>{title}</h2>
 
-      <div className={styles.wrapper}>
+      <div
+        className={`${styles.wrapper} 
+      ${showLeft ? styles.showLeftFade : ""} 
+    ${showRight ? styles.showRightFade : ""}`}
+      >
         {showLeft && (
           <IconButton
             icon="arrowLeft2"
@@ -88,7 +94,8 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
                   radius="l-4"
                   direction="column"
                   border="neutral-alpha-medium"
-                  href={`/content/${item.id}`}
+                  onClick={() => router.push(`?movie=${item.id}`, { scroll: false })}
+                  style={{ cursor: "pointer" }}
                   fillWidth
                 >
                   <Media
@@ -101,7 +108,18 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
                     src={getImageUrl(item.poster_path)}
                   />
                   <Column fillWidth paddingX="12" paddingY="8" gap="8">
-                    <Text variant="label-default-s">{itemTitle}</Text>
+                    <Text
+                      variant="label-default-s"
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        width: "100%",
+                        display: "block",
+                      }}
+                    >
+                      {itemTitle}
+                    </Text>
                   </Column>
                   <Line background="neutral-alpha-medium" />
                   <Row

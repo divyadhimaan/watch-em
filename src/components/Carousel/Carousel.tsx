@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Flex, RevealFx, Scroller, SmartImage, Fade, ToggleButton } from "@once-ui/components";
+import { useRouter } from "next/navigation";
 
 interface Image {
   src: string;
@@ -33,6 +34,7 @@ const Carousel: React.FC<CarouselProps> = ({
   const nextImageRef = useRef<HTMLImageElement | null>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const autoSlideTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const router = useRouter();
 
   const preloadNextImage = (nextIndex: number) => {
     if (nextIndex >= 0 && nextIndex < images.length) {
@@ -53,7 +55,6 @@ const Carousel: React.FC<CarouselProps> = ({
       }, 200);
     }
   };
-
 
   useEffect(() => {
     if (images.length > 1 && autoSlideInterval > 0) {
@@ -121,7 +122,7 @@ const Carousel: React.FC<CarouselProps> = ({
               style={{
                 position: "absolute",
                 top: "50%",
-                // left: "10%", 
+                // left: "10%",
                 transform: "translateY(-50%)",
                 color: "white",
                 textAlign: "left",
@@ -158,7 +159,15 @@ const Carousel: React.FC<CarouselProps> = ({
                 }}
               >
                 {/* Movie Phrase */}
-                <ToggleButton size="l" prefixIcon="infoCircle" label="More Info" selected={false} href={`/content/${images[activeIndex].id}`}/>
+                <ToggleButton
+                  size="l"
+                  prefixIcon="infoCircle"
+                  label="More Info"
+                  selected={false}
+                  onClick={() => {
+                    router.push(`?movie=${images[activeIndex].id}`, { scroll: false });
+                  }}
+                />
                 {/* <span>Stalk now!</span> */}
               </div>
             </div>

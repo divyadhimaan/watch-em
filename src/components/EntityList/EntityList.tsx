@@ -3,6 +3,7 @@
 import { Card, Grid, SmartImage, Flex, Text, Media } from "@once-ui/components";
 import { getImageUrl } from "@/utils/getImageUrl";
 import Loader from "../Loader/Loader";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export interface Entity {
   id: string | number;
@@ -31,6 +32,9 @@ export const EntityList: React.FC<EntityListProps> = ({
   loading,
   error,
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   if (error) return <div>Error: {error.message}</div>;
 
   if (loading) return <Loader />;
@@ -68,7 +72,12 @@ export const EntityList: React.FC<EntityListProps> = ({
         {entityList.map((item) => (
           <Card
             key={item.id}
-            href={`${routePrefix}/${item.id}`}
+            onClick={() => {
+              const params = new URLSearchParams(searchParams?.toString());
+              params.set("movie", String(item.id));
+              router.push(`?${params.toString()}`, { scroll: false });
+            }}
+            style={{ cursor: "pointer" }}
             className="p-0 rounded-xl shadow-md border-none overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
           >
             <div className="relative w-full aspect-[2/3] group">
@@ -104,13 +113,13 @@ export const EntityList: React.FC<EntityListProps> = ({
                   radius="s"
                   style={{ overflow: "hidden", width: "200px", height: "300px" }}
                 /> */}
-                   {/* subtle placeholder label */}
-                   <Text size="xs" color="neutral-medium" style={{ opacity: 0.6 }}>
-                     Poster not available
-                   </Text>
+                  {/* subtle placeholder label */}
+                  <Text size="xs" color="neutral-medium" style={{ opacity: 0.6 }}>
+                    Poster not available
+                  </Text>
 
-                   {/* movie title */}
-                   <Text
+                  {/* movie title */}
+                  <Text
                     size="s"
                     weight="strong"
                     align="center"
