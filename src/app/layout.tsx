@@ -5,19 +5,18 @@ import classNames from "classnames";
 import { headers } from "next/headers";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { AuthProvider } from "./../context/AuthContext"
-
+import { AuthProvider } from "./../context/AuthContext";
 
 // import { RouteGuard } from "@/components/RouteGuard";
-import ReactQueryProvider from '@/components/ReactQueryProvider';
+import ReactQueryProvider from "@/components/ReactQueryProvider";
 
 import { baseURL, style, meta, og, schema, social } from "../../packages/once-ui/resources/config";
 import { Background, Column, Flex, ToastProvider } from "../../packages/once-ui/components";
+import { Suspense } from "react";
+import { DetailDialog } from "@/components/DetailDialog";
 
 import { Inter } from "next/font/google";
 import { Roboto_Mono } from "next/font/google";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 
 const primary = Inter({
   variable: "--font-primary",
@@ -56,11 +55,11 @@ export async function generateMetadata(): Promise<Metadata> {
       description: og.description,
       url: `https:// + ${baseURL}`,
       images: [
-				{
-					url: og.image,
-					alt: og.title,
-				},
-			],
+        {
+          url: og.image,
+          alt: og.title,
+        },
+      ],
       type: og.type as
         | "website"
         | "article"
@@ -76,11 +75,11 @@ export async function generateMetadata(): Promise<Metadata> {
         | "video.other",
     },
     twitter: {
-			card: 'summary_large_image',
-			title: og.title,
-			description: og.description,
-			images: [og.image],
-		},
+      card: "summary_large_image",
+      title: og.title,
+      description: og.description,
+      images: [og.image],
+    },
     metadataBase,
   };
 }
@@ -125,16 +124,12 @@ export default function RootLayout({
       )}
     >
       <head>
-      <Script
-        id="schema"
-        type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(schemaData)}
-      </Script>
+        <Script id="schema" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify(schemaData)}
+        </Script>
       </head>
       <ToastProvider>
-        <Column as="body" fillWidth  margin="0" padding="0">
+        <Column as="body" fillWidth margin="0" padding="0">
           <Background
             position="absolute"
             mask={{
@@ -163,8 +158,12 @@ export default function RootLayout({
           />
           <ReactQueryProvider>
             <AuthProvider>
+              <Suspense fallback={null}>{children}</Suspense>
 
-            {children}
+              {/* Global movie dialog */}
+              <Suspense fallback={null}>
+                <DetailDialog />
+              </Suspense>
             </AuthProvider>
           </ReactQueryProvider>
         </Column>

@@ -1,17 +1,14 @@
-"use client";
-
 import ClientFilteredContent from "@/components/ClientFilteredContent/ClientFilteredContent";
-import { DetailDialog } from "@/components/DetailDialog";
-import { useSearchParams } from "next/navigation";
 
-export default function FilterPage() {
-  const searchParams = useSearchParams();
-  const tag = searchParams?.get("tag") ?? "";
+interface PageProps {
+  searchParams: Promise<{
+    tag?: string;
+  }>;
+}
 
-  return (
-    <>
-      <ClientFilteredContent slug={tag} />
-      <DetailDialog />
-    </>
-  );
+export default async function FilterPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const tag = params?.tag ?? "";
+
+  return <ClientFilteredContent slug={tag} />;
 }

@@ -1,18 +1,19 @@
 "use client";
 
 import React, {
-  ReactNode,
+  type ReactNode,
   useEffect,
   useCallback,
   useRef,
   forwardRef,
-  useState,
+ useState,
   useContext,
 } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { Flex, Heading, IconButton, Text } from ".";
 import styles from "./Dialog.module.scss";
+import type { SpacingToken } from "./../types";
 
 interface DialogProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
   isOpen: boolean;
@@ -23,7 +24,7 @@ interface DialogProps extends Omit<React.ComponentProps<typeof Flex>, "title"> {
   footer?: ReactNode;
   base?: boolean;
   stack?: boolean;
-  paddingDialog?: string;
+  paddingDialog?: SpacingToken;
   onHeightChange?: (height: number) => void;
   minHeight?: number;
   closeOnOutsideClick?: boolean;
@@ -239,7 +240,7 @@ const Dialog: React.FC<DialogProps> = forwardRef<HTMLDivElement, DialogProps>(
         })}
         center
         padding={paddingDialog}
-        role="dialog"
+        // role="dialog"
         aria-modal="true"
         aria-labelledby="dialog-title"
         // onClick={(e) => e.stopPropagation()}

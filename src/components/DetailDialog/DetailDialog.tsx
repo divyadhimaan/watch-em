@@ -1,7 +1,6 @@
-import { useState } from "react";
+"use client";
 
 import {
-  Button,
   Dialog,
   Column,
   Grid,
@@ -13,17 +12,12 @@ import {
 } from "@once-ui/components";
 import { notFound } from "next/navigation";
 import { useMovieDetails } from "./../../hooks/useMovies";
-import { useParams } from "next/navigation";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { useSearchParams, useRouter } from "next/navigation";
 
 export const DetailDialog = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  // const [isOpen, setIsOpen] = useState(false);
-  // const params = useParams() as { slug?: string | string[] } | null;
-  // const slug = typeof params?.slug === "string" ? params.slug : params?.slug?.[0];
 
   const movieParam = searchParams?.get("movie");
   const movieId = movieParam ? Number(movieParam) : null;

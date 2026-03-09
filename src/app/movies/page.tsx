@@ -5,7 +5,6 @@ import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { EntityList } from "@/components/EntityList/EntityList";
 import { useAllMovies } from "@/hooks/useMovies";
-import { DetailDialog } from "@/components/DetailDialog"; 
 
 
 export default function AllMoviesPage() {
@@ -22,8 +21,6 @@ export default function AllMoviesPage() {
       loading={isLoading}
       error={error}
     />
-
-    <DetailDialog />
     <Footer />
     </>
   );
