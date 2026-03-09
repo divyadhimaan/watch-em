@@ -1,6 +1,6 @@
 import { http } from './httpClient'
-import type { TMDBMovie, TMDBSeries, TMDBMovieDetails } from '@app-types/tmdb'
-import type { EntityType } from '@app-types/Entity';
+import type { TMDBMovie, TMDBSeries, TMDBMovieDetails } from '../types/tmdb'
+import type { EntityType } from '../types/Entity';
 /* ---------------------------------- */
 /* ------------ MOVIES -------------- */
 /* ---------------------------------- */
