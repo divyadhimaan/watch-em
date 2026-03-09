@@ -36,7 +36,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   /* -------- Logout -------- */
 
   const logout = useCallback(() => {
-    localStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
     setToken(null);
     setProfile(null);
   }, []);
@@ -60,7 +62,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   /* -------- Restore Session -------- */
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
+    const savedToken =
+  typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     if (!savedToken) {
       setIsReady(true);
@@ -77,7 +80,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   /* -------- Handle Auth Success -------- */
 
   const handleAuthSuccess = async (data: AuthResponse) => {
-    localStorage.setItem("token", data.token);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("token", data.token);
+    }
     setToken(data.token);
 
     await fetchProfile(data.token);
