@@ -1,5 +1,6 @@
 import { http } from "./httpClient";
-import type { UserProfile } from "./../types/user";
+import type { UserProfile } from "../types/user";
+
 
 export const profileApi = {
   getMe: (token: string) =>
