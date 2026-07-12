@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueries } from "@tanstack/react-query";
 import { moviesApi } from "@store/catalogApi";
 import type { TMDBMovie, TMDBMovieDetails } from "@app-types/tmdb"
 
@@ -48,6 +48,19 @@ export const useFilteredMovies = (slug: string) => {
     queryKey: ["movies", "filter", slug],
     queryFn: () => moviesApi.getByFilter(slug),
     enabled: !!slug,
+  });
+};
+
+/* -------- Details by a list of ids (e.g. favourites) -------- */
+
+export const useMoviesByIds = (ids: number[]) => {
+  return useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ["movie", id],
+      queryFn: () => moviesApi.getDetails(id),
+      enabled: !!id,
+      staleTime: 1000 * 60 * 5,
+    })),
   });
 };
 

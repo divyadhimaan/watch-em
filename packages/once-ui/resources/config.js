@@ -6,6 +6,9 @@ const routes = {
   "/series": true,
   "/search": true,
   "/login": true,
+  "/profile": true,
+  "/watchroom": true,
+  "/vibe": true,
 };
 
 // default customization applied to the HTML in the main layout.tsx

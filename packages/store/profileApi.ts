@@ -7,7 +7,7 @@ export const profileApi = {
     http<UserProfile>("/profile/me", { token }),
 
   updateMe: (token: string, body: Partial<UserProfile>) =>
-    http<UserProfile>("/api/profile/me", {
+    http<UserProfile>("/profile/me", {
       method: "PUT",
       body,
       token,

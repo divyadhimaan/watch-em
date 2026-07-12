@@ -1,0 +1,196 @@
+/* ---- Landing page ---- */
+.heroEmoji {
+  font-size: 56px;
+  line-height: 1;
+  display: block;
+  text-align: center;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--neutral-alpha-weak);
+  background: var(--neutral-alpha-weak);
+}
+
+.stepNum {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--brand-solid-strong);
+  color: var(--brand-on-solid-strong);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--neutral-alpha-weak);
+}
+
+/* ---- OTT Grid ---- */
+.ottGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.ottCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  height: auto;
+  min-height: 0;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--neutral-alpha-weak);
+  background: var(--neutral-alpha-weak);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  appearance: none;
+  font-family: inherit;
+  color: inherit;
+  text-align: center;
+  width: 100%;
+
+  &:hover {
+    border-color: var(--neutral-alpha-medium);
+    transform: translateY(-1px);
+  }
+}
+
+.ottSelected {
+  border-width: 2px;
+}
+
+.ottLogo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.ottCheck {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--brand-solid-strong);
+  color: var(--brand-on-solid-strong);
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Results ---- */
+.participantsSummary {
+  padding: 16px;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--neutral-alpha-weak);
+  background: var(--neutral-alpha-weak);
+}
+
+.participantCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--neutral-alpha-medium);
+  background: var(--surface-background);
+  min-width: 100px;
+}
+
+.miniVibe {
+  font-size: 16px;
+}
+
+.miniOtt {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.vibeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--brand-alpha-weak);
+  border: 1px solid var(--brand-alpha-medium);
+  font-size: var(--font-size-body-s);
+  font-weight: 600;
+  color: var(--brand-on-background-strong);
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+.resultCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  border: 1px solid var(--neutral-alpha-weak);
+}
+
+.resultPoster {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  display: block;
+}
+
+.resultInfo {
+  padding: 6px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roomCode {
+  font-family: monospace;
+  letter-spacing: 0.15em;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--brand-on-background-strong) !important;
+}

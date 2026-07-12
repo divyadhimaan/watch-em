@@ -100,6 +100,42 @@ export const Header: FC<HeaderProps> = ({
                                 </>
                             )} */}
 
+              {routes["/vibe"] && (
+                <>
+                  <ToggleButton
+                    className="s-flex-hide"
+                    prefixIcon="sparkle"
+                    href="/vibe"
+                    label="Vibe"
+                    selected={pathname.startsWith("/vibe")}
+                  />
+                  <ToggleButton
+                    className="s-flex-show"
+                    prefixIcon="sparkle"
+                    href="/vibe"
+                    selected={pathname.startsWith("/vibe")}
+                  />
+                </>
+              )}
+
+              {routes["/watchroom"] && (
+                <>
+                  <ToggleButton
+                    className="s-flex-hide"
+                    prefixIcon="family"
+                    href="/watchroom"
+                    label="Watch Room"
+                    selected={pathname.startsWith("/watchroom")}
+                  />
+                  <ToggleButton
+                    className="s-flex-show"
+                    prefixIcon="family"
+                    href="/watchroom"
+                    selected={pathname.startsWith("/watchroom")}
+                  />
+                </>
+              )}
+
               <Line vert maxHeight="24" />
               <SearchInput value={searchText} onChange={setSearchText} />
             </Flex>

@@ -19,6 +19,7 @@ import {
 } from "@once-ui/components";
 import { ProfileTab } from "./components/ProfileTab";
 import { PlaylistsTab } from "./components/PlaylistsTab";
+import { FavouritesTab } from "./components/FavouritesTab";
 import { SettingsTab } from "./components/SettingsTab";
 import { useProfile } from "@/hooks/useProfile";
 
@@ -213,6 +214,11 @@ export function ProfilePage() {
                     },
                     {
                       size: "l",
+                      value: "favourites",
+                      label: "Favourites",
+                    },
+                    {
+                      size: "l",
                       value: "playlists",
                       label: "Playlists",
                     },
@@ -240,6 +246,9 @@ export function ProfilePage() {
                     stats={stats}
                   />
                 )}
+
+                {/* Favourites Tab */}
+                {activeTab === "favourites" && <FavouritesTab />}
 
                 {/* Playlists Tab */}
                 {activeTab === "playlists" && (

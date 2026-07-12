@@ -42,9 +42,9 @@ export const useAddFavourite = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (body: any) => {
+    mutationFn: (movieId: number) => {
         if (!token) throw new Error("Not authenticated");
-        return profileApi.updateMe(token, body);
+        return profileApi.addFavourite(token, movieId);
       },
 
     onSuccess: () => {
@@ -60,9 +60,9 @@ export const useRemoveFavourite = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (body: any) => {
+    mutationFn: (movieId: number) => {
         if (!token) throw new Error("Not authenticated");
-        return profileApi.updateMe(token, body);
+        return profileApi.removeFavourite(token, movieId);
       },
 
     onSuccess: () => {

@@ -1,0 +1,138 @@
+.vibeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--brand-alpha-weak);
+  border: 1px solid var(--brand-alpha-medium);
+  font-size: var(--font-size-body-s);
+  font-weight: 600;
+  color: var(--brand-on-background-strong);
+}
+
+/* ---- Card Stack ---- */
+.cardStack {
+  position: relative;
+  width: 340px;
+  height: 500px;
+  margin: 0 auto;
+
+  @media (max-width: 400px) {
+    width: 300px;
+    height: 440px;
+  }
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.cardBehind {
+  transform: scale(0.95) translateY(12px);
+  z-index: 0;
+  pointer-events: none;
+  filter: brightness(0.6);
+}
+
+.swipeRight {
+  transform: translateX(120%) rotate(15deg) !important;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+.swipeLeft {
+  transform: translateX(-120%) rotate(-15deg) !important;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 2;
+}
+
+.mediaType {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.overview {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 12px !important;
+  line-height: 1.5;
+}
+
+/* ---- Swipe Hints ---- */
+.swipeHint {
+  position: absolute;
+  top: 32px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border-width: 3px;
+  border-style: solid;
+  z-index: 10;
+  pointer-events: none;
+  transform: rotate(-15deg);
+}
+
+.hintSave {
+  left: 20px;
+  color: #22c55e;
+  border-color: #22c55e;
+  transform: rotate(-15deg);
+}
+
+.hintSkip {
+  right: 20px;
+  color: #ef4444;
+  border-color: #ef4444;
+  transform: rotate(15deg);
+}
+
+/* ---- Saved List ---- */
+.savedGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.savedThumb {
+  width: 44px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--radius-s);
+  flex-shrink: 0;
+}

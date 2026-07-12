@@ -3,7 +3,6 @@
 import { Fade, Column } from "../../packages/once-ui/components";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
-import { EntityList } from "@/components/EntityList/EntityList";
 import { CarouselCards } from "@/components/CarouselCards/CarouselCards";
 import { FilterScroll } from "@/components/FilterScroll/FilterScroll";
 import Scroll from "@/components/scroll";
