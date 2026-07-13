@@ -67,7 +67,9 @@ export default function VibePage() {
   const dragStartX = useRef<number | null>(null);
   const guestNudgeShown = useRef(false);
 
-  // Reset the deck whenever the selected vibe changes (e.g. after "Change vibe")
+  // Reset the deck whenever the selected vibe changes (e.g. after "Change vibe").
+  // movieSlug/seriesSlug are intentional re-trigger deps, not read in the body.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: movieSlug/seriesSlug are used to trigger the reset, not read inside it
   useEffect(() => {
     setCurrentIndex(0);
     setDismissed(new Set());
