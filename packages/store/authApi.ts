@@ -13,4 +13,10 @@ export const authApi = {
       method: "POST",
       body,
     }),
+
+  google: (idToken: string) =>
+    http<AuthResponse>("/auth/google", {
+      method: "POST",
+      body: { idToken },
+    }),
 };

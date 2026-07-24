@@ -17,7 +17,6 @@
     "classnames": "^2.5.1",
     "compressorjs": "^1.2.1",
     "next": "^16.1.2",
-    "next-auth": "^4.24.13",
     "postcss": "^8.4.39",
     "postcss-preset-env": "^9.5.15",
     "prismjs": "^1.29.0",

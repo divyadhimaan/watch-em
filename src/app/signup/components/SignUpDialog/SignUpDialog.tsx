@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useAuth } from "@/context/AuthContext";
 
 import {
@@ -14,6 +13,7 @@ import {
   Row,
   useToast,
 } from "@once-ui/components";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton/GoogleSignInButton";
 
 type SignUpDialogProps = {
   onClose: () => void;
@@ -26,7 +26,7 @@ type SignUpDialogProps = {
 const SignUpDialog = ({ onClose, credentials, setCredentials }: SignUpDialogProps) => {
   const { addToast } = useToast();
   const router = useRouter();
-  const { signup } = useAuth();
+  const { signup, loginWithGoogle } = useAuth();
 
   const [email, setEmail] = useState(credentials?.email || "");
   const [username, setUsername] = useState("");
@@ -39,6 +39,21 @@ const SignUpDialog = ({ onClose, credentials, setCredentials }: SignUpDialogProp
       return "Email is invalid.";
     }
     return null;
+  };
+
+  const handleGoogleCredential = async (idToken: string) => {
+    const success = await loginWithGoogle(idToken);
+
+    if (success) {
+      addToast({
+        variant: "success",
+        message: "Wohoo! Grab some popcorn. The binge begins now.",
+      });
+      onClose();
+      router.replace("/");
+    } else {
+      addToast({ variant: "danger", message: "Google sign-in failed. Try again." });
+    }
   };
 
   const handleSignUp = async () => {
@@ -100,15 +115,7 @@ const SignUpDialog = ({ onClose, credentials, setCredentials }: SignUpDialogProp
             </Heading>
 
             <Column fillWidth gap="8">
-              <Button
-                label="Continue with Google"
-                fillWidth
-                variant="secondary"
-                weight="default"
-                prefixIcon="google"
-                size="l"
-                onClick={() => signIn("google", { callbackUrl: "/" })}
-              />
+              <GoogleSignInButton onCredential={handleGoogleCredential} />
             </Column>
             <Row fillWidth paddingY="24">
               <Row onBackground="neutral-weak" fillWidth gap="24" vertical="center">

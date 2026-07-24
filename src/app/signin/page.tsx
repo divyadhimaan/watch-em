@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 
 import {
   Heading,
@@ -21,12 +20,13 @@ import {
 } from "@once-ui/components";
 
 import { Header } from "@/components/Header/Header";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton/GoogleSignInButton";
 
 export default function SignInPage() {
   const { addToast } = useToast();
   const router = useRouter();
-  const { login } = useAuth();
-  
+  const { login, loginWithGoogle } = useAuth();
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +37,20 @@ export default function SignInPage() {
       return "Email and / or password is invalid.";
     }
     return null;
+  };
+
+  const handleGoogleCredential = async (idToken: string) => {
+    const success = await loginWithGoogle(idToken);
+
+    if (success) {
+      addToast({
+        variant: "success",
+        message: "Welcome back. Let the binge continue.",
+      });
+      router.replace("/");
+    } else {
+      addToast({ variant: "danger", message: "Google sign-in failed. Try again." });
+    }
   };
 
   const handleSignIn = async () => {
@@ -118,15 +132,7 @@ export default function SignInPage() {
             </Heading>
 
             <Column fillWidth gap="8">
-              <Button
-                label="Continue with Google"
-                fillWidth
-                variant="secondary"
-                weight="default"
-                prefixIcon="google"
-                size="l"
-                onClick={() => signIn("google", { callbackUrl: "/" })}
-              />
+              <GoogleSignInButton onCredential={handleGoogleCredential} />
             </Column>
 
             <Row fillWidth paddingY="24">
