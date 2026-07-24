@@ -32,3 +32,20 @@
     align-items: center;
     position: relative;
 }
+
+@media (--s) {
+    /* Move the bar to the bottom of the screen on mobile (bottom-nav pattern) */
+    .headerWrap {
+        top: auto !important;
+        bottom: 0 !important;
+        padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    /* on mobile the logo and right-side overlay are hidden, so drop the
+       asymmetric desktop padding and center the nav pill horizontally */
+    .headerBar {
+        padding-left: var(--static-space-12) !important;
+        padding-right: var(--static-space-12) !important;
+        justify-content: center !important;
+    }
+}

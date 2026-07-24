@@ -241,7 +241,7 @@ for (let i = 0; i < maxLen; i++) {
                       ? styles.swipeLeft
                       : ""
                   }`}
-                //   onMouseDown={(e) => (dragStartX.current = e.clientX)}
+                  onMouseDown={(e) => (dragStartX.current = e.clientX)}
                   onMouseUp={(e) => {
                     if (dragStartX.current !== null) {
                       const delta = e.clientX - dragStartX.current;
@@ -250,9 +250,9 @@ for (let i = 0; i < maxLen; i++) {
                     }
                     dragStartX.current = null;
                   }}
-                //   onTouchStart={(e) =>
-                //     (dragStartX.current = e.touches[0].clientX)
-                //   }
+                  onTouchStart={(e) =>
+                    (dragStartX.current = e.touches[0].clientX)
+                  }
                   onTouchEnd={(e) => {
                     if (dragStartX.current !== null) {
                       const delta =

@@ -101,7 +101,7 @@ export default function SignInPage() {
 
       <Header showMenu={false} showOptions={false} />
 
-      <Column fillWidth paddingX="32" gap="12" horizontal="center" position="relative">
+      <Column fillWidth paddingX="16" gap="12" horizontal="center" position="relative">
         <Row
           marginY="32"
           background="overlay"

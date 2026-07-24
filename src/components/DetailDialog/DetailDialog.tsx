@@ -14,6 +14,7 @@ import { notFound } from "next/navigation";
 import { useMovieDetails } from "./../../hooks/useMovies";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { useSearchParams, useRouter } from "next/navigation";
+import styles from "./DetailDialog.module.scss";
 
 export const DetailDialog = () => {
   const searchParams = useSearchParams();
@@ -40,7 +41,7 @@ export const DetailDialog = () => {
     <>
       {/* <Button onClick={() => setIsOpen(true)}>Open Dialog</Button> */}
       <Dialog isOpen={isOpen} onClose={handleClose} paddingDialog="xs" title="" description="">
-        <Column fillWidth paddingY="xl" paddingX="l" horizontal="center" flex={1}>
+        <Column fillWidth paddingY="l" paddingX="m" horizontal="center" flex={1}>
           {isLoading ? (
             <Flex align="center" style={{ height: "60vh", width: "100%" }}>
               <Text size="xl" weight="strong">
@@ -53,17 +54,21 @@ export const DetailDialog = () => {
             <Flex direction="column" gap="12" padding="8" fillWidth>
               <Grid
                 columns={2}
+                mobileColumns={1}
                 gap="24"
-                fitWidth
+                fillWidth
                 style={{
-                  gridTemplateColumns: "300px 1fr",
+                  gridTemplateColumns: "minmax(0, 300px) 1fr",
                   alignItems: "start",
                 }}
+                className={styles.detailGrid}
               >
                 <div
+                  className={styles.poster}
                   style={{
-                    width: "300px",
-                    height: "400px",
+                    width: "100%",
+                    maxWidth: "300px",
+                    aspectRatio: "3 / 4",
                     borderRadius: "0.75rem",
                     overflow: "hidden",
                   }}
@@ -110,7 +115,7 @@ export const DetailDialog = () => {
                   )}
                 </div>
                 <div>
-                  <Flex horizontal="space-between" align="center">
+                  <Flex horizontal="space-between" align="center" gap="12" wrap>
                     <Flex horizontal="start" direction="column" gap="1">
                       <Text as="h1" size="xl" weight="strong" align="start">
                         {movie?.title}

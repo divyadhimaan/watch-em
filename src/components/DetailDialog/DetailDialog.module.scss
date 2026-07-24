@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+  /* override the inline grid-template so poster/details stack on mobile */
+  .detailGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .poster {
+    max-width: 100% !important;
+    margin: 0 auto;
+  }
+}

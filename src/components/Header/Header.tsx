@@ -37,8 +37,9 @@ export const Header: FC<HeaderProps> = ({
   const [searchText, setSearchText] = useState("");
 
   return (
-    <Row position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
+    <Row className={styles.headerWrap} position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
       <Row
+        className={styles.headerBar}
         data-border="rounded"
         horizontal="space-between"
         maxWidth="xl"
@@ -172,7 +173,7 @@ export const Header: FC<HeaderProps> = ({
             )}
 
             {/* Overlay */}
-            <Row position="fixed" top="20" right="20">
+            {/* <Row position="fixed" top="20" right="20">
               <StyleOverlay
                 position="fixed"
                 top="8"
@@ -181,7 +182,7 @@ export const Header: FC<HeaderProps> = ({
                   height: "calc(100vh - var(--static-space-16))",
                 }}
               />
-            </Row>
+            </Row> */}
           </Row>
         )}
 

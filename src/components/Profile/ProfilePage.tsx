@@ -93,8 +93,8 @@ export function ProfilePage() {
       <Column fillWidth paddingY="xl" paddingX="l" flex={1} paddingBottom="80">
         <Row
           horizontal="center"
-          paddingX="32"
-          paddingY="48"
+          paddingX="16"
+          paddingY="32"
           fillWidth
           gap="32"
           position="relative"
@@ -159,7 +159,7 @@ export function ProfilePage() {
               {/* Profile Content */}
               <Column
                 paddingTop="56"
-                paddingX="32"
+                paddingX="16"
                 paddingBottom="48"
                 fillWidth
                 position="relative"

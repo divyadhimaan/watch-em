@@ -138,3 +138,32 @@
 .right {
   right: 0;
 }
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.25rem;
+    padding: 0 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .scrollContainer {
+    padding: 0 1rem;
+    gap: 12px;
+  }
+
+  .cardItem {
+    flex: 0 0 130px;
+    width: 130px;
+    min-width: 130px;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+  }
+
+  /* narrow the edge-fade overlays so they don't cover a card on small screens */
+  .wrapper::before,
+  .wrapper::after {
+    width: 40px;
+  }
+}
