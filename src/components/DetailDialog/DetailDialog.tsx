@@ -28,8 +28,6 @@ export const DetailDialog = () => {
 
   const { data: movie, isLoading } = useMovieDetails(movieId ?? 0);
 
-  console.log(movie);
-
   const handleClose = () => {
     const params = new URLSearchParams(searchParams?.toString());
     params.delete("movie");

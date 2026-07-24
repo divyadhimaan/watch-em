@@ -34,8 +34,6 @@ export function ProfilePage() {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [publicProfile, setPublicProfile] = useState(true);
 
-  console.log(profile);
-
   // Fix hydration: only check auth after component mounts on client
   useEffect(() => {
     setMounted(true);
