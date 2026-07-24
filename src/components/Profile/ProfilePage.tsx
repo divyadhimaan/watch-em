@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { useAuth } from "@/context/AuthContext";
@@ -20,11 +21,13 @@ import {
 import { ProfileTab } from "./components/ProfileTab";
 import { PlaylistsTab } from "./components/PlaylistsTab";
 import { FavouritesTab } from "./components/FavouritesTab";
+import { WatchlistTab } from "./components/WatchlistTab";
 import { SettingsTab } from "./components/SettingsTab";
 import { useProfile } from "@/hooks/useProfile";
 
 export function ProfilePage() {
   const { profile, isAuthenticated } = useAuth();
+  const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
@@ -37,7 +40,9 @@ export function ProfilePage() {
   // Fix hydration: only check auth after component mounts on client
   useEffect(() => {
     setMounted(true);
-  }, []);
+    const tab = searchParams?.get("tab");
+    if (tab) setActiveTab(tab);
+  }, [searchParams]);
 
   // Mock stats - replace with actual data from your API
   const stats = {
@@ -204,27 +209,13 @@ export function ProfilePage() {
                 {/* Tabs */}
                 <SegmentedControl
                   onToggle={(value) => setActiveTab(value)}
+                  selected={activeTab}
                   buttons={[
-                    {
-                      size: "l",
-                      value: "profile",
-                      label: "Profile",
-                    },
-                    {
-                      size: "l",
-                      value: "favourites",
-                      label: "Favourites",
-                    },
-                    {
-                      size: "l",
-                      value: "playlists",
-                      label: "Playlists",
-                    },
-                    {
-                      size: "l",
-                      value: "settings",
-                      label: "Settings",
-                    },
+                    { size: "l", value: "profile", label: "Profile" },
+                    { size: "l", value: "favourites", label: "Favourites" },
+                    { size: "l", value: "watchlist", label: "Watchlist" },
+                    { size: "l", value: "playlists", label: "Playlists" },
+                    { size: "l", value: "settings", label: "Settings" },
                   ]}
                   marginBottom="24"
                 />
@@ -247,6 +238,9 @@ export function ProfilePage() {
 
                 {/* Favourites Tab */}
                 {activeTab === "favourites" && <FavouritesTab />}
+
+                {/* Watchlist Tab */}
+                {activeTab === "watchlist" && <WatchlistTab />}
 
                 {/* Playlists Tab */}
                 {activeTab === "playlists" && (

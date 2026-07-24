@@ -88,7 +88,7 @@ export const EntityList: React.FC<EntityListProps> = ({
   return (
     <Flex direction="column" gap="m" paddingY="xl" paddingX="l" horizontal="center">
       {header && (
-        <Row fillWidth style={{ maxWidth: "860px" }} paddingX="4">
+        <Row fillWidth style={{ maxWidth: "1100px" }} paddingX="4">
           <Heading as="h2" variant="display-default-xs">
             {header}
           </Heading>
@@ -135,6 +135,12 @@ export const EntityList: React.FC<EntityListProps> = ({
                     </Text>
                   </div>
                 )}
+                {rating !== null && (
+                  <div className={styles.ratingBadge}>
+                    <Icon name="star" size="xs" color="warning" />
+                    <Text size="xs">{rating.toFixed(1)}</Text>
+                  </div>
+                )}
               </div>
 
               {/* Info — right */}
@@ -143,7 +149,7 @@ export const EntityList: React.FC<EntityListProps> = ({
                   {itemTitle}
                 </Text>
 
-                <Row gap="12" vertical="center" onBackground="neutral-medium">
+                <Row gap="12" vertical="center" onBackground="neutral-medium" className={styles.metaRow}>
                   {year !== null && <Text size="s">{year}</Text>}
                   {rating !== null && (
                     <Row gap="4" vertical="center">
