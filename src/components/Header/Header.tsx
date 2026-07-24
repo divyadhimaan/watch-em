@@ -139,6 +139,29 @@ export const Header: FC<HeaderProps> = ({
 
               <Line vert maxHeight="24" />
               <SearchInput value={searchText} onChange={setSearchText} />
+
+              {/* Mobile-only auth button inside the nav pill */}
+              {isReady && (
+                <>
+                  <Line vert maxHeight="24" className="s-flex-show" />
+                  {isAuthenticated ? (
+                    <Flex className="s-flex-show" gap="4" vertical="center">
+                      <ToggleButton
+                        prefixIcon="person"
+                        href="/profile"
+                        selected={pathname === "/profile"}
+                      />
+                    </Flex>
+                  ) : (
+                    <ToggleButton
+                      className="s-flex-show"
+                      prefixIcon="person"
+                      href="/signin"
+                      selected={pathname === "/signin"}
+                    />
+                  )}
+                </>
+              )}
             </Flex>
           </Flex>
         )}
