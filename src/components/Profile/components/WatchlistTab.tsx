@@ -1,21 +1,12 @@
 'use client';
 
-import { useState } from "react";
-import { Column, Row, Text, Heading, Button, IconButton, Tag } from "@once-ui/components";
+import { Column, Row, Text, Heading, Button, IconButton } from "@once-ui/components";
 import { useWatchlist } from "@/hooks/useWatchlist";
 import { getImageUrl } from "@/utils/getImageUrl";
 import styles from "./WatchlistTab.module.scss";
 
 export function WatchlistTab() {
-  const { items, remove } = useWatchlist();
-  const [watched, setWatched] = useState<Set<number>>(new Set());
-
-  const toggleWatched = (id: number) =>
-    setWatched((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
+  const { items, remove, toggleWatched } = useWatchlist();
 
   if (items.length === 0) {
     return (
@@ -31,8 +22,8 @@ export function WatchlistTab() {
     );
   }
 
-  const unwatched = items.filter((i) => !watched.has(i.id));
-  const done = items.filter((i) => watched.has(i.id));
+  const unwatched = items.filter((i) => !i.watched);
+  const done = items.filter((i) => i.watched);
 
   return (
     <Column fillWidth gap="24">
@@ -60,7 +51,6 @@ export function WatchlistTab() {
           <Column fillWidth gap="8">
             {unwatched.map((item) => (
               <div key={item.id} className={styles.card}>
-                {/* Poster */}
                 <div className={styles.posterWrap}>
                   <img
                     src={item.poster_path ? getImageUrl(item.poster_path, "w185") : "/images/cover.jpg"}
@@ -69,13 +59,9 @@ export function WatchlistTab() {
                   />
                 </div>
 
-                {/* Info */}
                 <div className={styles.info}>
                   <div className={styles.titleRow}>
                     <Text weight="strong" size="m" className={styles.title}>{item.title}</Text>
-                    <span className={styles.typeBadge}>
-                      {item.media_type === "movie" ? "🎬 Movie" : "📺 Series"}
-                    </span>
                     {item.vibes?.map((v) => (
                       <span key={v.label} className={styles.vibeBadge}>
                         {v.emoji} {v.label}
@@ -88,7 +74,6 @@ export function WatchlistTab() {
                   </Text>
                 </div>
 
-                {/* Actions */}
                 <div className={styles.actions}>
                   <IconButton
                     icon="check"
@@ -132,9 +117,6 @@ export function WatchlistTab() {
                 <div className={styles.info}>
                   <div className={styles.titleRow}>
                     <Text weight="strong" size="m" className={`${styles.title} ${styles.titleMuted}`}>{item.title}</Text>
-                    <span className={styles.typeBadge}>
-                      {item.media_type === "movie" ? "🎬 Movie" : "📺 Series"}
-                    </span>
                     {item.vibes?.map((v) => (
                       <span key={v.label} className={styles.vibeBadge}>
                         {v.emoji} {v.label}

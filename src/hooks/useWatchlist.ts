@@ -1,54 +1,64 @@
-import { useState, useEffect, useCallback } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { profileApi } from "@store/profileApi";
+import { useAuth } from "@/context/AuthContext";
+import type { WatchlistItem } from "@app-types/User";
 
-export type WatchlistItem = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  release_date?: string;
-  vote_average?: number;
-  media_type: "movie" | "series";
-  vibes?: { emoji: string; label: string }[];
-};
-
-const STORAGE_KEY = "watchlist";
-
-function readStorage(): WatchlistItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
-  } catch {
-    return [];
-  }
-}
-
-function writeStorage(items: WatchlistItem[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-}
+export type { WatchlistItem } from "@app-types/User";
 
 export function useWatchlist() {
-  const [items, setItems] = useState<WatchlistItem[]>([]);
+  const { token } = useAuth();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setItems(readStorage());
-  }, []);
+  const { data: items = [] } = useQuery({
+    queryKey: ["watchlist"],
+    queryFn: () => {
+      if (!token) throw new Error("No auth token");
+      return profileApi.getWatchlist(token);
+    },
+    enabled: !!token,
+  });
 
-  const add = useCallback((toAdd: WatchlistItem[]) => {
-    setItems((prev) => {
-      const existingIds = new Set(prev.map((i) => i.id));
-      const fresh = toAdd.filter((i) => !existingIds.has(i.id));
-      const next = [...prev, ...fresh];
-      writeStorage(next);
-      return next;
-    });
-  }, []);
+  const addMutation = useMutation({
+    mutationFn: (toAdd: WatchlistItem[]) => {
+      if (!token) throw new Error("Not authenticated");
+      return profileApi.addToWatchlist(token, toAdd);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["watchlist"] });
+    },
+  });
 
-  const remove = useCallback((id: number) => {
-    setItems((prev) => {
-      const next = prev.filter((i) => i.id !== id);
-      writeStorage(next);
-      return next;
-    });
-  }, []);
+  const removeMutation = useMutation({
+    mutationFn: (tmdbId: number) => {
+      if (!token) throw new Error("Not authenticated");
+      return profileApi.removeFromWatchlist(token, tmdbId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["watchlist"] });
+    },
+  });
 
-  return { items, add, remove };
+  const toggleWatchedMutation = useMutation({
+    mutationFn: (tmdbId: number) => {
+      if (!token) throw new Error("Not authenticated");
+      return profileApi.toggleWatched(token, tmdbId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["watchlist"] });
+    },
+  });
+
+  const add = (toAdd: WatchlistItem[]) => {
+    if (token) addMutation.mutate(toAdd);
+  };
+
+  const remove = (id: number) => {
+    if (token) removeMutation.mutate(id);
+  };
+
+  const toggleWatched = (id: number) => {
+    if (token) toggleWatchedMutation.mutate(id);
+  };
+
+  return { items, add, remove, toggleWatched };
 }

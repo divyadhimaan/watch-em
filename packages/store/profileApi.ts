@@ -1,5 +1,5 @@
 import { http } from "./httpClient";
-import type { UserProfile } from "./types";
+import type { UserProfile, WatchlistItem } from "./types";
 
 
 export const profileApi = {
@@ -27,4 +27,26 @@ export const profileApi = {
         token,
       }
     ),
+
+  getWatchlist: (token: string) =>
+    http<WatchlistItem[]>("/profile/me/watchlist", { token }),
+
+  addToWatchlist: (token: string, items: WatchlistItem[]) =>
+    http<WatchlistItem[]>("/profile/me/watchlist", {
+      method: "POST",
+      body: items,
+      token,
+    }),
+
+  removeFromWatchlist: (token: string, tmdbId: number) =>
+    http<{ message: string }>(`/profile/me/watchlist/${tmdbId}`, {
+      method: "DELETE",
+      token,
+    }),
+
+  toggleWatched: (token: string, tmdbId: number) =>
+    http<WatchlistItem>(`/profile/me/watchlist/${tmdbId}/watched`, {
+      method: "PATCH",
+      token,
+    }),
 };

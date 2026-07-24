@@ -363,11 +363,15 @@ for (let i = 0; i < maxLen; i++) {
                     {saved.length} saved
                   </Text>
                   <Button
-                    label="Add to watchlist"
+                    label={isSignedIn ? "Add to watchlist" : "Sign in to save"}
                     variant="secondary"
                     size="s"
                     prefixIcon="bookmark"
                     onClick={() => {
+                      if (!isSignedIn) {
+                        router.push("/signin");
+                        return;
+                      }
                       const watchlistItems: WatchlistItem[] = saved.map((item) => ({
                         id: item.id,
                         title: (item as TMDBMovie).title || (item as TMDBSeries).name || "Unknown",
