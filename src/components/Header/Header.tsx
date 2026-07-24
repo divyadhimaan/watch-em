@@ -37,6 +37,23 @@ export const Header: FC<HeaderProps> = ({
   const [searchText, setSearchText] = useState("");
 
   return (
+    <>
+      {/* Mobile-only top logo bar */}
+      {showLogo && (
+        <Row
+          className={styles.mobileLogoBar}
+          position="fixed"
+          top="0"
+          fillWidth
+          horizontal="center"
+          zIndex={3}
+          paddingX="20"
+          paddingY="16"
+        >
+          <Logo size="m" icon={false} href="/" />
+        </Row>
+      )}
+
     <Row className={styles.headerWrap} position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
       <Row
         className={styles.headerBar}
@@ -231,5 +248,6 @@ export const Header: FC<HeaderProps> = ({
         )}
       </Row>
     </Row>
+    </>
   );
 };

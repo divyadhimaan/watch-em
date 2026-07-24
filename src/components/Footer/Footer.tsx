@@ -38,6 +38,7 @@ export const Footer = () => {
       <div className={styles.inner}>
         {/* Brand */}
         <div className={styles.brand}>
+          <Logo size="m" icon={false} href="/" />
           <Text className={styles.tagline} variant="body-default-s">
             Discover, organize, and share the movies you love — all in one place.
           </Text>

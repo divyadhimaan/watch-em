@@ -24,6 +24,18 @@
     }
 }
 
+/* Mobile-only top logo bar — hidden on desktop */
+.mobileLogoBar {
+    display: none;
+}
+
+@media (--s) {
+    .mobileLogoBar {
+        display: flex;
+        background: transparent;
+    }
+}
+
 /* New styles */
 .navBar {
     height: 46px;

@@ -144,7 +144,7 @@ export default function RootLayout({
               width: 70,
               height: 50,
               tilt: -40,
-              opacity: 90,
+              opacity: 40,
               colorStart: "accent-background-strong",
               colorEnd: "page-background",
             }}

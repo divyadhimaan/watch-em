@@ -3,6 +3,7 @@ import {
     Button,
     IconButton,
     Flex,
+    Tag,
 } from "@once-ui/components";
 
 import { TAGS } from "@/resources/tags";
@@ -15,6 +16,7 @@ export const FilterScroll = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [showLeft, setShowLeft] = useState(false);
     const [showRight, setShowRight] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const slugify = (text: string) =>
     text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -36,85 +38,96 @@ export const FilterScroll = () => {
     };
 
     const checkScrollRef = useRef<(() => void) | null>(null);
+    checkScrollRef.current = checkScroll;
 
-  checkScrollRef.current = checkScroll;
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+        const handler = () => {
+            checkScrollRef.current?.();
+        };
 
-    const handler = () => {
-      checkScrollRef.current?.();
-    };
+        el.addEventListener("scroll", handler);
+        window.addEventListener("resize", handler);
 
-    el.addEventListener("scroll", handler);
-    window.addEventListener("resize", handler);
+        return () => {
+            el.removeEventListener("scroll", handler);
+            window.removeEventListener("resize", handler);
+        };
+    }, []);
 
-    return () => {
-      el.removeEventListener("scroll", handler);
-      window.removeEventListener("resize", handler);
-    };
-  }, []);
+    const filterLinks = TAGS.filter(item => item.link);
 
     return (
         <>
             {TAGS.length > 0 && (
-                <div className={styles.wrapper}>
-                    {showLeft && (
-                        <Flex paddingTop="20" paddingBottom="8" gap="8" horizontal="start" fitWidth>
-                            <IconButton
-                                icon="arrowLeft2"
-                                size="l"
-                                onClick={scrollLeft}
-                                className={styles.scrollButton}
-                            />
-                        </Flex>
-                    )}
-                    <div ref={scrollRef} className={styles.scrollContainer}>
-                        <Flex paddingTop="20" paddingBottom="8" gap="8" horizontal="start" fitWidth >
-                            {TAGS.map(
-                                (item) =>
-                                    item.link && (
-                                        <React.Fragment key={item.label}>
-                                            <Link href={`/filter?tag=${item.value || slugify(item.label)}`}>
-                                            <Button
-                                                className="s-flex-hide"
-                                                key={item.label}
-                                                prefixIcon={item.icon}
-                                                label={item.label}
-                                                size="m"
-                                                variant="secondary"
-                                            />
-                                            </Link>
-                                            <Link href={`/filter?tag=${item.value || slugify(item.label)}`}>
-                                            <IconButton
-                                                className="s-flex-show"
-                                                size="m"
-                                                key={`${item.label}-icon`}
-                                                icon={item.icon}
-                                                variant="secondary"
-                                            />
-                                            </Link>
-                                            
-                                        </React.Fragment>
-                                    ),
-
-                            )}
-                        </Flex>
+                <>
+                    {/* Desktop: horizontal scroll */}
+                    <div className={`${styles.wrapper} s-flex-hide`}>
+                        {showLeft && (
+                            <Flex paddingTop="20" paddingBottom="8" gap="8" horizontal="start" fitWidth>
+                                <IconButton
+                                    icon="arrowLeft2"
+                                    size="l"
+                                    onClick={scrollLeft}
+                                    className={styles.scrollButton}
+                                />
+                            </Flex>
+                        )}
+                        <div ref={scrollRef} className={styles.scrollContainer}>
+                            <Flex paddingTop="20" paddingBottom="8" gap="8" horizontal="start" fitWidth>
+                                {filterLinks.map((item) => (
+                                    <Link key={item.label} href={`/filter?tag=${item.value || slugify(item.label)}`}>
+                                        <Button
+                                            prefixIcon={item.icon}
+                                            label={item.label}
+                                            size="m"
+                                            variant="secondary"
+                                        />
+                                    </Link>
+                                ))}
+                            </Flex>
+                        </div>
+                        {showRight && (
+                            <Flex paddingTop="20" paddingBottom="8" gap="8" horizontal="start" fitWidth>
+                                <IconButton
+                                    icon="arrowRight2"
+                                    size="l"
+                                    onClick={scrollRight}
+                                    className={styles.scrollButton}
+                                />
+                            </Flex>
+                        )}
                     </div>
-                    {showRight && (
-                        <Flex paddingTop="20" paddingBottom="8" gap="8" horizontal="start" fitWidth>
-                            <IconButton
-                                icon="arrowRight2"
-                                size="l"
-                                onClick={scrollRight}
-                                className={styles.scrollButton}
-                            />
-                        </Flex>
-                    )}
-                </div>
+
+                    {/* Mobile: collapsible filter picker */}
+                    <div className={`${styles.mobileFilter} s-flex-show`}>
+                        <Button
+                            prefixIcon="filter"
+                            suffixIcon={mobileOpen ? "chevronUp" : "chevronDown"}
+                            label="Browse by genre"
+                            variant="secondary"
+                            size="m"
+                            onClick={() => setMobileOpen(prev => !prev)}
+                        />
+                        {mobileOpen && (
+                            <div className={styles.mobileGrid}>
+                                {filterLinks.map((item) => (
+                                    <Link key={item.label} href={`/filter?tag=${item.value || slugify(item.label)}`} onClick={() => setMobileOpen(false)}>
+                                        <Button
+                                            prefixIcon={item.icon}
+                                            label={item.label}
+                                            size="s"
+                                            variant="secondary"
+                                        />
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </>
             )}
         </>
     )
 }
-
