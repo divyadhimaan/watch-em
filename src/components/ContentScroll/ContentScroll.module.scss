@@ -113,6 +113,25 @@
   }
 }
 
+.posterWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.ratingBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  border-radius: 6px;
+  padding: 3px 7px;
+  z-index: 2;
+}
+
 .card {
   flex: 0 0 150px;
   min-width: 150px; // belt-and-suspenders: prevents shrinking
@@ -137,4 +156,39 @@
 
 .right {
   right: 0;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.25rem;
+    padding: 0 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .scrollContainer {
+    padding: 0 1rem;
+    gap: 10px;
+  }
+
+  .cardItem {
+    flex: 0 0 100px;
+    width: 100px;
+    min-width: 100px;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+  }
+
+  /* narrow the edge-fade overlays so they don't cover a card on small screens */
+  .wrapper::before,
+  .wrapper::after {
+    width: 40px;
+  }
+
+  /* poster-only on mobile — hide title and divider */
+  .cardTitle,
+  .cardDivider {
+    display: none !important;
+  }
 }

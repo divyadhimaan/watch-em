@@ -21,6 +21,7 @@ import { VIBE_TAGS, resolveVibeToSlug } from "@/components/VibePicker/vibeMap";
 import type { TMDBMovie, TMDBSeries } from "../../../packages/store/types";
 import { useAuth } from "@/context/AuthContext";
 import { useAddFavourite } from "@/hooks/useProfile";
+import { useWatchlist, type WatchlistItem } from "@/hooks/useWatchlist";
 import styles from "./vibe.module.scss";
 
 type MediaItem = TMDBMovie | TMDBSeries;
@@ -52,6 +53,7 @@ export default function VibePage() {
   // though the user is actually logged in.
   const isSignedIn = !!token;
   const addFavourite = useAddFavourite();
+  const { add: addToWatchlist } = useWatchlist();
   const vibeIds = (searchParams?.get("vibes") ?? "").split(",").filter(Boolean);
   const roomMode = searchParams?.get("room") === "1";
   const hasVibes = vibeIds.length > 0;
@@ -144,8 +146,32 @@ for (let i = 0; i < maxLen; i++) {
   const isLoading = moviesLoading || seriesLoading;
 
   // ---- STEP: pick a vibe ----
-  // No vibes in the URL yet (e.g. arrived from nav) — ask before swiping.
   if (!hasVibes) {
+    if (!isSignedIn) {
+      return (
+        <Column fillWidth paddingY="80" paddingX="s" horizontal="center" flex={1}>
+          <Header />
+          <Column as="main" maxWidth="s" fillWidth horizontal="center" vertical="center" gap="24" paddingY="80">
+            <Text variant="display-default-s" align="center">🎬</Text>
+            <Column gap="8" horizontal="center">
+              <Heading variant="display-default-xs" align="center">Pick your vibe</Heading>
+              <Text variant="body-default-m" onBackground="neutral-weak" align="center">
+                Sign in to discover movies and shows that match your mood.
+              </Text>
+            </Column>
+            <Button
+              label="Sign in"
+              variant="primary"
+              prefixIcon="person"
+              href="/signin"
+              size="l"
+            />
+          </Column>
+          <Footer />
+        </Column>
+      );
+    }
+
     return (
       <Column fillWidth paddingY="80" paddingX="s" horizontal="center" flex={1}>
         <Header />
@@ -241,7 +267,7 @@ for (let i = 0; i < maxLen; i++) {
                       ? styles.swipeLeft
                       : ""
                   }`}
-                //   onMouseDown={(e) => (dragStartX.current = e.clientX)}
+                  onMouseDown={(e) => { dragStartX.current = e.clientX; }}
                   onMouseUp={(e) => {
                     if (dragStartX.current !== null) {
                       const delta = e.clientX - dragStartX.current;
@@ -250,9 +276,7 @@ for (let i = 0; i < maxLen; i++) {
                     }
                     dragStartX.current = null;
                   }}
-                //   onTouchStart={(e) =>
-                //     (dragStartX.current = e.touches[0].clientX)
-                //   }
+                  onTouchStart={(e) => { dragStartX.current = e.touches[0].clientX; }}
                   onTouchEnd={(e) => {
                     if (dragStartX.current !== null) {
                       const delta =
@@ -321,7 +345,7 @@ for (let i = 0; i < maxLen; i++) {
               <Text
                 variant="body-default-s"
                 onBackground="neutral-weak"
-              >{`${currentIndex + 1} / ${visibleItems.length}`}</Text>
+              >{`${dismissed.size + 1} / ${allItems.length}`}</Text>
               <IconButton
                 icon="heart"
                 size="l"
@@ -330,52 +354,51 @@ for (let i = 0; i < maxLen; i++) {
                 tooltip="Save"
               />
             </Flex>
-          </Column>
-        )}
 
-        {/* Saved list */}
-        {saved.length > 0 && (
-          <Column gap="12" fillWidth>
-            <Flex horizontal="space-between" vertical="center" wrap gap="8">
-              <Text variant="label-default-m">Saved picks</Text>
-              {isSignedIn ? (
-                <Button
-                  href="/profile"
-                  label="View in your favourites"
-                  variant="link"
-                  size="s"
-                />
-              ) : (
-                <Text variant="body-default-xs" onBackground="neutral-weak">
-                  Sign in to keep these in your account
-                </Text>
-              )}
-            </Flex>
-            <div className={styles.savedGrid}>
-              {saved.map((item) => (
-                <Flex
-                  key={item.id}
-                  gap="12"
-                  vertical="center"
-                  padding="12"
-                  radius="m"
-                  border="neutral-alpha-weak"
-                  background="neutral-alpha-weak"
-                >
-                  <img
-                    src={getPoster(item)}
-                    alt={getTitle(item)}
-                    className={styles.savedThumb}
+            {/* Saved strip — compact horizontal row just below the buttons */}
+            {saved.length > 0 && (
+              <Column gap="8" horizontal="center" fillWidth style={{ maxWidth: 400 }}>
+                <Flex horizontal="space-between" vertical="center" fillWidth>
+                  <Text variant="label-default-s" onBackground="neutral-weak">
+                    {saved.length} saved
+                  </Text>
+                  <Button
+                    label={isSignedIn ? "Add to watchlist" : "Sign in to save"}
+                    variant="secondary"
+                    size="s"
+                    prefixIcon="bookmark"
+                    onClick={() => {
+                      if (!isSignedIn) {
+                        router.push("/signin");
+                        return;
+                      }
+                      const watchlistItems: WatchlistItem[] = saved.map((item) => ({
+                        id: item.id,
+                        title: (item as TMDBMovie).title || (item as TMDBSeries).name || "Unknown",
+                        poster_path: item.poster_path ?? null,
+                        release_date: (item as TMDBMovie).release_date || (item as TMDBSeries).first_air_date,
+                        vote_average: item.vote_average,
+                        media_type: item.media_type === "movie" ? "movie" : "series",
+                        vibes: selectedVibes.map((v) => ({ emoji: v.emoji, label: v.label })),
+                      }));
+                      addToWatchlist(watchlistItems);
+                      router.push("/profile?tab=watchlist");
+                    }}
                   />
-                  <Column gap="2">
-                    <Text variant="body-strong-s">{getTitle(item)}</Text>
-                    <Text variant="body-default-xs" onBackground="neutral-weak">
-                      {getYear(item)} · ⭐ {item.vote_average.toFixed(1)}
-                    </Text>
-                  </Column>
                 </Flex>
-              ))}
-            </div>
+                <div className={styles.savedStrip}>
+                  {[...saved].reverse().map((item) => (
+                    <div key={item.id} className={styles.savedStripItem} title={getTitle(item)}>
+                      <img
+                        src={getPoster(item)}
+                        alt={getTitle(item)}
+                        className={styles.savedStripPoster}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Column>
+            )}
           </Column>
         )}
       </Column>

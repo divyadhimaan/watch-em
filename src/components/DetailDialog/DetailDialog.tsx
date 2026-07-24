@@ -3,225 +3,249 @@
 import {
   Dialog,
   Column,
-  Grid,
-  Flex,
+  Row,
   Text,
-  ToggleButton,
+  Heading,
   Badge,
-  Media,
+  Button,
+  Spinner,
+  useToast,
 } from "@once-ui/components";
 import { notFound } from "next/navigation";
 import { useMovieDetails } from "./../../hooks/useMovies";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useWatchlist } from "@/hooks/useWatchlist";
+import { useAddFavourite, useRemoveFavourite, useProfile } from "@/hooks/useProfile";
+import { useAuth } from "@/context/AuthContext";
+import styles from "./DetailDialog.module.scss";
+
+function formatRuntime(minutes: number) {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return h > 0 ? `${h}h ${m > 0 ? `${m}m` : ""}`.trim() : `${m}m`;
+}
 
 export const DetailDialog = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { addToast } = useToast();
+  const { isAuthenticated } = useAuth();
 
   const movieParam = searchParams?.get("movie");
   const movieId = movieParam ? Number(movieParam) : null;
-
   const isOpen = !!movieId;
 
   if (movieParam && Number.isNaN(movieId)) return notFound();
 
   const { data: movie, isLoading } = useMovieDetails(movieId ?? 0);
+  const { items: watchlistItems, add: addToWatchlist } = useWatchlist();
+  const { data: profileData } = useProfile();
+  const addFavourite = useAddFavourite();
+  const removeFavourite = useRemoveFavourite();
 
   const handleClose = () => {
     const params = new URLSearchParams(searchParams?.toString());
     params.delete("movie");
-    router.push(`?${params.toString()}`, { scroll: false });
+    const qs = params.toString();
+    router.replace(qs ? `?${qs}` : window.location.pathname, { scroll: false });
   };
 
-  if (!movieId) return null;
+  const inWatchlist = movie ? watchlistItems.some((i) => i.id === movie.id) : false;
+  const isFavourite = movie
+    ? (profileData?.favouriteMovieIds ?? []).includes(movie.id)
+    : false;
 
+  const handleWatchlist = () => {
+    if (!isAuthenticated) {
+      addToast({ variant: "danger", message: "Sign in to use your watchlist." });
+      return;
+    }
+    if (!movie || inWatchlist) return;
+    addToWatchlist([{
+      id: movie.id,
+      title: movie.title,
+      poster_path: movie.poster_path,
+      release_date: movie.release_date,
+      vote_average: movie.vote_average,
+      media_type: "movie",
+    }]);
+    addToast({ variant: "success", message: `Added "${movie.title}" to watchlist.` });
+  };
+
+  const handleFavourite = () => {
+    if (!isAuthenticated) {
+      addToast({ variant: "danger", message: "Sign in to save favourites." });
+      return;
+    }
+    if (!movie) return;
+    if (isFavourite) {
+      removeFavourite.mutate(movie.id);
+    } else {
+      addFavourite.mutate(movie.id);
+    }
+  };
+
+  const year = movie?.release_date ? new Date(movie.release_date).getFullYear() : null;
+
+  // Always render the Dialog so once-ui can animate closed and release
+  // the body scroll lock. Returning null skips isOpen=false and freezes the page.
   return (
-    <>
-      {/* <Button onClick={() => setIsOpen(true)}>Open Dialog</Button> */}
-      <Dialog isOpen={isOpen} onClose={handleClose} paddingDialog="xs" title="" description="">
-        <Column fillWidth paddingY="xl" paddingX="l" horizontal="center" flex={1}>
-          {isLoading ? (
-            <Flex align="center" style={{ height: "60vh", width: "100%" }}>
-              <Text size="xl" weight="strong">
-                Loading...
-              </Text>
-            </Flex>
-          ) : !movie ? (
-            notFound()
-          ) : (
-            <Flex direction="column" gap="12" padding="8" fillWidth>
-              <Grid
-                columns={2}
-                gap="24"
-                fitWidth
+    <Dialog
+      isOpen={isOpen}
+      onClose={handleClose}
+      paddingDialog="xs"
+      title=""
+      description=""
+    >
+      <Column fillWidth>
+        {!movieId ? null : isLoading ? (
+          <Column
+            fillWidth
+            horizontal="center"
+            vertical="center"
+            style={{ minHeight: "320px" }}
+          >
+            <Spinner size="l" />
+          </Column>
+        ) : !movie ? (
+          <Column fillWidth horizontal="center" vertical="center" style={{ minHeight: "320px" }}>
+            <Text onBackground="neutral-weak">Movie not found.</Text>
+          </Column>
+        ) : (
+          <>
+            {/* Backdrop */}
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "16/7",
+                overflow: "hidden",
+                borderRadius: "var(--radius-l)",
+                flexShrink: 0,
+              }}
+            >
+              <img
+                src={getImageUrl(movie.backdrop_path || movie.poster_path, "w1280")}
+                alt=""
                 style={{
-                  gridTemplateColumns: "300px 1fr",
-                  alignItems: "start",
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
                 }}
-              >
-                <div
-                  style={{
-                    width: "300px",
-                    height: "400px",
-                    borderRadius: "0.75rem",
-                    overflow: "hidden",
-                  }}
-                >
-                  {movie?.poster_path ? (
-                    <Media
-                      src={getImageUrl(movie.poster_path)}
-                      alt={movie.title}
-                      aspectRatio="3/4"
-                      enlarge
-                      radius="s"
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  ) : (
-                    <Flex
-                      direction="column"
-                      horizontal="center"
-                      align="center"
-                      gap="8"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        background: "var(--neutral-alpha-weak)",
-                        border: "1px solid var(--neutral-alpha-medium)",
-                        backdropFilter: "blur(4px)",
-                        opacity: 0.6,
-                        padding: "24px",
-                      }}
-                    >
-                      <Text size="l" weight="strong" align="center">
-                        {movie?.title || "Untitled"}
-                      </Text>
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, var(--page-background) 100%)",
+                }}
+              />
+            </div>
 
-                      <Text size="m" color="neutral-medium">
-                        {movie?.release_date
-                          ? new Date(movie.release_date).getFullYear()
-                          : "Unknown Year"}
-                      </Text>
+            {/* Poster + info grid */}
+            <div className={styles.detailGrid}>
+              {/* Poster overlapping the backdrop */}
+              <div className={styles.poster}>
+                <img
+                  src={getImageUrl(movie.poster_path, "w342")}
+                  alt={movie.title}
+                />
+              </div>
 
-                      <Text size="l" weight="strong" align="center">
-                        [Poster not available]
-                      </Text>
-                    </Flex>
+              {/* Info */}
+              <Column gap="12" paddingTop="8">
+                <Column gap="4">
+                  <Heading as="h2" variant="display-default-s">
+                    {movie.title}
+                  </Heading>
+                  {movie.tagline ? (
+                    <Text onBackground="neutral-weak" style={{ fontStyle: "italic" }}>
+                      "{movie.tagline}"
+                    </Text>
+                  ) : null}
+                </Column>
+
+                {/* Meta: year · runtime · rating */}
+                <div className={styles.metaRow}>
+                  {year && <span>{year}</span>}
+                  {movie.runtime > 0 && (
+                    <>
+                      <span className={styles.dot}>·</span>
+                      <span>{formatRuntime(movie.runtime)}</span>
+                    </>
                   )}
+                  <span className={styles.dot}>·</span>
+                  <span>⭐ {movie.vote_average.toFixed(1)}</span>
+                  <span className={styles.dot}>·</span>
+                  <span>{movie.vote_count.toLocaleString()} votes</span>
                 </div>
-                <div>
-                  <Flex horizontal="space-between" align="center">
-                    <Flex horizontal="start" direction="column" gap="1">
-                      <Text as="h1" size="xl" weight="strong" align="start">
-                        {movie?.title}
-                      </Text>
-                      <Text size="l" color="neutral-medium" weight="strong" paddingY="s">
-                        {movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}
-                      </Text>
-                    </Flex>
-                    <Flex gap="l">
-                      <Flex
-                        background="overlay"
-                        padding="xs"
-                        // border="neutral-medium"
-                        radius="m-4"
-                        shadow="l"
-                        height="80"
-                        direction="column"
-                        horizontal="center"
-                        align="center"
-                        gap="2"
-                      >
-                        <Text size="l" weight="strong" color="neutral-medium">
-                          IMDb Rating
-                        </Text>
-                        <ToggleButton
-                          size="l"
-                          prefixIcon="star"
-                          label={movie.vote_average ? movie.vote_average.toFixed(1) : "N/A"}
-                          selected={false}
-                        />
-                      </Flex>
-                      {/* <Flex
-                        background="overlay"
-                        padding="s"
-                        // border="neutral-medium"
-                        radius="m-4"
-                        shadow="l"
-                        height="80"
-                        direction="column"
-                        horizontal="center"
-                        align="center"
-                        gap="2"
-                      >
-                        <Text size="l" weight="strong" color="neutral-medium">
-                          Your Rating?
-                        </Text>
-                        <ToggleButton
-                          cursor-interactive
-                          size="l"
-                          prefixIcon="hollowStar"
-                          label="RATE"
-                          selected={false}
-                        />
-                      </Flex> */}
-                    </Flex>
-                  </Flex>
-                  <Flex wrap gap="8">
-                    {movie?.genres.map((genre) => (
-                      <Badge
-                        key={genre.id}
-                        title={genre.name}
-                        arrow={false}
-                        effect={false}
-                        paddingX="12"
-                        paddingY="8"
-                        background="brand-weak"
-                        border="brand-strong"
-                      />
-                    ))}
-                  </Flex>
-                  <Flex paddingY="l" color="neutral-strong" align="start">
-                    {movie?.overview}
-                  </Flex>
-                </div>
-              </Grid>
-              {/* {(flatrate ?? []).length > 0 ? (
-                            <>
-                                <Text as="h3" size="xl" weight="strong" align="start">
-                                    Available to Stream (India)
-                                </Text>
-                                <Flex gap="12" wrap align="center">
-                                    {flatrate!.map((provider) => {
-                                        const imgSrc = getImageUrl(provider.logo_path, "w185");
-                                        return (
-                                            <SmartImage
-                                                key={provider.provider_id}
-                                                src={imgSrc}
-                                                alt={provider.provider_name}
-                                                aspectRatio="3/4"
-                                                radius="s"
-                                                style={{
-                                                    borderRadius: "0.75rem",
-                                                    overflow: "hidden",
-                                                    objectFit: "contain",
-                                                    width: "120px",
-                                                    height: "100px",
-                                                }}
-                                            />
-                                        );
-                                    })}
-                                </Flex>
-                            </>
-                        ) : (
-                            <Text size="m" color="neutral-medium">
-                                Not available for streaming in India.
-                            </Text>
-                        )} */}
-            </Flex>
-          )}
-        </Column>
-      </Dialog>
-    </>
+
+                {/* Genres */}
+                <Row gap="8" wrap>
+                  {movie.genres.map((g) => (
+                    <Badge
+                      key={g.id}
+                      title={g.name}
+                      arrow={false}
+                      effect={false}
+                      paddingX="12"
+                      paddingY="8"
+                      background="brand-weak"
+                      border="brand-strong"
+                    />
+                  ))}
+                </Row>
+              </Column>
+            </div>
+
+            {/* Overview + actions */}
+            <Column
+              fillWidth
+              paddingX="32"
+              paddingTop="20"
+              paddingBottom="32"
+              gap="20"
+            >
+              <Text
+                onBackground="neutral-weak"
+                style={{ lineHeight: "1.75" }}
+              >
+                {movie.overview}
+              </Text>
+
+              <div className={styles.actions}>
+                <Button
+                  variant={inWatchlist ? "secondary" : "primary"}
+                  prefixIcon={inWatchlist ? "check" : "plus"}
+                  onClick={handleWatchlist}
+                >
+                  {inWatchlist ? "In Watchlist" : "Add to Watchlist"}
+                </Button>
+                <Button
+                  variant={isFavourite ? "primary" : "secondary"}
+                  prefixIcon="star"
+                  onClick={handleFavourite}
+                >
+                  {isFavourite ? "Favourited" : "Favourite"}
+                </Button>
+                <Button
+                  variant="secondary"
+                  prefixIcon="plus"
+                  onClick={() =>
+                    addToast({ variant: "danger", message: "Playlists coming soon." })
+                  }
+                >
+                  Add to Playlist
+                </Button>
+              </div>
+            </Column>
+          </>
+        )}
+      </Column>
+    </Dialog>
   );
 };

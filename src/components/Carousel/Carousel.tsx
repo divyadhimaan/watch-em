@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Flex, RevealFx, Scroller, SmartImage, Fade, ToggleButton } from "@once-ui/components";
 import { useRouter } from "next/navigation";
+import styles from "./Carousel.module.scss";
 
 interface Image {
   src: string;
@@ -16,7 +17,6 @@ interface CarouselProps extends React.ComponentProps<typeof Flex> {
   sizes?: string;
   revealedByDefault?: boolean;
   autoSlideInterval?: number;
-  height?: number;
 }
 
 const Carousel: React.FC<CarouselProps> = ({
@@ -26,7 +26,6 @@ const Carousel: React.FC<CarouselProps> = ({
   sizes,
   revealedByDefault = false,
   autoSlideInterval = 5000,
-  height = "500px",
   ...rest
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -83,7 +82,7 @@ const Carousel: React.FC<CarouselProps> = ({
         // aspectRatio={aspectRatio}
         speed="fast"
       >
-        <div style={{ position: "relative", width: "100%", height: height }}>
+        <div className={styles.container}>
           <Fade
             zIndex={3}
             position="fixed"
@@ -118,47 +117,11 @@ const Carousel: React.FC<CarouselProps> = ({
               />
             ))}
 
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                // left: "10%",
-                transform: "translateY(-50%)",
-                color: "white",
-                textAlign: "left",
-                textShadow: "3px 3px 6px rgba(0, 0, 0, 0.8)",
-                zIndex: 100,
-                width: "40%",
-                padding: "20px",
-                borderRadius: "12px",
-              }}
-            >
-              {/* Movie title */}
-              <div
-                style={{
-                  fontSize: "2.8rem",
-                  fontWeight: "900",
-                  fontFamily: "'Montserrat', sans-serif",
-                  letterSpacing: "1.5px",
-                  textTransform: "uppercase",
-                }}
-              >
+            <div className={styles.textOverlay}>
+              <div className={styles.movieTitle}>
                 {images[activeIndex]?.title}
               </div>
-              <div
-                style={{
-                  fontSize: "1.3rem",
-                  fontWeight: "500",
-                  fontFamily: "'Cinzel', serif",
-                  marginTop: "12px",
-                  lineHeight: "1.5",
-                  opacity: 0.9,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "3px",
-                }}
-              >
-                {/* Movie Phrase */}
+              <div className={styles.movieInfo}>
                 <ToggleButton
                   size="l"
                   prefixIcon="infoCircle"
@@ -168,7 +131,6 @@ const Carousel: React.FC<CarouselProps> = ({
                     router.push(`?movie=${images[activeIndex].id}`, { scroll: false });
                   }}
                 />
-                {/* <span>Stalk now!</span> */}
               </div>
             </div>
           </div>

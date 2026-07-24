@@ -15,6 +15,13 @@
 
 .expanded {
     width: 260px;
+    max-width: 60vw;
+}
+
+@media (max-width: 768px) {
+    .expanded {
+        width: 160px;
+    }
 }
 
 .input {

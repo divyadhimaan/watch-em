@@ -1,51 +1,61 @@
 import {
-    Text,
-    Logo,
-    Background,
-    Column,
-    Row,
-  } from "@once-ui/components";
+  Text,
+  Logo,
+  Background,
+  Column,
+  Row,
+  Line,
+} from "@once-ui/components";
+import styles from "./Footer.module.scss";
 
 export const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <Row
-          position="relative"
-          as="footer"
-          fillWidth
-          paddingX="l"
-          paddingTop="128"
-          paddingBottom="80"
-        >
-          <Background
-            borderTop="brand-alpha-strong"
-            mask={{
-              x: 50,
-              y: 0,
-            }}
-            position="absolute"
-            grid={{
-              display: true,
-              width: "0.25rem",
-              color: "brand-alpha-strong",
-              height: "0.25rem",
-            }}
-          />
-          <Column
-            position="relative"
-            textVariant="body-default-xs"
-            onBackground="neutral-medium"
-            horizontal="center"
-            align="center"
-            fillWidth
-            gap="16"
-          >
-            <Logo wordmark={false} size="s" />
-            <Text size="m">
-              <Text onBackground="neutral-weak">2025 /</Text> Watch&apos;em
-              
-            </Text>
-            <Text onBackground="neutral-weak">Made with ♥ by Divya </Text>
-          </Column>
-        </Row>
-  )
+    <Column
+      as="footer"
+      position="relative"
+      fillWidth
+      horizontal="center"
+      paddingX="l"
+      paddingTop="80"
+      paddingBottom="64"
+      className={styles.footer}
+    >
+      <Background
+        borderTop="brand-alpha-medium"
+        mask={{ x: 50, y: 0 }}
+        position="absolute"
+        grid={{
+          display: true,
+          opacity: 20,
+          width: "0.25rem",
+          color: "neutral-alpha-weak",
+          height: "0.25rem",
+        }}
+      />
+
+      <div className={styles.inner}>
+        {/* Brand */}
+        <div className={styles.brand}>
+          <Logo size="m" icon={false} href="/" />
+          <Text className={styles.tagline} variant="body-default-s">
+            Discover, organize, and share the movies you love — all in one place.
+          </Text>
+        </div>
+
+        <Line background="neutral-alpha-medium" />
+
+        {/* Bottom bar */}
+        <div className={styles.bottom}>
+          <Text variant="body-default-xs">
+            © {year} Watch&apos;em. All rights reserved.
+          </Text>
+          <Row gap="4" vertical="center" textVariant="body-default-xs">
+            Made with <span aria-hidden>♥</span> by Divya
+          </Row>
+        </div>
+      </div>
+    </Column>
+  );
 };

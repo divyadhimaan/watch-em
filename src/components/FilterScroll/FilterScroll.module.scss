@@ -27,3 +27,23 @@
 .scrollButton {
   flex-shrink: 0;
 }
+
+.mobileFilter {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.mobileGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+@media (--s) {
+  .mobileFilter {
+    display: flex;
+  }
+}

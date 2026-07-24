@@ -1,0 +1,54 @@
+.footer {
+  /* a slightly darker band than the page so footer text stays readable
+     over the background grid pattern */
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  max-width: 420px;
+}
+
+.tagline {
+  color: var(--neutral-on-background-weak);
+  line-height: 1.5;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  flex-wrap: wrap;
+  color: var(--neutral-on-background-weak);
+}
+
+@media (--s) {
+  .bottom {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+  }
+
+  /* clear the fixed bottom nav bar on mobile so the copyright isn't hidden */
+  .footer {
+    padding-bottom: 132px !important;
+  }
+}

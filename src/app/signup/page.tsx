@@ -67,7 +67,7 @@ export default function SignupPage() {
                 }} />
             </Fade>
             <Header showMenu={false} showOptions={false} showSignIn={true}/>
-            <Column fillWidth paddingX="32" gap="12" horizontal="center" position="relative" zIndex={5}>
+            <Column fillWidth paddingX="16" gap="12" horizontal="center" position="relative" zIndex={5}>
                 <Row
                     marginY="32"
                     radius="xl"
@@ -81,7 +81,7 @@ export default function SignupPage() {
                         </Text>
                         
                         
-                        <Row fillWidth align="center" horizontal="center" gap="s">
+                        <Row fillWidth align="center" horizontal="center" gap="s" wrap>
                             <Input
                                 id="email"
                                 label="Email"

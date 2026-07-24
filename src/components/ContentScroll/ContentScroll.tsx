@@ -98,41 +98,22 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
                   style={{ cursor: "pointer" }}
                   fillWidth
                 >
-                  <Media
-                    border="neutral-alpha-weak"
-                    // sizes="800px"
-                    fillWidth
-                    aspectRatio="2 / 3"
-                    radius="l"
-                    alt={itemTitle}
-                    src={getImageUrl(item.poster_path)}
-                  />
-                  <Column fillWidth paddingX="12" paddingY="8" gap="8">
-                    <Text
-                      variant="label-default-s"
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        width: "100%",
-                        display: "block",
-                      }}
-                    >
-                      {itemTitle}
-                    </Text>
-                  </Column>
-                  <Line background="neutral-alpha-medium" />
-                  <Row
-                    paddingX="12"
-                    paddingY="8"
-                    gap="8"
-                    vertical="center"
-                    textVariant="label-default-s"
-                    onBackground="neutral-medium"
-                  >
-                    <Icon name="star" size="xs" color="warning" />
-                    <Text size="s">{item.vote_average ? item.vote_average.toFixed(1) : "N/A"}</Text>
-                  </Row>
+                  <div className={styles.posterWrapper}>
+                    <Media
+                      border="neutral-alpha-weak"
+                      fillWidth
+                      aspectRatio="2 / 3"
+                      radius="l"
+                      alt={itemTitle}
+                      src={getImageUrl(item.poster_path)}
+                    />
+                    {item.vote_average ? (
+                      <div className={styles.ratingBadge}>
+                        <Icon name="star" size="xs" color="warning" />
+                        <Text size="xs">{item.vote_average.toFixed(1)}</Text>
+                      </div>
+                    ) : null}
+                  </div>
                 </Card>
               </div>
             );

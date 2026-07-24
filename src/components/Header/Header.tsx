@@ -37,8 +37,26 @@ export const Header: FC<HeaderProps> = ({
   const [searchText, setSearchText] = useState("");
 
   return (
-    <Row position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
+    <>
+      {/* Mobile-only top logo bar */}
+      {showLogo && (
+        <Row
+          className={styles.mobileLogoBar}
+          position="fixed"
+          top="0"
+          fillWidth
+          horizontal="center"
+          zIndex={3}
+          paddingX="20"
+          paddingY="16"
+        >
+          <Logo size="m" icon={false} href="/" />
+        </Row>
+      )}
+
+    <Row className={styles.headerWrap} position="fixed" top="0" fillWidth horizontal="center" zIndex={3}>
       <Row
+        className={styles.headerBar}
         data-border="rounded"
         horizontal="space-between"
         maxWidth="xl"
@@ -138,6 +156,29 @@ export const Header: FC<HeaderProps> = ({
 
               <Line vert maxHeight="24" />
               <SearchInput value={searchText} onChange={setSearchText} />
+
+              {/* Mobile-only auth button inside the nav pill */}
+              {isReady && (
+                <>
+                  <Line vert maxHeight="24" className="s-flex-show" />
+                  {isAuthenticated ? (
+                    <Flex className="s-flex-show" gap="4" vertical="center">
+                      <ToggleButton
+                        prefixIcon="person"
+                        href="/profile"
+                        selected={pathname === "/profile"}
+                      />
+                    </Flex>
+                  ) : (
+                    <ToggleButton
+                      className="s-flex-show"
+                      prefixIcon="person"
+                      href="/signin"
+                      selected={pathname === "/signin"}
+                    />
+                  )}
+                </>
+              )}
             </Flex>
           </Flex>
         )}
@@ -172,7 +213,7 @@ export const Header: FC<HeaderProps> = ({
             )}
 
             {/* Overlay */}
-            <Row position="fixed" top="20" right="20">
+            {/* <Row position="fixed" top="20" right="20">
               <StyleOverlay
                 position="fixed"
                 top="8"
@@ -181,7 +222,7 @@ export const Header: FC<HeaderProps> = ({
                   height: "calc(100vh - var(--static-space-16))",
                 }}
               />
-            </Row>
+            </Row> */}
           </Row>
         )}
 
@@ -207,5 +248,6 @@ export const Header: FC<HeaderProps> = ({
         )}
       </Row>
     </Row>
+    </>
   );
 };
