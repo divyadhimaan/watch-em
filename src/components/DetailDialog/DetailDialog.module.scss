@@ -1,11 +1,60 @@
-@media (max-width: 768px) {
-  /* override the inline grid-template so poster/details stack on mobile */
+.detailGrid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 24px;
+  padding: 0 32px;
+  align-items: start;
+}
+
+.poster {
+  margin-top: -72px;
+  position: relative;
+  z-index: 1;
+
+  img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    display: block;
+  }
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  color: var(--neutral-on-background-weak);
+  font-size: var(--font-size-s);
+}
+
+.dot {
+  opacity: 0.4;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
   .detailGrid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
+    padding: 0 16px;
   }
 
   .poster {
-    max-width: 100% !important;
-    margin: 0 auto;
+    max-width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
   }
 }

@@ -13,7 +13,6 @@ import {
   Avatar,
   Button,
   SegmentedControl,
-  Background,
   Feedback,
   SmartImage,
   Icon,
@@ -23,7 +22,6 @@ import { PlaylistsTab } from "./components/PlaylistsTab";
 import { FavouritesTab } from "./components/FavouritesTab";
 import { WatchlistTab } from "./components/WatchlistTab";
 import { SettingsTab } from "./components/SettingsTab";
-import { useProfile } from "@/hooks/useProfile";
 
 export function ProfilePage() {
   const { profile, isAuthenticated } = useAuth();
@@ -33,42 +31,51 @@ export function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState("");
   const [country, setCountry] = useState("");
-  const [favoriteGenres, setFavoriteGenres] = useState<string[]>(["Action", "Sci-Fi", "Thriller"]);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [publicProfile, setPublicProfile] = useState(true);
 
-  // Fix hydration: only check auth after component mounts on client
   useEffect(() => {
     setMounted(true);
     const tab = searchParams?.get("tab");
     if (tab) setActiveTab(tab);
   }, [searchParams]);
 
-  // Mock stats - replace with actual data from your API
-  const stats = {
-    playlists: 12,
-    moviesWatched: 156,
-    ratings: 89,
-    reviews: 23,
-  };
+  const cinemaBackground = (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 0,
+        pointerEvents: "none",
+      }}
+    >
+      <img
+        src="/images/login.jpg"
+        alt=""
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.78)",
+        }}
+      />
+    </div>
+  );
 
-  // Mock playlists - replace with actual data
-  const playlists = [
-    { id: 1, name: "Action Favorites", count: 25, image: "/images/movies/movie-1.jpg" },
-    { id: 2, name: "Sci-Fi Classics", count: 18, image: "/images/movies/movie-2.jpg" },
-    { id: 3, name: "Thriller Night", count: 15, image: "/images/movies/movie-3.jpg" },
-    { id: 4, name: "Weekend Binge", count: 32, image: "/images/movies/movie-4.jpg" },
-  ];
-
-  // Prevent hydration mismatch: show loading state until mounted
   if (!mounted) {
     return (
       <Column fillWidth flex={1} style={{ minHeight: "100vh" }}>
         <Header />
-        <Column fillWidth paddingY="xl" paddingX="l" flex={1} horizontal="center" vertical="center" style={{ minHeight: "60vh" }}>
-          <Text size="l" align="center">
-            Loading...
-          </Text>
+        <Column fillWidth flex={1} horizontal="center" vertical="center" style={{ minHeight: "60vh" }}>
+          <Text size="l" align="center">Loading...</Text>
         </Column>
         <Footer />
       </Column>
@@ -78,190 +85,162 @@ export function ProfilePage() {
   if (!isAuthenticated) {
     return (
       <>
-        <Header />
-        <Column fillWidth paddingY="xl" paddingX="l" flex={1} horizontal="center" vertical="center" style={{ minHeight: "60vh" }}>
-          <Text size="l" align="center">
-            Please sign in to view your profile.
-          </Text>
-          <Button href="/signin" variant="primary" style={{ marginTop: "16px" }}>
-            Sign In
-          </Button>
+        {cinemaBackground}
+        <Column fillWidth flex={1} style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
+          <Header />
+          <Column fillWidth flex={1} horizontal="center" vertical="center" gap="16" style={{ minHeight: "60vh" }}>
+            <Text size="l" align="center">Please sign in to view your profile.</Text>
+            <Button href="/signin" variant="primary">Sign In</Button>
+          </Column>
+          <Footer />
         </Column>
-        <Footer />
       </>
     );
   }
 
   return (
-    <Column fillWidth flex={1} style={{ minHeight: "100vh" }}>
-      <Header />
-      <Column fillWidth paddingY="xl" paddingX="l" flex={1} paddingBottom="80">
-        <Row
-          horizontal="center"
-          paddingX="16"
-          paddingY="32"
-          fillWidth
-          gap="32"
-          position="relative"
-        >
-          <Background
-            mask={{
-              cursor: true,
-            }}
-            dots={{
-              display: true,
-              opacity: 50,
-              color: "neutral-solid-strong",
-              size: "48",
-            }}
-            fill
-            position="absolute"
-            gradient={{
-              display: true,
-              opacity: 100,
-              tilt: 0,
-              height: 100,
-              width: 200,
-              x: 50,
-              y: 0,
-              colorStart: "neutral-background-medium",
-              colorEnd: "static-transparent",
-            }}
-          />
-          
-          <Column maxWidth="xl" fillWidth gap="-1">
-            {publicProfile && (
-              <Feedback 
-                icon 
-                variant="success" 
-                vertical="center" 
-                radius={undefined} 
-                topRadius="l" 
-                zIndex={1}
-              >
-                Your profile is public.
-              </Feedback>
-            )}
-            
-            <Column
-              background="page"
-              radius={undefined}
-              bottomRadius="l"
-              overflow="hidden"
-              position="relative"
-              fillWidth
-              border="neutral-medium"
-            >
-              {/* Cover Image */}
-              <SmartImage
-                src="/images/profile.jpg"
-                alt="Cover"
-                aspectRatio="16/9"
-                fillWidth
-                style={{ objectFit: "cover" }}
-              />
-              
-              {/* Profile Content */}
-              <Column
-                paddingTop="56"
-                paddingX="16"
-                paddingBottom="48"
-                fillWidth
-                position="relative"
-                gap="8"
-              >
-                {/* Avatar and Stats Row */}
-                <Row 
-                  gap="24" 
-                  fillWidth 
-                  marginBottom="48"
+    <>
+      {cinemaBackground}
+
+      <Column fillWidth flex={1} style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
+        <Header />
+
+        <Column fillWidth paddingY="xl" paddingX="l" flex={1} paddingBottom="80">
+          <Row horizontal="center" paddingX="16" paddingY="32" fillWidth>
+            <Column maxWidth="xl" fillWidth gap="-1">
+              {publicProfile && (
+                <Feedback
+                  icon
+                  variant="success"
+                  vertical="center"
+                  radius={undefined}
+                  topRadius="l"
+                  zIndex={1}
                 >
-                  {/* Avatar Section */}
-                  <Column 
-                    horizontal="center" 
-                    gap="8"
-                    fillWidth
+                  Your profile is public.
+                </Feedback>
+              )}
+
+              <Column
+                background="page"
+                radius={undefined}
+                bottomRadius="l"
+                overflow="hidden"
+                position="relative"
+                fillWidth
+                border="neutral-medium"
+              >
+                {/* Cover image with gradient fade and overlapping avatar */}
+                <div style={{ position: "relative", width: "100%", aspectRatio: "21/6", overflow: "hidden" }}>
+                  <SmartImage
+                    src="/images/login.jpg"
+                    alt="Cover"
+                    fill
+                    style={{ objectFit: "cover", display: "block" }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(to bottom, transparent 40%, var(--page-background) 100%)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "-48px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      zIndex: 2,
+                    }}
                   >
                     <Avatar
-                      zIndex={1}
-                      style={{
-                        border: "8px solid var(--page-background)",
-                      }}
                       size="xl"
                       src="/images/profile.jpg"
+                      style={{ border: "4px solid var(--page-background)", display: "block" }}
                     />
+                  </div>
+                </div>
+
+                {/* Profile info */}
+                <Column
+                  paddingTop="64"
+                  paddingX="16"
+                  paddingBottom="48"
+                  fillWidth
+                  gap="16"
+                  horizontal="center"
+                >
+                  {/* Name + location */}
+                  <Column horizontal="center" gap="4" fillWidth>
                     <Heading as="h3" variant="display-default-m">
                       {profile?.username || "User"}
                     </Heading>
-                    {/* <Text align="center" onBackground="neutral-weak">
-                      {stats.moviesWatched} movies watched • {stats.ratings} ratings
-                    </Text> */}
-                    
-                    {profile?.country && 
+                    {profile?.country && (
                       <Row gap="8" vertical="center">
-                        <Icon size="xs" name="globe" />
-                        {profile?.country}
+                        <Icon size="xs" name="globe" onBackground="neutral-weak" />
+                        <Text size="s" onBackground="neutral-weak">
+                          {profile.country}
+                        </Text>
                       </Row>
-                    }
+                    )}
                   </Column>
-                </Row>
 
-                {/* Tabs */}
-                <SegmentedControl
-                  onToggle={(value) => setActiveTab(value)}
-                  selected={activeTab}
-                  buttons={[
-                    { size: "l", value: "profile", label: "Profile" },
-                    { size: "l", value: "favourites", label: "Favourites" },
-                    { size: "l", value: "watchlist", label: "Watchlist" },
-                    { size: "l", value: "playlists", label: "Playlists" },
-                    { size: "l", value: "settings", label: "Settings" },
-                  ]}
-                  marginBottom="24"
-                />
+                  {/* Tabs */}
+                  <div
+                    style={{
+                      width: "100%",
+                      overflowX: "auto",
+                      WebkitOverflowScrolling: "touch",
+                      scrollbarWidth: "none",
+                    }}
+                  >
+                    <SegmentedControl
+                      onToggle={(value) => setActiveTab(value)}
+                      selected={activeTab}
+                      buttons={[
+                        { size: "l", value: "profile", label: "Profile" },
+                        { size: "l", value: "favourites", label: "Favourites" },
+                        { size: "l", value: "watchlist", label: "Watchlist" },
+                        { size: "l", value: "playlists", label: "Playlists" },
+                        // { size: "l", value: "settings", label: "Settings" },
+                      ]}
+                      marginBottom="24"
+                    />
+                  </div>
 
-                {/* Profile Tab */}
-                {activeTab === "profile" && (
-                  <ProfileTab
-                    profile={profile}
-                    isEditing={isEditing}
-                    setIsEditing={setIsEditing}
-                    bio={bio}
-                    setBio={setBio}
-                    country={country}
-                    setCountry={setCountry}
-                    favoriteGenres={favoriteGenres}
-                    setFavoriteGenres={setFavoriteGenres}
-                    stats={stats}
-                  />
-                )}
-
-                {/* Favourites Tab */}
-                {activeTab === "favourites" && <FavouritesTab />}
-
-                {/* Watchlist Tab */}
-                {activeTab === "watchlist" && <WatchlistTab />}
-
-                {/* Playlists Tab */}
-                {activeTab === "playlists" && (
-                  <PlaylistsTab playlists={playlists} />
-                )}
-
-                {/* Settings Tab */}
-                {activeTab === "settings" && (
-                  <SettingsTab
-                    publicProfile={publicProfile}
-                    setPublicProfile={setPublicProfile}
-                    emailNotifications={emailNotifications}
-                    setEmailNotifications={setEmailNotifications}
-                  />
-                )}
+                  {/* Tab content */}
+                  {activeTab === "profile" && (
+                    <ProfileTab
+                      profile={profile}
+                      isEditing={isEditing}
+                      setIsEditing={setIsEditing}
+                      bio={bio}
+                      setBio={setBio}
+                      country={country}
+                      setCountry={setCountry}
+                    />
+                  )}
+                  {activeTab === "favourites" && <FavouritesTab />}
+                  {activeTab === "watchlist" && <WatchlistTab />}
+                  {activeTab === "playlists" && <PlaylistsTab />}
+                  {activeTab === "settings" && (
+                    <SettingsTab
+                      publicProfile={publicProfile}
+                      setPublicProfile={setPublicProfile}
+                      emailNotifications={emailNotifications}
+                      setEmailNotifications={setEmailNotifications}
+                    />
+                  )}
+                </Column>
               </Column>
             </Column>
-          </Column>
-        </Row>
+          </Row>
+        </Column>
+
+        <Footer />
       </Column>
-      <Footer />
-    </Column>
+    </>
   );
 }
