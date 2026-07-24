@@ -14,7 +14,7 @@ import { authApi } from "@store/authApi";
 import { profileApi } from "@store/profileApi";
 
 import type { AuthRequest, AuthResponse } from "@app-types/auth";
-import type { UserProfile } from "@app-types/user";
+import type { UserProfile } from "@app-types/User";
 
 type AuthContextType = {
   token: string | null;

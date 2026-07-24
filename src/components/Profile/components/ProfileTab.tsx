@@ -15,7 +15,7 @@ import {
   Icon,
   TagInput,
 } from "@once-ui/components";
-import type { UserProfile } from "@app-types/user";
+import type { UserProfile } from "@app-types/User";
 
 interface ProfileTabProps {
   profile: UserProfile | null,
