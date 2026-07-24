@@ -21,6 +21,7 @@ type AuthContextType = {
   profile: UserProfile | null;
   signup: (data: AuthRequest) => Promise<boolean>;
   login: (data: AuthRequest) => Promise<boolean>;
+  loginWithGoogle: (idToken: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
   isReady: boolean;
@@ -112,7 +113,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  
+  /* -------- Login with Google -------- */
+
+  const loginWithGoogle = async (idToken: string) => {
+    try {
+      const data = await authApi.google(idToken);
+      await handleAuthSuccess(data);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+
 
   return (
     <AuthContext.Provider
@@ -121,6 +134,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         profile,
         signup,
         login,
+        loginWithGoogle,
         logout,
         isAuthenticated: !!token && !!profile,
         isReady,
