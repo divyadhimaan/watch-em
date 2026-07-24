@@ -1,0 +1,11 @@
+.dropdownMenu {
+    position: absolute;
+    top: 80%;
+    width: 160px;
+    z-index: 1000;
+}
+
+.dropdownItem {
+    padding: 8px 12px;
+    cursor: pointer;
+}

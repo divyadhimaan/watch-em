@@ -1,0 +1,84 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  width: 100%;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.vibeCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 16px 14px;
+  height: auto;
+  min-height: 0;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--neutral-alpha-weak);
+  background: var(--neutral-alpha-weak);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  width: 100%;
+  appearance: none;
+  font-family: inherit;
+  color: inherit;
+
+  &:hover {
+    border-color: var(--neutral-alpha-medium);
+    background: var(--neutral-alpha-medium);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.selected {
+  border-color: var(--brand-solid-strong) !important;
+  background: var(--brand-alpha-weak) !important;
+
+  .label {
+    color: var(--brand-on-background-strong);
+  }
+}
+
+.emoji {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.label {
+  font-size: var(--font-size-body-s);
+  font-weight: 600;
+  color: var(--neutral-on-background-strong);
+  line-height: 1.2;
+}
+
+.desc {
+  font-size: var(--font-size-body-xs);
+  color: var(--neutral-on-background-weak);
+  line-height: 1.3;
+}
+
+.check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand-solid-strong);
+  color: var(--brand-on-solid-strong);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}

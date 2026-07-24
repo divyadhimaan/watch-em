@@ -1,0 +1,140 @@
+.section {
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; // contain section to parent width
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+  padding: 0 2.5rem;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  // no overflow:hidden here — it clips the scroll arrows
+}
+/* Edge fade overlays */
+.wrapper::before,
+.wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px; 
+  height: 100%;
+  z-index: 5;
+  pointer-events: none; 
+}
+
+/* Left fade */
+.wrapper::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    #0f0f0f 0%,   
+    rgba(15, 15, 15, 0.8) 40%,
+    rgba(15, 15, 15, 0) 100%
+  );
+}
+
+/* Hide by default */
+.wrapper::before,
+.wrapper::after {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show left fade */
+.showLeftFade::before {
+  opacity: 1;
+}
+
+/* Show right fade */
+.showRightFade::after {
+  opacity: 1;
+}
+
+/* Right fade */
+.wrapper::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    #0f0f0f 0%,  
+    rgba(15, 15, 15, 0.8) 40%,
+    rgba(15, 15, 15, 0) 100%
+  );
+}
+
+.scrollContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 16px;
+
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-behavior: smooth;
+  padding: 0 2.5rem; // room for the arrow buttons
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.cardItem {
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 150px;
+}
+
+@media (min-width: 768px) {
+  .cardItem {
+    flex: 0 0 150px;
+    width: 150px;
+    min-width: 150px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .cardItem {
+    flex: 0 0 150px;
+    width: 150px;
+    min-width: 150px;
+  }
+}
+
+.card {
+  flex: 0 0 150px;
+  min-width: 150px; // belt-and-suspenders: prevents shrinking
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.scrollButton {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
