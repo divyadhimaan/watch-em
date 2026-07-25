@@ -38,12 +38,17 @@ export function WatchlistTab() {
   return (
     <Column fillWidth gap="24">
       <Row horizontal="space-between" vertical="center">
-        <Column gap="2">
-          <Heading as="h4" variant="heading-default-m">My Watchlist</Heading>
-          <Text size="s" onBackground="neutral-weak">
-            {unwatched.length} to watch · {done.length} watched
-          </Text>
-        </Column>
+        <Column gap ="8">
+            <Heading as="h4" variant="heading-default-m">My Watchlist</Heading>
+            <Row gap="8">
+              <Pill variant="rating" size="m" >
+                Unwatched: {unwatched.length}
+              </Pill>
+              <Pill variant="rating" size="m" >
+                Watched: {done.length}
+              </Pill>
+            </Row>
+          </Column>
         <Button href="/vibe" variant="secondary" prefixIcon="sparkle" size="s">
           Add more
         </Button>

@@ -59,11 +59,16 @@ export function PlaylistsTab() {
   return (
     <Column fillWidth gap="16">
       <Row horizontal="space-between" vertical="center">
-        <Heading as="h4" variant="heading-default-m">My Playlists</Heading>
+        <Row>
+          <Heading as="h4" variant="heading-default-m">My Playlists</Heading>
+          <Pill variant="rating" size="m" >
+            {playlists.length}
+          </Pill>
+        </Row>
         {!isCreating && (
-          <Button variant="primary" prefixIcon="plus" size="s" onClick={() => setIsCreating(true)}>
-            Create Playlist
-          </Button>
+            <Button variant="primary" prefixIcon="plus" size="s" onClick={() => setIsCreating(true)}>
+              Create Playlist
+            </Button>
         )}
       </Row>
 

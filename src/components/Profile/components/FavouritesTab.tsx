@@ -4,6 +4,7 @@ import { Column, Row, Text, Heading, Button, IconButton, Spinner } from "@once-u
 import { useProfile, useRemoveFavourite } from "@/hooks/useProfile";
 import { useMoviesByIds } from "@/hooks/useMovies";
 import { MediaListItem } from "./MediaListItem";
+import { Pill } from "@/components/Pill";
 
 export function FavouritesTab() {
   const { data: profile, isLoading: profileLoading } = useProfile();
@@ -39,12 +40,12 @@ export function FavouritesTab() {
   return (
     <Column fillWidth gap="24">
       <Row horizontal="space-between" vertical="center">
-        <Column gap="2">
-          <Heading as="h4" variant="heading-default-m">My Favourites</Heading>
-          <Text size="s" onBackground="neutral-weak">
-            {movies.length} movie{movies.length === 1 ? "" : "s"}
-          </Text>
-        </Column>
+          <Row gap ="8">
+            <Heading as="h4" variant="heading-default-m">My Favourites</Heading>
+            <Pill variant="rating" size="m" >
+              {movies.length}
+            </Pill>
+          </Row>
         <Button href="/vibe" variant="secondary" prefixIcon="sparkle" size="s">
           Add more
         </Button>
