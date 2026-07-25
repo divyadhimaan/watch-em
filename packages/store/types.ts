@@ -2,7 +2,7 @@
 // This avoids tsconfig path alias resolution issues when package files
 // are compiled outside the src/ root during `next build`.
 
-export type { UserProfile, WatchlistItem } from "@app-types/User";
+export type { UserProfile, WatchlistItem, Playlist, PlaylistItem } from "@app-types/User";
 export type { AuthRequest, AuthResponse } from "@app-types/auth";
 export type { TMDBMovie, TMDBSeries, TMDBMovieDetails } from "@app-types/tmdb";
 export type { EntityType } from "@app-types/Entity";

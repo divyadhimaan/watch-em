@@ -9,6 +9,7 @@ import {
   Line,
   StyleOverlay,
   ToggleButton,
+  Button,
 } from "@once-ui/components";
 import { useAuth } from "@/context/AuthContext";
 import { SearchInput } from "./../SearchInput";
@@ -194,21 +195,13 @@ export const Header: FC<HeaderProps> = ({
                   onLogout={logout}
                 />
               ) : (
-                <Flex
-                  background="surface"
-                  border="neutral-medium"
-                  radius="m-4"
-                  shadow="l"
-                  padding="4"
-                  horizontal="center"
-                >
-                  <ToggleButton
-                    prefixIcon="person"
-                    href="/signin"
-                    label="Sign In"
-                    selected={false}
-                  />
-                </Flex>
+                <Button
+                  variant="primary"
+                  size="s"
+                  prefixIcon="person"
+                  label="Sign In"
+                  href="/signin"
+                />
               )
             )}
 
