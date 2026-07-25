@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -11,12 +10,14 @@ import {
   IconButton,
   Input,
   Spinner,
+  Dialog,
 } from "@once-ui/components";
 import { usePlaylists } from "@/hooks/usePlaylists";
 import { profileApi } from "@store/profileApi";
 import { useAuth } from "@/context/AuthContext";
-import { getImageUrl } from "@/utils/getImageUrl";
 import styles from "./PlaylistsTab.module.scss";
+import { MediaListItem } from "./MediaListItem";
+import { Pill } from "@/components/Pill";
 
 export function PlaylistsTab() {
   const { token } = useAuth();
@@ -25,6 +26,7 @@ export function PlaylistsTab() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [newTitle, setNewTitle] = useState("");
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
   const { data: expandedDetail, isLoading: detailLoading } = useQuery({
     queryKey: ["playlist", expandedId],
@@ -120,13 +122,27 @@ export function PlaylistsTab() {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleToggle(playlist.id)}
                 >
-                  <Column gap="2">
-                    <Text weight="strong">{playlist.title}</Text>
-                    <Text size="s" onBackground="neutral-weak">
-                      {playlist.item_count} {playlist.item_count === 1 ? "item" : "items"}
+                  <Row gap="12">
+                    <Text weight="strong">
+                      {playlist.title} 
                     </Text>
-                  </Column>
-                  <Row gap="4">
+                    <Pill variant="rating" size="s" className={styles.ratingBadge}>
+                        {playlist.item_count} 
+                      </Pill>
+                  </Row>
+                                      
+                  <Row gap="8">
+                  
+                    <IconButton
+                      icon="delete"
+                      size="s"
+                      variant="ghost"
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation();
+                        setDeleteConfirmId(playlist.id);
+                      }}
+                      className={styles.deleteButton}
+                    />
                     <IconButton
                       icon={isExpanded ? "chevronUp" : "chevronDown"}
                       size="s"
@@ -136,16 +152,7 @@ export function PlaylistsTab() {
                         handleToggle(playlist.id);
                       }}
                     />
-                    <IconButton
-                      icon="delete"
-                      size="s"
-                      variant="ghost"
-                      onClick={(e: React.MouseEvent) => {
-                        e.stopPropagation();
-                        if (expandedId === playlist.id) setExpandedId(null);
-                        deletePlaylist(playlist.id);
-                      }}
-                    />
+                    
                   </Row>
                 </Row>
 
@@ -166,39 +173,25 @@ export function PlaylistsTab() {
                       </Text>
                     ) : (
                       expandedDetail?.items?.map((item) => (
-                        <div key={item.id} className={styles.itemCard}>
-                          <img
-                            src={
-                              item.poster_path
-                                ? getImageUrl(item.poster_path, "w92")
-                                : "/images/cover.jpg"
-                            }
-                            alt={item.title}
-                            className={styles.itemPoster}
-                          />
-                          <div className={styles.itemInfo}>
-                            <Text weight="strong" size="s">
-                              {item.title}
-                            </Text>
-                            <Text size="xs" onBackground="neutral-weak">
-                              {item.release_date
-                                ? new Date(item.release_date).getFullYear()
-                                : "—"}
-                              {item.vote_average
-                                ? ` · ⭐ ${item.vote_average.toFixed(1)}`
-                                : ""}
-                            </Text>
-                          </div>
-                          <span className={styles.typeBadge}>{item.media_type}</span>
-                          <IconButton
-                            icon="close"
-                            size="s"
-                            variant="ghost"
-                            onClick={() =>
-                              removeFromPlaylist(playlist.id, item.tmdb_id, item.media_type)
-                            }
-                          />
-                        </div>
+                        <MediaListItem
+                          key={item.id}
+                          variant="item"
+                          poster={item.poster_path}
+                          title={item.title}
+                          year={item.release_date ? new Date(item.release_date).getFullYear() : null}
+                          rating={item.vote_average}
+                          badges={<Pill variant="neutral" size="s">{item.media_type}</Pill>}
+                          actions={
+                            <IconButton
+                              icon="close"
+                              size="s"
+                              variant="ghost"
+                              onClick={() =>
+                                removeFromPlaylist(playlist.id, item.tmdb_id, item.media_type)
+                              }
+                            />
+                          }
+                        />
                       ))
                     )}
                   </div>
@@ -208,6 +201,31 @@ export function PlaylistsTab() {
           })}
         </Column>
       )}
+
+      <Dialog
+        isOpen={deleteConfirmId !== null}
+        onClose={() => setDeleteConfirmId(null)}
+        title="Delete playlist"
+        description={`Are you sure you want to delete "${playlists.find((p) => p.id === deleteConfirmId)?.title}"? This can't be undone.`}
+      >
+        <Row gap="12" horizontal="end" paddingX="4" paddingBottom="8">
+          <Button variant="secondary" onClick={() => setDeleteConfirmId(null)}>
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              if (deleteConfirmId !== null) {
+                if (expandedId === deleteConfirmId) setExpandedId(null);
+                deletePlaylist(deleteConfirmId);
+                setDeleteConfirmId(null);
+              }
+            }}
+          >
+            Delete
+          </Button>
+        </Row>
+      </Dialog>
     </Column>
   );
 }

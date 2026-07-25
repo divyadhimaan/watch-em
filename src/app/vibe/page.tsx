@@ -22,6 +22,7 @@ import type { TMDBMovie, TMDBSeries } from "../../../packages/store/types";
 import { useAuth } from "@/context/AuthContext";
 import { useAddFavourite } from "@/hooks/useProfile";
 import { useWatchlist, type WatchlistItem } from "@/hooks/useWatchlist";
+import { Pill } from "@/components/Pill";
 import styles from "./vibe.module.scss";
 
 type MediaItem = TMDBMovie | TMDBSeries;
@@ -198,9 +199,9 @@ for (let i = 0; i < maxLen; i++) {
         <Column gap="8" horizontal="center">
           <Flex gap="8" wrap horizontal="center">
             {selectedVibes.map((v) => (
-              <span key={v.id} className={styles.vibeBadge}>
+              <Pill key={v.id} variant="vibe" size="l">
                 {v.emoji} {v.label}
-              </span>
+              </Pill>
             ))}
           </Flex>
           <Text variant="body-default-m" onBackground="neutral-weak">

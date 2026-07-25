@@ -15,6 +15,14 @@
   }
 }
 
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+
 .cardWatched {
   opacity: 0.55;
 }
@@ -26,6 +34,11 @@
   height: 72px;
   border-radius: var(--radius-s);
   overflow: hidden;
+}
+
+.posterWrapSmall {
+  width: 44px;
+  height: 62px;
 }
 
 .poster {
@@ -73,31 +86,6 @@
   opacity: 0.7;
 }
 
-.typeBadge {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--neutral-alpha-medium);
-  color: var(--neutral-on-background-weak);
-  white-space: nowrap;
-}
-
-.vibeBadge {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--brand-alpha-weak);
-  border: 1px solid var(--brand-alpha-medium);
-  color: var(--brand-on-background-strong);
-  white-space: nowrap;
-}
-
 .actions {
   display: flex;
   flex-direction: row;
@@ -115,10 +103,5 @@
   .posterWrap {
     width: 44px;
     height: 62px;
-  }
-
-  .typeBadge,
-  .vibeBadge {
-    display: none;
   }
 }

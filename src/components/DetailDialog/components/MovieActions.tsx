@@ -11,6 +11,7 @@ type Props = {
   showPlaylistPicker: boolean;
   playlists: Playlist[];
   isAdding: boolean;
+  isAddedToPlaylist: boolean;
   onWatchlist: () => void;
   onFavourite: () => void;
   onPlaylistButtonClick: () => void;
@@ -24,6 +25,7 @@ export function MovieActions({
   showPlaylistPicker,
   playlists,
   isAdding,
+  isAddedToPlaylist,
   onWatchlist,
   onFavourite,
   onPlaylistButtonClick,
@@ -50,11 +52,11 @@ export function MovieActions({
 
       <div style={{ position: "relative" }}>
         <Button
-          variant={showPlaylistPicker ? "primary" : "secondary"}
-          prefixIcon="list"
+          variant={isAddedToPlaylist ? "secondary" : showPlaylistPicker ? "primary" : "secondary"}
+          prefixIcon={isAddedToPlaylist ? "check" : "list"}
           onClick={onPlaylistButtonClick}
         >
-          Add to Playlist
+          {isAddedToPlaylist ? "Added to Playlist" : "Add to Playlist"}
         </Button>
         {showPlaylistPicker && (
           <PlaylistPicker

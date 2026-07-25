@@ -108,7 +108,7 @@ export function ProfilePage() {
         <Column fillWidth paddingY="xl" paddingX="l" flex={1} paddingBottom="80">
           <Row horizontal="center" paddingX="16" paddingY="32" fillWidth>
             <Column maxWidth="xl" fillWidth gap="-1">
-              {publicProfile && (
+              {/* {publicProfile && (
                 <Feedback
                   icon
                   variant="success"
@@ -119,12 +119,11 @@ export function ProfilePage() {
                 >
                   Your profile is public.
                 </Feedback>
-              )}
+              )} */}
 
               <Column
                 background="page"
-                radius={undefined}
-                bottomRadius="l"
+                radius="l"
                 overflow="hidden"
                 position="relative"
                 fillWidth

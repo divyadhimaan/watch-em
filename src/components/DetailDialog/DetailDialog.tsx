@@ -22,6 +22,7 @@ export const DetailDialog = () => {
   const { playlists, createPlaylistAsync, addToPlaylist, isAdding } = usePlaylists();
   const [showPlaylistPicker, setShowPlaylistPicker] = useState(false);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [isAddedToPlaylist, setIsAddedToPlaylist] = useState(false);
 
   const movieParam = searchParams?.get("movie");
   const movieId = movieParam ? Number(movieParam) : null;
@@ -39,6 +40,7 @@ export const DetailDialog = () => {
   useEffect(() => {
     setShowPlaylistPicker(false);
     setShowCreateDialog(false);
+    setIsAddedToPlaylist(false);
   }, [movieId]);
 
   if (!isValidId) return notFound();
@@ -112,6 +114,7 @@ export const DetailDialog = () => {
       await addToPlaylist(playlistId, moviePayload);
       addToast({ variant: "success", message: `Added "${movie.title}" to playlist.` });
       setShowPlaylistPicker(false);
+      setIsAddedToPlaylist(true);
     } catch {
       addToast({ variant: "danger", message: "Failed to add to playlist." });
     }
@@ -128,6 +131,7 @@ export const DetailDialog = () => {
       });
       setShowCreateDialog(false);
       setShowPlaylistPicker(false);
+      setIsAddedToPlaylist(true);
     } catch {
       addToast({ variant: "danger", message: "Failed to create playlist." });
     }
@@ -164,6 +168,7 @@ export const DetailDialog = () => {
                   showPlaylistPicker={showPlaylistPicker}
                   playlists={playlists}
                   isAdding={isAdding}
+                  isAddedToPlaylist={isAddedToPlaylist}
                   onWatchlist={handleWatchlist}
                   onFavourite={handleFavourite}
                   onPlaylistButtonClick={handlePlaylistButtonClick}

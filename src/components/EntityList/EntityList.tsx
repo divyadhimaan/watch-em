@@ -5,6 +5,7 @@ import { getImageUrl } from "@/utils/getImageUrl";
 import Loader from "../Loader/Loader";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./EntityList.module.scss";
+import { Pill } from "@/components/Pill";
 
 export interface Entity {
   id: string | number;
@@ -136,10 +137,10 @@ export const EntityList: React.FC<EntityListProps> = ({
                   </div>
                 )}
                 {rating !== null && (
-                  <div className={styles.ratingBadge}>
+                  <Pill variant="rating" size="s" className={styles.ratingBadge}>
                     <Icon name="star" size="xs" color="warning" />
-                    <Text size="xs">{rating.toFixed(1)}</Text>
-                  </div>
+                    {rating.toFixed(1)}
+                  </Pill>
                 )}
               </div>
 

@@ -15,6 +15,7 @@ import {
 } from "@once-ui/components";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
+import { Pill } from "@/components/Pill";
 import { VibePicker } from "@/components/VibePicker";
 import {
   OTT_PLATFORMS,
@@ -322,9 +323,9 @@ export default function WatchRoomPage() {
                 {mergedVibes.map((id) => {
                   const vibe = VIBE_TAGS.find((v) => v.id === id);
                   return vibe ? (
-                    <span key={id} className={styles.vibeBadge}>
+                    <Pill key={id} variant="vibe" size="m">
                       {vibe.emoji} {vibe.label}
-                    </span>
+                    </Pill>
                   ) : null;
                 })}
               </Flex>

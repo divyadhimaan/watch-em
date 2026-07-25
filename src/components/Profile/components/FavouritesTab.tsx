@@ -1,19 +1,9 @@
 'use client';
 
-import {
-  Column,
-  Row,
-  Text,
-  Heading,
-  Button,
-  Card,
-  SmartImage,
-  Spinner,
-  IconButton,
-} from "@once-ui/components";
+import { Column, Row, Text, Heading, Button, IconButton, Spinner } from "@once-ui/components";
 import { useProfile, useRemoveFavourite } from "@/hooks/useProfile";
 import { useMoviesByIds } from "@/hooks/useMovies";
-import { getImageUrl } from "@/utils/getImageUrl";
+import { MediaListItem } from "./MediaListItem";
 
 export function FavouritesTab() {
   const { data: profile, isLoading: profileLoading } = useProfile();
@@ -22,7 +12,7 @@ export function FavouritesTab() {
   const removeFavourite = useRemoveFavourite();
 
   const isLoading = profileLoading || results.some((r) => r.isLoading);
-  const movies = results.map((r) => r.data).filter(Boolean);
+  const movies = results.map((r) => r.data).filter((m): m is NonNullable<typeof m> => m != null);
 
   if (isLoading) {
     return (
@@ -35,9 +25,7 @@ export function FavouritesTab() {
   if (favouriteIds.length === 0) {
     return (
       <Column fillWidth gap="12" paddingY="32" horizontal="center">
-        <Heading as="h4" variant="heading-default-m">
-          No favourites yet
-        </Heading>
+        <Heading as="h4" variant="heading-default-m">No favourites yet</Heading>
         <Text onBackground="neutral-weak" align="center">
           Swipe right on a movie in Vibe to save it here.
         </Text>
@@ -49,60 +37,37 @@ export function FavouritesTab() {
   }
 
   return (
-    <Column fillWidth gap="16">
+    <Column fillWidth gap="24">
       <Row horizontal="space-between" vertical="center">
-        <Heading as="h4" variant="heading-default-m">
-          My Favourites
-        </Heading>
-        <Text size="s" onBackground="neutral-weak">
-          {movies.length} movie{movies.length === 1 ? "" : "s"}
-        </Text>
+        <Column gap="2">
+          <Heading as="h4" variant="heading-default-m">My Favourites</Heading>
+          <Text size="s" onBackground="neutral-weak">
+            {movies.length} movie{movies.length === 1 ? "" : "s"}
+          </Text>
+        </Column>
+        <Button href="/vibe" variant="secondary" prefixIcon="sparkle" size="s">
+          Add more
+        </Button>
       </Row>
 
-      <Column fillWidth gap="12">
+      <Column fillWidth gap="8">
         {movies.map((movie) => (
-          <Card key={movie!.id} padding="0" radius="l" overflow="hidden" fillWidth>
-            <Row gap="0" fillWidth>
-              <SmartImage
-                src={getImageUrl(movie!.poster_path, "w185")}
-                alt={movie!.title}
-                aspectRatio="2/3"
-                style={{
-                  width: "100px",
-                  height: "auto",
-                  objectFit: "cover",
-                  flexShrink: 0,
-                }}
+          <MediaListItem
+            key={movie.id}
+            poster={movie.poster_path}
+            title={movie.title}
+            year={movie.release_date ? new Date(movie.release_date).getFullYear() : null}
+            rating={movie.vote_average}
+            actions={
+              <IconButton
+                icon="close"
+                size="s"
+                variant="ghost"
+                tooltip="Remove"
+                onClick={() => removeFavourite.mutate(movie.id)}
               />
-              <Row
-                padding="16"
-                gap="12"
-                fillWidth
-                vertical="center"
-                horizontal="space-between"
-                style={{ flex: "1" }}
-              >
-                <Column gap="4">
-                  <Text weight="strong" size="m">
-                    {movie!.title}
-                  </Text>
-                  <Text size="s" onBackground="neutral-weak">
-                    {movie!.release_date
-                      ? new Date(movie!.release_date).getFullYear()
-                      : "—"}{" "}
-                    · ⭐ {movie!.vote_average?.toFixed?.(1) ?? "N/A"}
-                  </Text>
-                </Column>
-                <IconButton
-                  icon="close"
-                  size="s"
-                  variant="secondary"
-                  tooltip="Remove"
-                  onClick={() => removeFavourite.mutate(movie!.id)}
-                />
-              </Row>
-            </Row>
-          </Card>
+            }
+          />
         ))}
       </Column>
     </Column>

@@ -6,6 +6,7 @@ import type { EntityType } from "@app-types/Entity";
 import type { TMDBMovie, TMDBSeries } from "@app-types/tmdb";
 import styles from "./ContentScroll.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { Pill } from "@/components/Pill";
 import { useRouter } from "next/navigation";
 
 type ScrollEntity = TMDBMovie | TMDBSeries;
@@ -108,10 +109,10 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
                       src={getImageUrl(item.poster_path)}
                     />
                     {item.vote_average ? (
-                      <div className={styles.ratingBadge}>
+                      <Pill variant="rating" size="s" className={styles.ratingBadge}>
                         <Icon name="star" size="xs" color="warning" />
-                        <Text size="xs">{item.vote_average.toFixed(1)}</Text>
-                      </div>
+                        {item.vote_average.toFixed(1)}
+                      </Pill>
                     ) : null}
                   </div>
                 </Card>

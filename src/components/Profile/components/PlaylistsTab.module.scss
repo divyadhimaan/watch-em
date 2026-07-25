@@ -21,38 +21,6 @@
   gap: 8px;
 }
 
-.itemCard {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 0;
-}
-
-.itemPoster {
-  width: 44px;
-  height: 62px;
-  object-fit: cover;
-  border-radius: var(--radius-s);
-  flex-shrink: 0;
-}
-
-.itemInfo {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.typeBadge {
-  flex-shrink: 0;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 2px 7px;
-  border-radius: 999px;
-  background: var(--neutral-alpha-medium);
-  color: var(--neutral-on-background-weak);
+.deleteButton{
+  color: red;
 }
