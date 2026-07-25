@@ -1,0 +1,26 @@
+.playlistCard {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  border-radius: var(--radius-l);
+  border: 1px solid var(--neutral-alpha-medium);
+  background: var(--neutral-alpha-weak);
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--neutral-alpha-strong);
+  }
+}
+
+.itemList {
+  border-top: 1px solid var(--neutral-alpha-medium);
+  margin-top: 12px;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deleteButton{
+  color: red;
+}

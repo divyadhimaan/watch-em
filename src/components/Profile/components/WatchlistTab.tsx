@@ -2,8 +2,8 @@
 
 import { Column, Row, Text, Heading, Button, IconButton } from "@once-ui/components";
 import { useWatchlist } from "@/hooks/useWatchlist";
-import { getImageUrl } from "@/utils/getImageUrl";
-import styles from "./WatchlistTab.module.scss";
+import { MediaListItem } from "./MediaListItem";
+import { Pill } from "@/components/Pill";
 
 export function WatchlistTab() {
   const { items, remove, toggleWatched } = useWatchlist();
@@ -25,56 +25,52 @@ export function WatchlistTab() {
   const unwatched = items.filter((i) => !i.watched);
   const done = items.filter((i) => i.watched);
 
+  const sectionLabel = (label: string) => (
+    <Text
+      size="xs"
+      onBackground="neutral-weak"
+      style={{ textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}
+    >
+      {label}
+    </Text>
+  );
+
   return (
     <Column fillWidth gap="24">
-      {/* Header */}
       <Row horizontal="space-between" vertical="center">
-        <Column gap="2">
-          <Heading as="h4" variant="heading-default-m">My Watchlist</Heading>
-          <Text size="s" onBackground="neutral-weak">
-            {unwatched.length} to watch · {done.length} watched
-          </Text>
-        </Column>
+        <Column gap ="8">
+            <Heading as="h4" variant="heading-default-m">My Watchlist</Heading>
+            <Row gap="8">
+              <Pill variant="rating" size="m" >
+                Unwatched: {unwatched.length}
+              </Pill>
+              <Pill variant="rating" size="m" >
+                Watched: {done.length}
+              </Pill>
+            </Row>
+          </Column>
         <Button href="/vibe" variant="secondary" prefixIcon="sparkle" size="s">
           Add more
         </Button>
       </Row>
 
-      {/* To watch */}
       {unwatched.length > 0 && (
         <Column fillWidth gap="8">
-          {done.length > 0 && (
-            <Text size="xs" onBackground="neutral-weak" style={{ textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>
-              Up next
-            </Text>
-          )}
-          <Column fillWidth gap="8">
-            {unwatched.map((item) => (
-              <div key={item.id} className={styles.card}>
-                <div className={styles.posterWrap}>
-                  <img
-                    src={item.poster_path ? getImageUrl(item.poster_path, "w185") : "/images/cover.jpg"}
-                    alt={item.title}
-                    className={styles.poster}
-                  />
-                </div>
-
-                <div className={styles.info}>
-                  <div className={styles.titleRow}>
-                    <Text weight="strong" size="m" className={styles.title}>{item.title}</Text>
-                    {item.vibes?.map((v) => (
-                      <span key={v.label} className={styles.vibeBadge}>
-                        {v.emoji} {v.label}
-                      </span>
-                    ))}
-                  </div>
-                  <Text size="s" onBackground="neutral-weak">
-                    {item.release_date ? new Date(item.release_date).getFullYear() : "—"}
-                    {item.vote_average ? ` · ⭐ ${item.vote_average.toFixed(1)}` : ""}
-                  </Text>
-                </div>
-
-                <div className={styles.actions}>
+          {done.length > 0 && sectionLabel("Up next")}
+          {unwatched.map((item) => (
+            <MediaListItem
+              key={item.id}
+              poster={item.poster_path}
+              title={item.title}
+              year={item.release_date ? new Date(item.release_date).getFullYear() : null}
+              rating={item.vote_average}
+              badges={item.vibes?.map((v) => (
+                <Pill key={v.label} variant="vibe" size="m">
+                  {v.emoji} {v.label}
+                </Pill>
+              ))}
+              actions={
+                <>
                   <IconButton
                     icon="check"
                     size="s"
@@ -89,47 +85,31 @@ export function WatchlistTab() {
                     tooltip="Remove"
                     onClick={() => remove(item.id)}
                   />
-                </div>
-              </div>
-            ))}
-          </Column>
+                </>
+              }
+            />
+          ))}
         </Column>
       )}
 
-      {/* Watched */}
       {done.length > 0 && (
         <Column fillWidth gap="8">
-          <Text size="xs" onBackground="neutral-weak" style={{ textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>
-            Watched
-          </Text>
-          <Column fillWidth gap="8">
-            {done.map((item) => (
-              <div key={item.id} className={`${styles.card} ${styles.cardWatched}`}>
-                <div className={styles.posterWrap}>
-                  <img
-                    src={item.poster_path ? getImageUrl(item.poster_path, "w185") : "/images/cover.jpg"}
-                    alt={item.title}
-                    className={styles.poster}
-                  />
-                  <div className={styles.watchedOverlay}>✓</div>
-                </div>
-
-                <div className={styles.info}>
-                  <div className={styles.titleRow}>
-                    <Text weight="strong" size="m" className={`${styles.title} ${styles.titleMuted}`}>{item.title}</Text>
-                    {item.vibes?.map((v) => (
-                      <span key={v.label} className={styles.vibeBadge}>
-                        {v.emoji} {v.label}
-                      </span>
-                    ))}
-                  </div>
-                  <Text size="s" onBackground="neutral-weak">
-                    {item.release_date ? new Date(item.release_date).getFullYear() : "—"}
-                    {item.vote_average ? ` · ⭐ ${item.vote_average.toFixed(1)}` : ""}
-                  </Text>
-                </div>
-
-                <div className={styles.actions}>
+          {sectionLabel("Watched")}
+          {done.map((item) => (
+            <MediaListItem
+              key={item.id}
+              poster={item.poster_path}
+              title={item.title}
+              year={item.release_date ? new Date(item.release_date).getFullYear() : null}
+              rating={item.vote_average}
+              watched
+              badges={item.vibes?.map((v) => (
+                <Pill key={v.label} variant="vibe" size="m">
+                  {v.emoji} {v.label}
+                </Pill>
+              ))}
+              actions={
+                <>
                   <IconButton
                     icon="refresh"
                     size="s"
@@ -144,10 +124,10 @@ export function WatchlistTab() {
                     tooltip="Remove"
                     onClick={() => remove(item.id)}
                   />
-                </div>
-              </div>
-            ))}
-          </Column>
+                </>
+              }
+            />
+          ))}
         </Column>
       )}
     </Column>

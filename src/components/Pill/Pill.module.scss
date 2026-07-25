@@ -1,0 +1,49 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 999px;
+}
+
+/* ── Sizes ── */
+.s {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+}
+
+.m {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+}
+
+.l {
+  font-size: var(--font-size-body-s);
+  letter-spacing: 0.02em;
+  padding: 6px 14px;
+}
+
+/* ── Variants ── */
+.neutral {
+  text-transform: uppercase;
+  background: var(--neutral-alpha-medium);
+  color: var(--neutral-on-background-weak);
+}
+
+.vibe {
+  background: var(--brand-alpha-weak);
+  border: 1px solid var(--brand-alpha-medium);
+  color: var(--brand-on-background-strong);
+}
+
+/* Rating overlays on poster images — uses dark glass instead of pill radius */
+.rating {
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  color: #fff;
+}

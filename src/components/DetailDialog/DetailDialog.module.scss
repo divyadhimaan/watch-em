@@ -38,6 +38,76 @@
   flex-wrap: wrap;
 }
 
+.playlistPicker {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: var(--page-background);
+  border: 1px solid var(--neutral-alpha-medium);
+  border-radius: var(--radius-l);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 100;
+}
+
+.pickerDivider {
+  height: 1px;
+  background: var(--neutral-alpha-medium);
+  margin: 4px 0;
+}
+
+.playlistOption {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-m);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--neutral-on-background-strong);
+  transition: background 0.12s ease;
+
+  &:hover {
+    background: var(--neutral-alpha-weak);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.playlistOptionLabel {
+  font-size: var(--font-size-s);
+  font-weight: 600;
+  color: inherit;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playlistCount {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--neutral-alpha-medium);
+  color: var(--neutral-on-background-strong);
+}
+
 @media (max-width: 640px) {
   .detailGrid {
     grid-template-columns: 1fr;

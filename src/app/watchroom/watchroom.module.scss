@@ -145,18 +145,6 @@
   font-weight: 900;
 }
 
-.vibeBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: var(--brand-alpha-weak);
-  border: 1px solid var(--brand-alpha-medium);
-  font-size: var(--font-size-body-s);
-  font-weight: 600;
-  color: var(--brand-on-background-strong);
-}
 
 .resultsGrid {
   display: grid;

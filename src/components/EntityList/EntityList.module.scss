@@ -109,16 +109,9 @@
   }
 
   .ratingBadge {
-    display: flex;
-    align-items: center;
-    gap: 4px;
     position: absolute;
     top: 8px;
     right: 8px;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(6px);
-    border-radius: 6px;
-    padding: 3px 7px;
     z-index: 2;
   }
 

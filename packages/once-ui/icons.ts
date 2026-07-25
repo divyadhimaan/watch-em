@@ -34,7 +34,7 @@ import { GiScrollUnfurled } from "react-icons/gi";
 
 import { FaTv, FaShieldAlt, FaRegPlayCircle, FaMusic, FaArrowAltCircleRight, FaBookOpen, FaLaughSquint, FaRocket, FaCompass, FaThumbsUp, FaHeart, FaGavel, FaArrowRight, FaArrowLeft, FaStar } from "react-icons/fa";
 
-import { MdFamilyRestroom } from "react-icons/md";
+import { MdFamilyRestroom, MdDeleteOutline } from "react-icons/md";
 
 import { LuSwords } from "react-icons/lu";
 
@@ -51,6 +51,7 @@ import { LuChevronsLeftRight } from "react-icons/lu";
 import { CiStar } from "react-icons/ci";
 
 import { GoAlertFill } from "react-icons/go";
+
 
 
 
@@ -118,4 +119,5 @@ export const iconLibrary: Record<string, IconType> = {
   music: FaMusic,
   tv: FaTv,
   globe: HiMiniGlobeAsiaAustralia,
+  delete: MdDeleteOutline,
 };

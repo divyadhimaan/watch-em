@@ -1,5 +1,14 @@
 import { http } from "./httpClient";
-import type { UserProfile, WatchlistItem } from "./types";
+import type { UserProfile, WatchlistItem, Playlist } from "./types";
+
+export type AddToPlaylistPayload = {
+  tmdb_id: number;
+  media_type: string;
+  title: string;
+  poster_path: string | null;
+  release_date?: string;
+  vote_average?: number;
+};
 
 
 export const profileApi = {
@@ -49,4 +58,36 @@ export const profileApi = {
       method: "PATCH",
       token,
     }),
+
+  getPlaylists: (token: string) =>
+    http<Playlist[]>("/profile/me/playlists", { token }),
+
+  createPlaylist: (token: string, title: string) =>
+    http<Playlist>("/profile/me/playlists", {
+      method: "POST",
+      body: { title },
+      token,
+    }),
+
+  getPlaylist: (token: string, playlistId: number) =>
+    http<Playlist>(`/profile/me/playlists/${playlistId}`, { token }),
+
+  deletePlaylist: (token: string, playlistId: number) =>
+    http<{ message: string }>(`/profile/me/playlists/${playlistId}`, {
+      method: "DELETE",
+      token,
+    }),
+
+  addToPlaylist: (token: string, playlistId: number, item: AddToPlaylistPayload) =>
+    http<Playlist>(`/profile/me/playlists/${playlistId}/items`, {
+      method: "POST",
+      body: item,
+      token,
+    }),
+
+  removeFromPlaylist: (token: string, playlistId: number, tmdbId: number, mediaType: string) =>
+    http<Playlist>(
+      `/profile/me/playlists/${playlistId}/items/${tmdbId}?mediaType=${encodeURIComponent(mediaType)}`,
+      { method: "DELETE", token }
+    ),
 };
