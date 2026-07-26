@@ -1,13 +1,14 @@
 import React from "react";
 import { ToggleButton } from "@once-ui/components";
 import { Carousel } from "@/components/Carousel/Carousel";
+import { CarouselSkeleton } from "@/components/Skeleton/CarouselSkeleton";
 
 import styles from "./CarouselCards.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { useMoviesByCategory } from "@/hooks/useMovies";
 
 export const CarouselCards = () => {
-  const { data } = useMoviesByCategory("popular");
+  const { data, isLoading } = useMoviesByCategory("popular");
 
   const images =
     data?.map((item) => ({
@@ -27,6 +28,10 @@ export const CarouselCards = () => {
         </div>
       ),
     })) ?? [];
+
+  if (isLoading) {
+    return <CarouselSkeleton />;
+  }
 
   return (
     <Carousel

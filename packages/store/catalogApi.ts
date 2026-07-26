@@ -5,9 +5,9 @@ import type { TMDBMovie, TMDBSeries, TMDBMovieDetails, EntityType } from './type
 /* ---------------------------------- */
 
 export const moviesApi = {
-  getAll: (): Promise<TMDBMovie[]> =>
-    http<{ results: TMDBMovie[] }>("/movies/all")
-      .then(res => res.results),
+  getAll: (page = 1): Promise<{ results: TMDBMovie[]; totalPages: number }> =>
+    http<{ results: TMDBMovie[]; total_pages: number }>(`/movies/all?page=${page}`)
+      .then(res => ({ results: res.results, totalPages: res.total_pages })),
 
   getPopular: (): Promise<TMDBMovie[]> =>
     http<{ results: TMDBMovie[] }>("/movies/popular")
@@ -43,7 +43,7 @@ export const moviesApi = {
         case "top-rated":
           return moviesApi.getTopRated();
         case "all":
-          return moviesApi.getAll();
+          return moviesApi.getAll().then(r => r.results);
         default:
           throw new Error(`Unsupported movie category: ${category}`);
       }
@@ -86,11 +86,12 @@ export const seriesApi = {
 export const entitiesApi = {
   getFiltersBySlug: (
     type: EntityType,
-    slug: string
-  ): Promise<TMDBMovie[] | TMDBSeries[]> =>
-    http<{ results: TMDBMovie[] | TMDBSeries[] }>(
-      `/${type}s/filter/${slug}`
-    ).then(res => res.results),
+    slug: string,
+    page = 1
+  ): Promise<{ results: TMDBMovie[] | TMDBSeries[]; totalPages: number }> =>
+    http<{ results: TMDBMovie[] | TMDBSeries[]; total_pages: number }>(
+      `/${type}s/filter/${slug}?page=${page}`
+    ).then(res => ({ results: res.results ?? [], totalPages: res.total_pages ?? 1 })),
 };
 
 /* ---------------------------------- */

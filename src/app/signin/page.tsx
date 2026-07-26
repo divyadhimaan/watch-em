@@ -65,22 +65,18 @@ export default function SignInPage() {
       return;
     }
 
-    try {
-      await login({ email, password });
+    const success = await login({ email, password });
 
+    if (success) {
       addToast({
         variant: "success",
         message: "Welcome back. Let the binge continue.",
       });
-
       router.replace("/");
-    } catch (error: unknown) {
+    } else {
       addToast({
         variant: "danger",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Login failed. Try again.",
+        message: "Login failed. Check your email and password.",
       });
     }
   };

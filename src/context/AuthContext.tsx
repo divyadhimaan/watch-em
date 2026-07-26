@@ -12,6 +12,7 @@ import {
 
 import { authApi } from "@store/authApi";
 import { profileApi } from "@store/profileApi";
+import { HttpError } from "@store/httpClient";
 
 import type { AuthRequest, AuthResponse } from "@app-types/auth";
 import type { UserProfile } from "@app-types/User";
@@ -19,10 +20,11 @@ import type { UserProfile } from "@app-types/User";
 type AuthContextType = {
   token: string | null;
   profile: UserProfile | null;
-  signup: (data: AuthRequest) => Promise<boolean>;
+  signup: (data: AuthRequest, avatarUrl?: string) => Promise<boolean>;
   login: (data: AuthRequest) => Promise<boolean>;
   loginWithGoogle: (idToken: string) => Promise<boolean>;
   logout: () => void;
+  updateProfile: (body: Partial<UserProfile>) => Promise<boolean>;
   isAuthenticated: boolean;
   isReady: boolean;
 };
@@ -39,6 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = useCallback(() => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token");
+      localStorage.removeItem("profile");
     }
     setToken(null);
     setProfile(null);
@@ -51,9 +54,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const data = await profileApi.getMe(jwt);
         setProfile(data);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("profile", JSON.stringify(data));
+        }
       } catch (error) {
         console.error("Profile fetch failed:", error);
-        logout();
+        // Only clear the session on auth failures — not on network errors or server errors
+        if (error instanceof HttpError && error.status === 401) {
+          logout();
+        }
       }
     },
     [logout]
@@ -64,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const savedToken =
-  typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     if (!savedToken) {
       setIsReady(true);
@@ -72,6 +81,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     setToken(savedToken);
+
+    // Hydrate from cache immediately so the UI doesn't flash unauthenticated
+    const cachedProfile =
+      typeof window !== "undefined" ? localStorage.getItem("profile") : null;
+    if (cachedProfile) {
+      try {
+        setProfile(JSON.parse(cachedProfile));
+      } catch {
+        // ignore malformed cache
+      }
+    }
 
     fetchProfile(savedToken).finally(() => {
       setIsReady(true);
@@ -91,9 +111,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   /* -------- Signup -------- */
 
-  const signup = async (credentials: AuthRequest) => {
+  const signup = async (credentials: AuthRequest, avatarUrl?: string) => {
     try {
-      const data = await authApi.signup(credentials);
+      const data = await authApi.signup({ ...credentials, avatarUrl });
       await handleAuthSuccess(data);
       return true;
     } catch {
@@ -125,6 +145,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  /* -------- Update Profile -------- */
+
+  const updateProfile = async (body: Partial<UserProfile>) => {
+    if (!token) return false;
+    try {
+      const updated = await profileApi.updateMe(token, body);
+      setProfile(updated);
+      return true;
+    } catch (error) {
+      console.error("Profile update failed:", error);
+      return false;
+    }
+  };
+
 
 
   return (
@@ -136,6 +170,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         loginWithGoogle,
         logout,
+        updateProfile,
         isAuthenticated: !!token && !!profile,
         isReady,
       }}

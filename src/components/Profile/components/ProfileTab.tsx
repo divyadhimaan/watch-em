@@ -18,22 +18,30 @@ interface ProfileTabProps {
   profile: UserProfile | null,
   isEditing: boolean;
   setIsEditing: (editing: boolean) => void;
+  username: string;
+  setUsername: (username: string) => void;
   bio: string;
   setBio: (bio: string) => void;
   country: string,
   setCountry: (country: string) => void;
+  onSave: () => void;
+  isSaving: boolean;
 }
 
 export function ProfileTab({
   profile,
   isEditing,
   setIsEditing,
+  username,
+  setUsername,
   bio,
   setBio,
   country,
   setCountry,
+  onSave,
+  isSaving,
 }: ProfileTabProps) {
-  const displayBio = profile?.bio || bio;
+  const displayBio = bio || profile?.bio;
 
   return (
     <Column fillWidth gap="16">
@@ -104,11 +112,13 @@ export function ProfileTab({
               <Column gap="8">
                 <Text size="s" weight="strong" onBackground="neutral-medium">Username</Text>
                 <Input
-                  defaultValue={profile?.username || ""}
                   id="username"
-                  hasPrefix={<Icon name="person" size="xs" />}
                   label=""
                   labelAsPlaceholder
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Your username"
+                  hasPrefix={<Icon name="person" size="xs" />}
                 />
               </Column>
 
@@ -141,10 +151,10 @@ export function ProfileTab({
             <Line />
 
             <Row gap="12" horizontal="end">
-              <Button variant="secondary" onClick={() => setIsEditing(false)}>
+              <Button variant="secondary" onClick={() => setIsEditing(false)} disabled={isSaving}>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={() => setIsEditing(false)}>
+              <Button variant="primary" onClick={onSave} loading={isSaving}>
                 Save Changes
               </Button>
             </Row>

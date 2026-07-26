@@ -7,11 +7,12 @@ import {
   Logo,
   Row,
   Line,
-  StyleOverlay,
   ToggleButton,
   Button,
+  Avatar,
 } from "@once-ui/components";
 import { useAuth } from "@/context/AuthContext";
+import { resolveAvatarUrl } from "@/utils/getImageUrl";
 import { SearchInput } from "./../SearchInput";
 import { UserMenu } from "./components/UserMenu";
 
@@ -164,11 +165,17 @@ export const Header: FC<HeaderProps> = ({
                   <Line vert maxHeight="24" className="s-flex-show" />
                   {isAuthenticated ? (
                     <Flex className="s-flex-show" gap="4" vertical="center">
-                      <ToggleButton
-                        prefixIcon="person"
-                        href="/profile"
-                        selected={pathname === "/profile"}
-                      />
+                      <a href="/profile" style={{ display: "flex", alignItems: "center", padding: "4px" }}>
+                        {profile?.avatarUrl ? (
+                          <img
+                            src={resolveAvatarUrl(profile.avatarUrl)}
+                            alt={profile?.username ?? ""}
+                            style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover" }}
+                          />
+                        ) : (
+                          <Avatar value={(profile?.username ?? "U").slice(0, 2).toUpperCase()} size="xs" />
+                        )}
+                      </a>
                     </Flex>
                   ) : (
                     <ToggleButton
@@ -192,6 +199,7 @@ export const Header: FC<HeaderProps> = ({
               isAuthenticated ? (
                 <UserMenu
                   username={profile?.username ?? ""}
+                  avatarUrl={profile?.avatarUrl}
                   onLogout={logout}
                 />
               ) : (

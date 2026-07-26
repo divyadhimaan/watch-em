@@ -7,6 +7,13 @@ type HttpOptions = {
   token?: string;
 };
 
+export class HttpError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+    this.name = "HttpError";
+  }
+}
+
 export async function http<T>(
   path: string,
   options?: HttpOptions
@@ -34,7 +41,7 @@ export async function http<T>(
 
   if (!res.ok) {
     const errorText = await res.text();
-    throw new Error(errorText || "Request failed");
+    throw new HttpError(res.status, errorText || "Request failed");
   }
 
   return res.json() as Promise<T>;

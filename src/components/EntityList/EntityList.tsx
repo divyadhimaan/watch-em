@@ -2,7 +2,7 @@
 
 import { Card, Flex, Text, Media, Column, Row, Icon, Heading } from "@once-ui/components";
 import { getImageUrl } from "@/utils/getImageUrl";
-import Loader from "../Loader/Loader";
+import { EntityListSkeleton } from "./EntityListSkeleton";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./EntityList.module.scss";
 import { Pill } from "@/components/Pill";
@@ -59,7 +59,7 @@ export const EntityList: React.FC<EntityListProps> = ({
 
   if (error) return <div>Error: {error.message}</div>;
 
-  if (loading) return <Loader />;
+  if (loading) return <EntityListSkeleton header={header} />;
 
   const source = !error && data?.length ? data : mockData;
 

@@ -2,14 +2,16 @@
 
 import { useRef, useEffect, useState, type FC } from "react";
 import { Avatar, Icon, Text } from "@once-ui/components";
+import { resolveAvatarUrl } from "@/utils/getImageUrl";
 import styles from "./UserMenu.module.scss";
 
 interface UserMenuProps {
   username: string;
+  avatarUrl?: string;
   onLogout: () => void;
 }
 
-export const UserMenu: FC<UserMenuProps> = ({ username, onLogout }) => {
+export const UserMenu: FC<UserMenuProps> = ({ username, avatarUrl, onLogout }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -28,7 +30,15 @@ export const UserMenu: FC<UserMenuProps> = ({ username, onLogout }) => {
   return (
     <div ref={ref} className={styles.wrapper}>
       <button className={styles.trigger} onClick={() => setOpen(!open)}>
-        <Avatar value={initials} size="s" />
+        {avatarUrl ? (
+          <img
+            src={resolveAvatarUrl(avatarUrl)}
+            alt={username}
+            style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+          />
+        ) : (
+          <Avatar value={initials} size="s" />
+        )}
         <Text variant="body-default-s">{username}</Text>
         <Icon name={open ? "chevronUp" : "chevronDown"} size="xs" />
       </button>

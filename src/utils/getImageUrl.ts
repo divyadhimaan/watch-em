@@ -1,3 +1,13 @@
+export const resolveAvatarUrl = (avatarUrl?: string | null): string | undefined => {
+  if (!avatarUrl) return undefined;
+  if (avatarUrl.startsWith("http")) return avatarUrl;
+  // New frontend avatars (e.g. /avatars/avatar-male.jpg) — served by Next.js
+  if (avatarUrl.startsWith("/avatars/avatar-")) return avatarUrl;
+  // Old backend-style paths — backend has no static folder so these never loaded;
+  // return undefined so callers fall back to initials
+  return undefined;
+};
+
 export const getImageUrl = (
   path: string | null | undefined,
   size: ImageSize = "w500"

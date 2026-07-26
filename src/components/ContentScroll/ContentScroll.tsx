@@ -5,6 +5,7 @@ import { Card, IconButton, Text, Icon, Column, Media, Line, Row } from "@once-ui
 import type { EntityType } from "@app-types/Entity";
 import type { TMDBMovie, TMDBSeries } from "@app-types/tmdb";
 import styles from "./ContentScroll.module.scss";
+import skeletonStyles from "@/components/Skeleton/skeleton.module.scss";
 import { getImageUrl } from "@/utils/getImageUrl";
 import { Pill } from "@/components/Pill";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,9 @@ type ContentScrollProps = {
   loading: boolean;
 };
 
-const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => {
+const SKELETON_COUNT = 8;
+
+const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType, loading }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
@@ -61,13 +64,29 @@ const ContentScroll: FC<ContentScrollProps> = ({ title, items, entityType }) => 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkScroll]);
 
+  if (loading) {
+    return (
+      <section className={styles.section}>
+        <div className={skeletonStyles.sectionHeadingSkeleton} />
+        <div className={styles.scrollContainer} style={{ pointerEvents: "none" }}>
+          {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton placeholders
+            <div key={i} className={skeletonStyles.cardSkeleton}>
+              <div className={skeletonStyles.posterSkeleton} />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.section}>
       <h2 className={styles.heading}>{title}</h2>
 
       <div
-        className={`${styles.wrapper} 
-      ${showLeft ? styles.showLeftFade : ""} 
+        className={`${styles.wrapper}
+      ${showLeft ? styles.showLeftFade : ""}
     ${showRight ? styles.showRightFade : ""}`}
       >
         {showLeft && (

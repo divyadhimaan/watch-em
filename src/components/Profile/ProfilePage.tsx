@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { useAuth } from "@/context/AuthContext";
+import { resolveAvatarUrl } from "@/utils/getImageUrl";
 import {
   Column,
   Row,
@@ -18,19 +19,22 @@ import {
   Icon,
 } from "@once-ui/components";
 import { ProfileTab } from "./components/ProfileTab";
+import { ProfileSkeleton } from "./ProfileSkeleton";
 import { PlaylistsTab } from "./components/PlaylistsTab";
 import { FavouritesTab } from "./components/FavouritesTab";
 import { WatchlistTab } from "./components/WatchlistTab";
 import { SettingsTab } from "./components/SettingsTab";
 
 export function ProfilePage() {
-  const { profile, isAuthenticated } = useAuth();
+  const { profile, isAuthenticated, updateProfile, isReady } = useAuth();
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
+  const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
   const [country, setCountry] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [publicProfile, setPublicProfile] = useState(true);
 
@@ -39,6 +43,21 @@ export function ProfilePage() {
     const tab = searchParams?.get("tab");
     if (tab) setActiveTab(tab);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (profile) {
+      setUsername(profile.username || "");
+      setBio(profile.bio || "");
+      setCountry(profile.country || "");
+    }
+  }, [profile]);
+
+  const handleSaveProfile = async () => {
+    setIsSaving(true);
+    const success = await updateProfile({ username, bio, country });
+    setIsSaving(false);
+    if (success) setIsEditing(false);
+  };
 
   const cinemaBackground = (
     <div
@@ -70,13 +89,11 @@ export function ProfilePage() {
     </div>
   );
 
-  if (!mounted) {
+  if (!mounted || !isReady) {
     return (
       <Column fillWidth flex={1} style={{ minHeight: "100vh" }}>
         <Header />
-        <Column fillWidth flex={1} horizontal="center" vertical="center" style={{ minHeight: "60vh" }}>
-          <Text size="l" align="center">Loading...</Text>
-        </Column>
+        <ProfileSkeleton />
         <Footer />
       </Column>
     );
@@ -156,7 +173,7 @@ export function ProfilePage() {
                   >
                     <Avatar
                       size="xl"
-                      src="/images/profile.jpg"
+                      src={resolveAvatarUrl(profile?.avatarUrl) || "/images/profile.jpg"}
                       style={{ border: "4px solid var(--page-background)", display: "block" }}
                     />
                   </div>
@@ -215,10 +232,14 @@ export function ProfilePage() {
                       profile={profile}
                       isEditing={isEditing}
                       setIsEditing={setIsEditing}
+                      username={username}
+                      setUsername={setUsername}
                       bio={bio}
                       setBio={setBio}
                       country={country}
                       setCountry={setCountry}
+                      onSave={handleSaveProfile}
+                      isSaving={isSaving}
                     />
                   )}
                   {activeTab === "favourites" && <FavouritesTab />}

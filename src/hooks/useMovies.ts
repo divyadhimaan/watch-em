@@ -1,4 +1,4 @@
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQuery, useQueries, useInfiniteQuery } from "@tanstack/react-query";
 import { moviesApi } from "@store/catalogApi";
 import type { TMDBMovie, TMDBMovieDetails } from "@app-types/tmdb"
 
@@ -18,16 +18,21 @@ export const useMoviesByCategory = (category: string) => {
         case "top-rated":
           return moviesApi.getTopRated();
         default:
-          return moviesApi.getAll();
+          return moviesApi.getAll().then(r => r.results);
       }
     },
   });
 };
 
 export const useAllMovies = () => {
-  return useQuery<TMDBMovie[]>({
+  return useInfiniteQuery({
     queryKey: ["movies", "all"],
-    queryFn: () => moviesApi.getAll(),
+    queryFn: ({ pageParam }: { pageParam: number }) => moviesApi.getAll(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.results.length > 0 && allPages.length < lastPage.totalPages
+        ? allPages.length + 1
+        : undefined,
   });
 };
 
