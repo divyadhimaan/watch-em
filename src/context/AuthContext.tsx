@@ -50,19 +50,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   /* -------- Fetch Profile -------- */
 
   const fetchProfile = useCallback(
-    async (jwt: string) => {
+    async (jwt: string): Promise<boolean> => {
       try {
         const data = await profileApi.getMe(jwt);
         setProfile(data);
         if (typeof window !== "undefined") {
           localStorage.setItem("profile", JSON.stringify(data));
         }
+        return true;
       } catch (error) {
         console.error("Profile fetch failed:", error);
-        // Only clear the session on auth failures — not on network errors or server errors
-        if (error instanceof HttpError && error.status === 401) {
+        // Clear the session when the server says this user/profile doesn't exist.
+        if (error instanceof HttpError && (error.status === 401 || error.status === 404)) {
           logout();
         }
+        return false;
       }
     },
     [logout]
@@ -100,13 +102,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   /* -------- Handle Auth Success -------- */
 
-  const handleAuthSuccess = async (data: AuthResponse) => {
+  const handleAuthSuccess = async (data: AuthResponse): Promise<boolean> => {
     if (typeof window !== "undefined") {
       localStorage.setItem("token", data.token);
     }
     setToken(data.token);
 
-    await fetchProfile(data.token);
+    return fetchProfile(data.token);
   };
 
   /* -------- Signup -------- */
@@ -114,8 +116,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signup = async (credentials: AuthRequest, avatarUrl?: string) => {
     try {
       const data = await authApi.signup({ ...credentials, avatarUrl });
-      await handleAuthSuccess(data);
-      return true;
+      return await handleAuthSuccess(data);
     } catch {
       return false;
     }
@@ -126,8 +127,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: AuthRequest) => {
     try {
       const data = await authApi.login(credentials);
-      await handleAuthSuccess(data);
-      return true;
+      return await handleAuthSuccess(data);
     } catch {
       return false;
     }
@@ -138,8 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginWithGoogle = async (idToken: string) => {
     try {
       const data = await authApi.google(idToken);
-      await handleAuthSuccess(data);
-      return true;
+      return await handleAuthSuccess(data);
     } catch {
       return false;
     }

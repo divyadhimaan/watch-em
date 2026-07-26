@@ -4,7 +4,7 @@ import { Flex, Row } from "@once-ui/components";
 import skeletonStyles from "@/components/Skeleton/skeleton.module.scss";
 import listStyles from "./EntityList.module.scss";
 
-const SKELETON_COUNT = 20;
+const SKELETON_KEYS = Array.from({ length: 20 }, (_, i) => `sk-${i}`);
 
 function SkeletonItem() {
   return (
@@ -45,8 +45,8 @@ export function EntityListSkeleton({ header }: { header?: string }) {
       )}
 
       <div className={listStyles.list}>
-        {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-          <SkeletonItem key={i} />
+        {SKELETON_KEYS.map(key => (
+          <SkeletonItem key={key} />
         ))}
       </div>
     </Flex>
