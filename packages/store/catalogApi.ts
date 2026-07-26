@@ -88,8 +88,8 @@ export const entitiesApi = {
     type: EntityType,
     slug: string,
     page = 1
-  ): Promise<{ results: TMDBMovie[] | TMDBSeries[]; totalPages: number }> =>
-    http<{ results: TMDBMovie[] | TMDBSeries[]; total_pages: number }>(
+  ): Promise<{ results: (TMDBMovie | TMDBSeries)[]; totalPages: number }> =>
+    http<{ results: (TMDBMovie | TMDBSeries)[]; total_pages: number }>(
       `/${type}s/filter/${slug}?page=${page}`
     ).then(res => ({ results: res.results ?? [], totalPages: res.total_pages ?? 1 })),
 };
